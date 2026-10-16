@@ -1,0 +1,3242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dying Light — Guia de Platina PT-BR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Staatliches&family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0c0b07;
+    --bgCard:     #16140d;
+    --bgSection:  #1c1a11;
+    --border:     #2c2818;
+    --borderWarn: #4a3712;
+    --amber:      #ff9500;
+    --amberDim:   #402700;
+    --amberLt:    #ffc766;
+    --uv:         #9b5de5;
+    --uvDim:      #2c1450;
+    --uvLt:       #cfb4f5;
+    --toxic:      #c6e21e;
+    --blood:      #e3293b;
+    --bloodDim:   #3d0d13;
+    --steel:      #8f8a6c;
+    --text:       #ece6d6;
+    --textDim:    #948e70;
+    --textMuted:  #433f2c;
+    --silver:     #a8b0bd;
+    --gold:       #ffcf40;
+    --bronze:     #c98a4b;
+    --font-display: 'Staatliches', sans-serif;
+    --font-head:    'Barlow Condensed', sans-serif;
+    --font-body:    'Barlow', sans-serif;
+    --font-mono:    'Space Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  /* Atmospheric backdrop: amber sun-glow (day) fading into UV violet (night) */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 40% at 15% -5%, rgba(255,149,0,0.10) 0%, transparent 55%),
+      radial-gradient(ellipse 55% 45% at 100% 15%, rgba(155,93,229,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 70% 50% at 50% 100%, rgba(155,93,229,0.07) 0%, transparent 60%);
+  }
+
+  /* Caution-tape top bar */
+  .top-tape {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 8px;
+    z-index: 20;
+    background: repeating-linear-gradient(135deg, var(--amber) 0 18px, #14120a 18px 36px);
+    box-shadow: 0 0 12px rgba(255,149,0,0.4);
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 920px; margin: 0 auto; padding: 34px 16px 60px; }
+
+  /* ── HEADER ── */
+  .hdr-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--amberLt);
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hdr-eyebrow::before { content: '⬤'; color: var(--blood); font-size: 8px; animation: blink 2s ease-in-out infinite; }
+  @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.25; } }
+
+  .hdr-title {
+    font-family: var(--font-display);
+    font-size: clamp(42px, 10vw, 84px);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    color: var(--amberLt);
+    text-shadow: 0 0 24px rgba(255,149,0,0.35), 3px 3px 0 rgba(155,93,229,0.35);
+    margin-bottom: 6px;
+  }
+  .hdr-sub {
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--uvLt);
+    margin-bottom: 16px;
+  }
+  .hdr-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 26px; }
+  .hdr-badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    border: 1px solid;
+    border-radius: 2px;
+  }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 22px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    touch-action: pan-x;
+    border-bottom: 2px solid var(--border);
+    position: sticky;
+    top: 8px;
+    background: var(--bg);
+    z-index: 5;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex: 0 0 auto;
+    padding: 11px 16px;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: var(--textDim);
+    cursor: pointer;
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.15s, border-color 0.15s, transform 0.15s;
+    margin-bottom: -2px;
+    white-space: nowrap;
+  }
+  .tab-btn.active { border-bottom-color: var(--amber); color: var(--amberLt); }
+  .tab-btn:hover:not(.active) { color: var(--text); transform: translateY(-1px); }
+
+  /* ── PANELS ── */
+  .panel { display: none; content-visibility: auto; contain: content; }
+  .panel.active { display: block; }
+
+  .section-title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 12px;
+  }
+
+  /* ── STAT GRID ── */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .stat-box {
+    background: var(--bgCard);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--amber);
+    padding: 13px 12px;
+    text-align: center;
+  }
+  .stat-icon { font-size: 19px; margin-bottom: 5px; }
+  .stat-val { font-family: var(--font-mono); font-size: 17px; font-weight: 700; }
+  .stat-lbl { font-size: 9px; color: var(--textDim); letter-spacing: 1px; margin-top: 4px; text-transform: uppercase; }
+
+  /* ── DIFF BAR ── */
+  .diff-box, .progress-box, .grind-box, .links-box, .checklist-box {
+    background: var(--bgCard); border: 1px solid var(--border); padding: 18px; margin-bottom: 14px;
+  }
+  .diff-segs { display: flex; gap: 4px; margin-bottom: 6px; }
+  .diff-seg { flex: 1; height: 8px; border-radius: 1px; }
+  .diff-labels { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 9px; color: var(--textMuted); }
+
+  /* ── ALERT / OK BOXES ── */
+  .alert-box { background: rgba(61,13,19,0.4); border: 1px solid rgba(227,41,59,0.35); border-left: 4px solid var(--blood); padding: 16px; margin-bottom: 14px; }
+  .alert-title { font-family: var(--font-head); font-weight: 700; font-size: 11px; letter-spacing: 2px; color: var(--blood); margin-bottom: 8px; text-transform: uppercase; }
+  .alert-body { font-size: 13px; color: var(--text); line-height: 1.9; }
+
+  .ok-box { background: rgba(198,226,30,0.06); border: 1px solid rgba(198,226,30,0.25); border-left: 4px solid var(--toxic); padding: 16px; margin-bottom: 14px; }
+  .ok-title { font-family: var(--font-head); font-weight: 700; font-size: 11px; letter-spacing: 2px; color: var(--toxic); margin-bottom: 8px; text-transform: uppercase; }
+  .ok-body { font-size: 13px; color: var(--text); line-height: 1.85; }
+
+  .link-row { font-family: var(--font-mono); font-size: 11px; color: var(--amberLt); margin-bottom: 6px; }
+  .link-row span { color: var(--textDim); }
+
+  /* ── PROGRESS ── */
+  .progress-top { display: flex; justify-content: space-between; margin-bottom: 6px; align-items: center; }
+  .progress-label { font-family: var(--font-head); font-weight: 700; font-size: 11px; letter-spacing: 2px; color: var(--amber); text-transform: uppercase; }
+  .progress-count { font-family: var(--font-mono); font-size: 12px; color: var(--amberLt); }
+  .progress-bar-bg { height: 8px; background: var(--border); overflow: hidden; border-radius: 2px; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--amber), var(--uv)); transition: transform 0.4s ease; transform-origin: left; will-change: transform; }
+
+  /* ── SECTOR ACCORDION ── */
+  .sector-item { margin-bottom: 10px; }
+  .sector-btn {
+    width: 100%;
+    text-align: left;
+    padding: 13px 16px;
+    background: var(--bgCard);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    font-family: inherit;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text);
+    transition: background 0.15s, transform 0.1s;
+  }
+  .sector-btn:hover { transform: translateX(2px); }
+  .sector-btn-left { display: flex; align-items: center; gap: 12px; }
+  .sector-icon { font-size: 22px; flex-shrink: 0; }
+  .sector-name { font-family: var(--font-head); font-weight: 700; font-size: 14px; letter-spacing: 0.5px; text-transform: uppercase; }
+  .sector-meta { font-family: var(--font-mono); font-size: 10px; color: var(--textMuted); margin-top: 3px; }
+  .sector-arrow { font-size: 13px; transition: transform 0.2s; will-change: transform; }
+  .sector-arrow.open { transform: rotate(180deg); }
+  .sector-body { border: 1px solid; border-top: none; padding: 12px; display: none; }
+  .sector-body.open { display: block; }
+
+  .trophy-row {
+    padding: 11px 12px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    border: 1px solid;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    transition: background 0.15s, border-color 0.15s;
+    user-select: none;
+  }
+  .trophy-chk {
+    width: 19px; height: 19px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    border: 1px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    border-radius: 2px;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .trophy-chk.done { transform: scale(1.05); }
+  .type-badge { font-family: var(--font-mono); font-size: 9px; padding: 2px 7px; border: 1px solid; letter-spacing: 1px; border-radius: 2px; text-transform: uppercase; }
+  .miss-tag { font-family: var(--font-mono); font-size: 9px; padding: 2px 7px; background: rgba(227,41,59,0.15); border: 1px solid rgba(227,41,59,0.4); color: var(--blood); letter-spacing: 0.5px; border-radius: 2px; }
+  .bug-tag { font-family: var(--font-mono); font-size: 9px; padding: 2px 7px; background: rgba(255,149,0,0.13); border: 1px solid rgba(255,149,0,0.4); color: var(--amberLt); letter-spacing: 0.5px; border-radius: 2px; }
+  .coop-tag { font-family: var(--font-mono); font-size: 9px; padding: 2px 7px; background: rgba(155,93,229,0.15); border: 1px solid rgba(155,93,229,0.4); color: var(--uvLt); letter-spacing: 0.5px; border-radius: 2px; }
+  .trophy-name-sm { font-family: var(--font-head); font-weight: 600; font-size: 13.5px; }
+  .trophy-eng { font-family: var(--font-mono); font-size: 9.5px; color: var(--textMuted); font-style: italic; }
+  .trophy-how { font-size: 12px; color: var(--textDim); line-height: 1.65; margin-top: 5px; }
+  .trophy-note { font-size: 11px; color: var(--amberLt); margin-top: 5px; font-style: italic; line-height: 1.5; }
+  .trophy-rarity { font-family: var(--font-mono); font-size: 9.5px; color: var(--textMuted); margin-left: auto; flex-shrink: 0; white-space: nowrap; }
+
+  /* ── ATENÇÃO TAB ── */
+  .miss-alert { background: rgba(61,13,19,0.35); border: 1px solid rgba(227,41,59,0.35); border-left: 4px solid var(--blood); padding: 16px; margin-bottom: 18px; }
+  .miss-item { margin-bottom: 8px; }
+  .miss-btn {
+    width: 100%; text-align: left; padding: 13px 14px;
+    background: var(--bgCard); border: 1px solid var(--border);
+    cursor: pointer; font-family: inherit; display: flex; align-items: center; gap: 10px;
+    color: var(--text); transition: background 0.15s;
+  }
+  .miss-btn:hover { background: var(--bgSection); }
+  .miss-name { font-family: var(--font-head); font-weight: 600; font-size: 13.5px; }
+  .risk-badge { font-family: var(--font-mono); font-size: 9px; padding: 2px 8px; border: 1px solid; letter-spacing: 1px; border-radius: 2px; }
+  .miss-body { border: 1px solid; border-top: none; padding: 13px 14px; font-size: 12.5px; color: var(--text); line-height: 1.8; display: none; }
+  .miss-body.open { display: block; }
+  .miss-arrow { color: var(--textDim); margin-left: auto; flex-shrink: 0; transition: transform 0.2s; }
+  .miss-arrow.open { transform: rotate(180deg); }
+
+  .check-item {
+    font-size: 12px; color: var(--text); padding: 8px 4px; border-bottom: 1px solid var(--border);
+    display: flex; gap: 9px; cursor: pointer; transition: color 0.15s; align-items: flex-start;
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-item.done { color: var(--toxic); }
+  .check-item.done .check-txt { text-decoration: line-through; text-decoration-color: var(--textMuted); }
+  .check-sym { color: var(--amber); flex-shrink: 0; font-family: var(--font-mono); }
+  .check-item.done .check-sym { color: var(--toxic); }
+
+  /* ── DICAS ── */
+  .build-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 10px; margin-bottom: 20px; }
+  .build-card {
+    background: var(--bgCard); border: 1px solid var(--border); border-left: 3px solid var(--uv);
+    padding: 15px; display: flex; gap: 11px; align-items: flex-start;
+  }
+  .build-icon { font-size: 23px; flex-shrink: 0; }
+  .build-title { font-family: var(--font-head); font-weight: 700; font-size: 13px; color: var(--uvLt); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .build-desc { font-size: 12px; color: var(--textDim); line-height: 1.65; }
+
+  .prog-row {
+    display: grid; grid-template-columns: 38px 210px 1fr; gap: 10px; padding: 9px 0;
+    align-items: flex-start; border-bottom: 1px solid var(--border);
+  }
+  .prog-row:last-child { border-bottom: none; }
+  .prog-num { font-family: var(--font-mono); color: var(--amber); font-weight: 700; font-size: 12px; padding-top: 1px; }
+  .prog-sector { font-family: var(--font-head); font-weight: 600; font-size: 12.5px; color: var(--amberLt); }
+  .prog-detail { font-size: 11.5px; color: var(--textDim); line-height: 1.5; }
+
+  .grind-title { font-family: var(--font-head); font-weight: 700; font-size: 11px; letter-spacing: 2px; color: var(--uv); margin-bottom: 12px; text-transform: uppercase; }
+  .grind-row { padding: 11px 0; border-bottom: 1px solid var(--border); }
+  .grind-row:last-child { border-bottom: none; }
+  .grind-top { display: flex; justify-content: space-between; margin-bottom: 4px; gap: 8px; }
+  .grind-name { font-family: var(--font-head); font-weight: 600; font-size: 13px; color: var(--uvLt); }
+  .grind-goal { font-family: var(--font-mono); font-size: 11px; color: var(--uv); flex-shrink: 0; }
+  .grind-tip { font-size: 11px; color: var(--textDim); line-height: 1.5; }
+
+  /* ── TROPHY LIST ── */
+  .filter-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+  .filter-btn {
+    padding: 5px 11px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px;
+    border: 1px solid var(--border); background: var(--bgCard); color: var(--textDim);
+    cursor: pointer; transition: border-color 0.15s, color 0.15s; border-radius: 2px;
+  }
+  .filter-btn.active { border-color: var(--amber); background: rgba(255,149,0,0.1); color: var(--amberLt); }
+  .showing { font-family: var(--font-mono); font-size: 10px; color: var(--textMuted); margin-bottom: 10px; }
+  .tlist-item { margin-bottom: 5px; }
+  .tlist-btn {
+    width: 100%; text-align: left; padding: 11px 14px; background: var(--bgCard);
+    border: 1px solid var(--border); cursor: pointer; font-family: inherit;
+    display: flex; align-items: center; gap: 10px; color: var(--text); transition: background 0.15s;
+  }
+  .tlist-btn:hover { background: var(--bgSection); }
+  .tlist-icon { font-size: 18px; flex-shrink: 0; }
+  .tlist-name { font-family: var(--font-head); font-weight: 600; font-size: 13.5px; }
+  .tlist-eng { font-family: var(--font-mono); font-size: 9.5px; color: var(--textMuted); font-style: italic; }
+  .tlist-arrow { color: var(--textMuted); font-size: 12px; flex-shrink: 0; margin-left: auto; transition: transform 0.2s; }
+  .tlist-arrow.open { transform: rotate(180deg); }
+  .tlist-body { border: 1px solid; border-top: none; padding: 11px 14px; font-size: 12px; color: var(--textDim); line-height: 1.7; display: none; }
+  .tlist-body.open { display: block; }
+  .tlist-note { color: var(--amberLt); margin-top: 6px; }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center; margin-top: 50px; font-family: var(--font-mono); font-size: 9px;
+    color: var(--textMuted); letter-spacing: 2px; border-top: 1px solid var(--border);
+    padding-top: 16px; line-height: 2;
+  }
+
+  @media (max-width: 520px) {
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .build-grid { grid-template-columns: 1fr; }
+    .prog-row { grid-template-columns: 26px 1fr; }
+    .prog-detail { grid-column: 1 / -1; padding-left: 36px; }
+  }
+
+  /* ══ VISUAL LIMPO — menos ruído, mais hierarquia ══ */
+  :root { --textMuted: #7a7458; }
+  ::selection { background: var(--amber); color: #0c0b07; }
+  html { scrollbar-color: var(--amberDim) var(--bg); scrollbar-width: thin; }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--amberDim); border: 1px solid var(--borderWarn); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--amber); }
+
+  /* Cabeçalho */
+  .top-tape { height: 4px; box-shadow: none; }
+  .hdr-title { text-shadow: none; }
+  .hdr-eyebrow::before { animation: none; }
+  .hdr-badges { gap: 8px; margin-bottom: 24px; }
+  .hdr-badge { color: var(--textDim) !important; border-color: var(--border) !important; background: transparent !important; font-size: 10.5px; }
+
+  /* Abas */
+  .tabs { gap: 2px; border-bottom-width: 1px; }
+  .tab-btn { padding: 12px 14px; font-size: 13.5px; letter-spacing: 0.8px; }
+  .tab-btn.active { background: none; }
+  .section-title { margin-bottom: 14px; }
+
+  /* Caixas calmas: mesmo fundo, mesma borda, mais respiro */
+  .diff-box, .progress-box, .grind-box, .links-box, .checklist-box { background: var(--bgCard); border-color: var(--border); padding: 20px; margin-bottom: 18px; }
+  .alert-box, .ok-box, .miss-alert { padding: 18px; margin-bottom: 18px; }
+  .alert-box, .miss-alert { background: rgba(61,13,19,0.25); }
+  .ok-box { background: rgba(198,226,30,0.04); }
+  .alert-body, .ok-body { line-height: 1.75; }
+
+  /* Estatísticas: faixa compacta e monocromática */
+  .stat-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 6px; margin-bottom: 22px; }
+  .stat-box { padding: 10px 8px; border-left-color: var(--border) !important; }
+  .stat-icon { display: none; }
+  .stat-val { color: var(--amberLt) !important; font-size: 16px; }
+  .stat-lbl { font-size: 10px; margin-top: 3px; }
+  @media (max-width: 520px) { .stat-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  /* Barra de progresso */
+  .progress-bar-bg { height: 8px; border-radius: 4px; }
+  .progress-bar-fill { border-radius: 4px; background: linear-gradient(90deg, var(--amber), var(--amberLt)); }
+  .progress-bar-fill.plat { background: linear-gradient(90deg, var(--gold), var(--amberLt)); box-shadow: 0 0 12px rgba(255,207,64,0.5); }
+
+  /* Setores */
+  .sector-item { margin-bottom: 12px; }
+  .sector-btn { position: relative; overflow: hidden; padding: 14px 16px; }
+  .sector-btn:hover { background: var(--bgSection); transform: none; }
+  .sector-btn::after { content: ''; position: absolute; left: 0; bottom: 0; height: 3px; width: var(--sp, 0%); background: var(--toxic); transition: width 0.4s ease; }
+  .sector-body { padding: 4px 12px 10px; }
+
+  /* Linhas de troféu: ícone + nome + descrição; o resto fica em "Como conseguir" */
+  .trophy-row { gap: 12px; padding: 14px 6px; margin: 0; border: 0; border-bottom: 1px solid var(--border); background: transparent; transition: background 0.15s; }
+  .trophy-row:last-child { border-bottom: 0; }
+  .trophy-row:hover { background: rgba(255,255,255,0.025); }
+  .trophy-row.is-done { background: rgba(198,226,30,0.045); }
+  .trophy-row.is-miss { box-shadow: inset 3px 0 0 var(--blood); padding-left: 12px; }
+  .trophy-chk { width: 22px; height: 22px; margin-top: 3px; border: 1.5px solid var(--sc, var(--amber)); border-radius: 4px; color: var(--toxic); }
+  .trophy-chk.done { transform: none; border-color: var(--toxic); background: rgba(198,226,30,0.18); }
+  .trophy-main { flex: 1; min-width: 0; }
+  .trophy-top { display: flex; align-items: center; gap: 10px; }
+  .trophy-name-sm { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; font-size: 15px; line-height: 1.25; color: var(--text); }
+  .trophy-rarity { font-size: 10.5px; }
+  .trophy-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+  .type-badge, .miss-tag, .bug-tag, .coop-tag { font-size: 10px; }
+  .trophy-desc { margin-top: 8px; font-size: 13px; line-height: 1.5; color: var(--text); padding-left: 10px; border-left: 2px solid var(--amber); }
+  .trophy-more { margin-top: 8px; }
+  .trophy-more summary { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; list-style: none; user-select: none; font-family: var(--font-head); font-weight: 600; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--amber); }
+  .trophy-more summary::-webkit-details-marker { display: none; }
+  .trophy-more summary::before { content: '▸'; transition: transform 0.15s; }
+  .trophy-more[open] summary::before { transform: rotate(90deg); }
+  .trophy-more .trophy-eng { margin-top: 8px; font-size: 11px; color: var(--steel); }
+  .trophy-more .trophy-how { font-size: 13px; line-height: 1.65; }
+  .trophy-more .trophy-note { font-size: 12px; }
+
+  /* Listas e cartões */
+  .miss-btn, .tlist-btn { padding: 14px; }
+  .tlist-item, .miss-item { margin-bottom: 8px; }
+  .tlist-eng { font-size: 10.5px; }
+  .tlist-body, .miss-body { line-height: 1.75; }
+  .build-grid { gap: 12px; }
+  .build-card { padding: 16px; background: var(--bgCard); }
+  .prog-row, .grind-row { padding: 12px 0; }
+  .filter-btn:hover { border-color: var(--amber); color: var(--amberLt); }
+  .filter-btn.active { box-shadow: none; }
+  .panel.active { animation: panelIn 0.2s ease-out; }
+  @keyframes panelIn { from { opacity: 0; } to { opacity: 1; } }
+  .footer { border-top-color: var(--border); }
+
+  /* Acessibilidade */
+  button:focus-visible, summary:focus-visible { outline: 2px solid var(--uvLt); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { .panel.active { animation: none !important; } }
+
+  /* ══ Perdíveis: fases, etapas numeradas, avisos ══ */
+  .miss-stage { font-family: var(--font-head); font-weight: 700; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--textDim); margin: 28px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .miss-stage-inicio { color: var(--blood); font-size: 13px; border-bottom-color: rgba(227,41,59,0.5); margin-top: 6px; }
+  .miss-early .miss-btn { background: var(--bgSection); }
+  .miss-btn { flex-wrap: wrap; row-gap: 6px; }
+  .miss-name { flex: 1; min-width: 0; }
+  .miss-when { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.5px; text-transform: uppercase; color: var(--textDim); margin-bottom: 10px; }
+  .miss-steps { list-style: none; counter-reset: st; margin: 0 0 12px; padding: 0; }
+  .miss-steps li { counter-increment: st; position: relative; padding: 6px 0 6px 34px; font-size: 13px; line-height: 1.65; }
+  .miss-steps li::before { content: counter(st); position: absolute; left: 0; top: 7px; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--amber); color: var(--amberLt); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 11px; }
+  .miss-flag { font-size: 12.5px; line-height: 1.6; color: var(--amberLt); border-left: 2px solid var(--amber); background: rgba(255,149,0,0.06); padding: 7px 10px; margin: 8px 0; }
+  .miss-src { font-family: var(--font-mono); font-size: 10.5px; line-height: 1.6; color: var(--textMuted); margin-top: 8px; }
+
+  /* ══ Roteiro por Fase: tempo em destaque e caminho da história ══ */
+  .story-time { background: var(--bgCard); border: 1px solid var(--amber); padding: 20px; margin-bottom: 26px; }
+  .story-time-title { font-family: var(--font-head); font-weight: 700; font-size: 17px; letter-spacing: 2px; text-transform: uppercase; color: var(--amberLt); margin-bottom: 14px; }
+  .story-time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 14px; }
+  .story-time-tile { background: var(--bgSection); border: 1px solid var(--border); padding: 12px 8px; text-align: center; }
+  .story-time-val { font-family: var(--font-head); font-weight: 700; font-size: 26px; line-height: 1.1; color: var(--amber); }
+  .story-time-lbl { font-size: 11.5px; line-height: 1.35; color: var(--textDim); margin-top: 5px; }
+  .story-time-text { font-size: 13px; line-height: 1.75; color: var(--text); }
+  .story-time-src { font-family: var(--font-mono); font-size: 10.5px; line-height: 1.6; color: var(--textMuted); margin-top: 10px; }
+  @media (max-width: 560px) { .story-time-grid { grid-template-columns: repeat(2, 1fr); } }
+  .story-stage { font-family: var(--font-head); font-weight: 700; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--amber); margin: 26px 0 6px; padding-bottom: 6px; border-bottom: 1px solid var(--borderWarn); }
+  .story-note { font-size: 12.5px; line-height: 1.7; color: var(--textDim); margin-bottom: 12px; }
+  .story-item { margin-bottom: 8px; }
+  .story-btn { width: 100%; display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; text-align: left; padding: 13px 14px; background: var(--bgCard); border: 1px solid var(--border); color: var(--text); cursor: pointer; font-family: inherit; }
+  .story-btn:hover { background: var(--bgSection); }
+  .story-num { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--amber); color: var(--amberLt); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 12px; }
+  .story-name { flex: 1; min-width: 160px; font-family: var(--font-head); font-weight: 600; font-size: 16px; letter-spacing: 0.5px; color: var(--text); }
+  .story-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .story-chip { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.3px; color: var(--textDim); border: 1px solid var(--border); padding: 2px 7px; }
+  .story-arrow { font-size: 10px; color: var(--textDim); transition: transform 0.2s; }
+  .story-arrow.open { transform: rotate(180deg); }
+  .story-body { display: none; padding: 14px 16px 16px; border: 1px solid var(--border); border-top: 0; background: var(--bgSection); }
+  .story-body.open { display: block; }
+  .story-body p { font-size: 13.5px; line-height: 1.8; color: var(--text); margin: 0 0 10px; }
+  .story-tr { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 12px 0; }
+  .story-tr-label { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 1px; text-transform: uppercase; color: var(--textDim); width: 100%; }
+  .story-trophy { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text); border: 1px solid var(--border); padding: 4px 10px 4px 5px; background: var(--bgCard); }
+  .story-trophy .trophy-img { width: 24px; height: 24px; margin: 0; }
+  .story-warn { font-size: 12.5px; line-height: 1.65; color: var(--amberLt); border-left: 2px solid var(--amber); background: rgba(255,149,0,0.06); padding: 7px 10px; margin: 10px 0; }
+  .story-src { font-family: var(--font-mono); font-size: 10.5px; line-height: 1.6; color: var(--textMuted); margin-top: 8px; }
+
+  /* ══ Dicas & Grind: cartões expansíveis e divergências ══ */
+  .kb-item { margin-bottom: 8px; }
+  .kb-btn { width: 100%; display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; text-align: left; padding: 13px 14px; background: var(--bgCard); border: 1px solid var(--border); color: var(--text); cursor: pointer; font-family: inherit; }
+  .kb-btn:hover { background: var(--bgSection); }
+  .kb-icon { font-size: 18px; flex-shrink: 0; }
+  .kb-name { flex: 1; min-width: 150px; font-family: var(--font-head); font-weight: 600; font-size: 15.5px; letter-spacing: 0.5px; color: var(--text); }
+  .kb-goal { font-family: var(--font-mono); font-size: 11px; color: var(--amberLt); border: 1px solid var(--borderWarn); padding: 2px 8px; }
+  .kb-body { display: none; padding: 14px 16px 16px; border: 1px solid var(--border); border-top: 0; background: var(--bgSection); }
+  .kb-body.open { display: block; }
+  .kb-body p { font-size: 13.5px; line-height: 1.8; color: var(--text); margin: 0 0 10px; }
+  .doubt-row { font-size: 13px; line-height: 1.7; color: var(--textDim); padding: 9px 0 9px 14px; border-left: 2px solid var(--amber); margin-bottom: 8px; background: rgba(255,149,0,0.04); }
+
+  /* ══ PÁGINA MAPA (sistema mapa-base, escopado em #panel-mapa) ══ */
+  #panel-mapa button,#panel-mapa input,#panel-mapa select,#panel-mapa textarea{font:inherit;color:inherit}
+  #panel-mapa button{background:var(--bgCard);border:1px solid var(--border);border-radius:8px;padding:8px 12px;min-height:40px;cursor:pointer}
+  #panel-mapa button.on{background:var(--amber);color:#111;border-color:var(--amber)}
+  #panel-mapa input,#panel-mapa select,#panel-mapa textarea{width:100%;background:#0a0906;border:1px solid var(--border);border-radius:8px;padding:9px 10px;min-height:40px}
+  #panel-mapa #mp-frame{position:relative;display:flex;flex-direction:column;height:clamp(480px,calc(100dvh - 150px),900px);background:#000;overflow:hidden;border-top:1px solid var(--border)}
+  #panel-mapa #mp-frame.fs{position:fixed;inset:0;height:auto;z-index:50;padding-top:env(safe-area-inset-top)}
+  #panel-mapa #mp-top{display:flex;gap:8px;align-items:center;padding:8px;background:var(--bgCard);border-bottom:1px solid var(--border);position:relative;z-index:6}
+  #panel-mapa #mp-mapTitle{flex:1;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #panel-mapa #mp-msel{position:relative}
+  #panel-mapa #mp-mselBtn{max-width:52vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  #panel-mapa #mp-mselList{display:none;position:absolute;left:0;top:calc(100% + 4px);width:min(340px,86vw);max-height:60dvh;overflow:auto;background:var(--bgCard);border:1px solid var(--border);border-radius:10px;z-index:20}
+  #panel-mapa #mp-msel.open #mp-mselList{display:block}
+  #panel-mapa .mi{display:flex;gap:10px;padding:10px;cursor:pointer;border-bottom:1px solid var(--border)}
+  #panel-mapa .mi.act{background:#26231a}
+  #panel-mapa .mi small{display:block;color:var(--textDim)}
+  #panel-mapa .arw{position:sticky;left:0;right:0;text-align:center;background:var(--bgCard);color:var(--amber);display:none;z-index:2;font-size:11px}
+  #panel-mapa .arw.up{top:0}#panel-mapa .arw.dn{bottom:0}#panel-mapa .arw.v{display:block}
+  #panel-mapa #mp-body{flex:1;display:flex;min-height:0;position:relative}
+  #panel-mapa #mp-side{width:300px;flex:none;overflow:auto;padding:10px;background:var(--bgCard);border-right:1px solid var(--border);display:flex;flex-direction:column;gap:10px}
+  #panel-mapa #mp-mapWrap{flex:1;position:relative;min-width:0}
+  #panel-mapa #mp-map{position:absolute;inset:0;touch-action:none}
+  #panel-mapa .bar{height:8px;background:#0a0906;border-radius:6px;overflow:hidden}
+  #panel-mapa .bar i{display:block;height:100%;width:0;background:var(--amber)}
+  #panel-mapa .row{display:flex;flex-wrap:wrap;gap:6px}
+  #panel-mapa .row button{flex:1 1 45%}
+  #panel-mapa #mp-cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:6px}
+  #panel-mapa .cat{position:relative;padding:6px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--c);border-color:transparent;color:#fff;min-height:54px}
+  #panel-mapa .cat.off{opacity:.3}
+  #panel-mapa .cat span{font-size:18px}#panel-mapa .cat small{font-size:10px;text-align:center}
+  #panel-mapa .cat em{position:absolute;top:2px;right:4px;font-size:10px;font-style:normal;opacity:.8}
+  #panel-mapa #mp-zoom{position:absolute;right:10px;top:10px;display:flex;flex-direction:column;gap:6px;z-index:5;align-items:center}
+  #panel-mapa #mp-zoom button{width:44px;min-height:44px;padding:0;background:rgba(22,20,13,.92)}
+  #panel-mapa #mp-zoom b{background:rgba(22,20,13,.92);padding:2px 6px;border-radius:6px;font-size:11px}
+  #panel-mapa #mp-notice,#panel-mapa #mp-readout,#panel-mapa #mp-fb{position:absolute;z-index:5;left:10px;right:64px;padding:8px 10px;border-radius:8px;background:rgba(22,20,13,.95);border:1px solid var(--border)}
+  #panel-mapa #mp-notice{top:10px;display:none}
+  #panel-mapa #mp-readout{bottom:10px;display:none;gap:10px;align-items:center;right:10px}
+  #panel-mapa #mp-fb{top:50%;display:none;justify-content:center;transform:translateY(-50%);color:#f88}
+  #panel-mapa #mp-hnd{display:none}
+  #panel-mapa .pw{width:34px;height:42px}
+  #panel-mapa .pin{width:34px;height:34px;background:var(--c);border:2px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:grid;place-items:center;box-shadow:0 2px 6px #0009;cursor:pointer}
+  #panel-mapa .pin span{transform:rotate(45deg);font-size:16px;line-height:1}
+  #panel-mapa .pin img{width:18px;height:18px}
+  #panel-mapa .pin.done{opacity:.45;filter:grayscale(.6)}
+  #panel-mapa .pin.pers{border-style:dashed}
+  #panel-mapa .ov{position:fixed;inset:0;z-index:100;display:none;background:rgba(0,0,0,.55);align-items:center;justify-content:center;padding:12px}
+  #panel-mapa .ov.on{display:flex}#panel-mapa .ov.float{background:transparent;align-items:flex-start;justify-content:flex-start;padding:0}
+  #panel-mapa .card{background:var(--bgCard);border:1px solid var(--border);border-radius:12px;width:min(360px,100%);max-height:88dvh;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+  #panel-mapa .card h3{margin:0}
+  #panel-mapa #mp-pImg{width:100%;max-height:180px;object-fit:cover;border-radius:8px;display:none}
+  #panel-mapa #mp-pFb{font-size:40px;text-align:center}
+  #panel-mapa .flash{animation:mp-fl 1.2s 2}
+  @keyframes mp-fl{50%{outline:3px solid var(--amber)}}
+  @media(max-width:768px){
+   #panel-mapa #mp-side{position:absolute;left:0;right:0;bottom:0;width:auto;max-height:68%;z-index:8;border:0;border-top:1px solid var(--border);border-radius:14px 14px 0 0;padding-bottom:calc(10px + env(safe-area-inset-bottom));transform:translateY(calc(100% - 46px));transition:transform .25s}
+   #panel-mapa #mp-side.open{transform:none}
+   #panel-mapa #mp-hnd{display:flex;justify-content:space-between;min-height:36px;margin:-4px 0 0;flex:none}
+   #panel-mapa #mp-zoom{top:auto;bottom:62px}
+   #panel-mapa #mp-notice,#panel-mapa #mp-readout{right:10px}
+   #panel-mapa #mp-readout{bottom:62px}
+   #panel-mapa .ov{align-items:flex-end;padding:0}#panel-mapa .ov.float{align-items:flex-end;background:rgba(0,0,0,.55)}
+   #panel-mapa .card{width:100%;border-radius:14px 14px 0 0;padding-bottom:calc(14px + env(safe-area-inset-bottom))}
+   #panel-mapa .pin{width:38px;height:38px}#panel-mapa .pw{width:38px;height:46px}
+  }
+  #panel-mapa{content-visibility:visible;contain:none;color:var(--text);font-size:14px;line-height:1.4;-webkit-tap-highlight-color:transparent}
+  #panel-mapa button,#panel-mapa input,#panel-mapa select,#panel-mapa textarea{font:inherit;color:inherit}
+  #panel-mapa button{font-family:var(--font-head);font-weight:600;letter-spacing:.5px}
+  #panel-mapa input,#panel-mapa select,#panel-mapa textarea{font-family:var(--font-body);font-weight:400;letter-spacing:0}
+  #panel-mapa #mp-frame{border:1px solid var(--borderWarn);margin-top:10px}
+  #panel-mapa #mp-mapTitle{font-family:var(--font-head);text-transform:uppercase;letter-spacing:1px;color:var(--amberLt)}
+  #panel-mapa #mp-top{border-bottom-color:var(--borderWarn)}
+  #panel-mapa .grp{grid-column:1/-1;font-family:var(--font-head);font-weight:700;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--amber);padding-top:6px;border-bottom:1px dashed var(--borderWarn)}
+  #panel-mapa .cat small{line-height:1.15}
+  #panel-mapa .mp-credit{margin-top:8px;font-size:11px;line-height:1.5;color:var(--textMuted)}
+  #panel-mapa .mp-credit a{color:var(--amber)}
+  body.mp-lock{overflow:hidden;position:fixed;width:100%}
+  body.mp-lock .top-tape,body.mp-lock::after{display:none}
+
+  /* ══ Troféus: ícones e descrições oficiais (Exophase, PT-BR) ══ */
+  .trophy-img { width: 36px; height: 36px; border-radius: 4px; vertical-align: middle; object-fit: cover; border: 1px solid var(--borderWarn); margin-right: 3px; background: var(--bgSection); }
+  .tlist-icon .trophy-img, .trophy-img.tl { width: 38px; height: 38px; margin-right: 0; }
+  .trophy-desc, .tlist-desc { font-size: 12.5px; color: var(--text); line-height: 1.5; margin-top: 4px; padding-left: 8px; border-left: 2px solid var(--amber); }
+  .tlist-desc { margin: 0 0 8px; }
+
+  /* ══ Wallpaper e logo ══ */
+  .wallpaper { position: fixed; inset: 0; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,12)), url("Images/Wallpaper.webp"); background-position: center; background-size: cover; background-repeat: no-repeat; z-index: -1; }
+  .hdr-logo { display: block; width: min(300px, 70%); height: auto; margin: 0 0 14px; filter: drop-shadow(0 0 14px rgba(255,149,0,0.35)); }
+</style>
+</head>
+<body>
+
+<div class="wallpaper"></div>
+<div class="top-tape"></div>
+
+<div class="wrap">
+
+  <div>
+    <img src="Images/Logo.webp" alt="Dying Light" class="hdr-logo" onerror="this.style.display='none'">
+    <div class="hdr-eyebrow">TRANSMISSÃO DE EMERGÊNCIA — QUARENTENA ATIVA · HARRAN</div>
+    <h1 class="hdr-title">DYING<br>LIGHT</h1>
+    <div class="hdr-sub">Parkour · Infecção · Sobrevivência Noturna — Guia de Platina PT-BR</div>
+    <div class="hdr-badges" id="hdr-badges"></div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="overview">📡 Visão Geral</button>
+    <button class="tab-btn" data-tab="mapa">🧭 Mapa</button>
+    <button class="tab-btn" data-tab="attention">☣️ Perdíveis</button>
+    <button class="tab-btn" data-tab="trophylist">🏅 Troféus</button>
+    <button class="tab-btn" data-tab="route">🗺️ Roteiro por Fase</button>
+    <button class="tab-btn" data-tab="tips">🔦 Dicas &amp; Grind</button>
+  </div>
+
+  <!-- ══ OVERVIEW ══ -->
+  <div class="panel active" id="panel-overview">
+    <div class="stat-grid" id="stat-grid"></div>
+
+    <div class="diff-box">
+      <div class="section-title">// Dificuldade da Platina</div>
+      <div class="diff-segs" id="diff-segs"></div>
+      <div class="diff-labels">
+        <span>1</span>
+        <span style="color:var(--amberLt)">5/10 — MODERADO (Grind + Cooperativo)</span>
+        <span>10</span>
+      </div>
+      <div style="font-size:12px;color:var(--textDim);margin-top:10px;line-height:1.8">
+        A dificuldade não vem de combate difícil, e sim de VOLUME (69 troféus, muitos cumulativos) e da necessidade de <strong style="color:var(--uvLt)">parceiros cooperativos reais</strong> para 5 troféus. Nenhum inimigo é realmente perigoso fora de perseguições noturnas.
+      </div>
+    </div>
+
+    <div class="alert-box">
+      <div class="alert-title">// Avisos Críticos</div>
+      <div class="alert-body" id="alert-body-overview"></div>
+    </div>
+
+    <div class="ok-box">
+      <div class="ok-title">// Quase Nada é Perdível</div>
+      <div class="ok-body">
+        Dos 69 troféus, apenas <strong style="color:var(--blood)">1 é genuinamente perdível</strong> (a corrida do Bilal na DLC The Following). Todo o resto — missões secundárias, colecionáveis, Zonas de Quarentena, Safe Zones — pode ser feito em free-roam a qualquer momento, inclusive após terminar a história principal.<br><br>
+        O jogo permite fast travel entre Favelas e Cidade Velha após a campanha, e entre o mapa base e a DLC The Following pelo menu principal a qualquer momento.
+      </div>
+    </div>
+
+    <div class="links-box">
+      <div class="section-title">// Fontes de Referência</div>
+      <div class="link-row">&gt; Exophase PS4 Troféus PT-BR: <span>exophase.com/game/dying-light-ps4/trophies/pt-BR/</span></div>
+      <div class="link-row">&gt; PSNProfiles — Lista Completa: <span>psnprofiles.com/trophies/3303-dying-light</span></div>
+      <div class="link-row">&gt; TrueTrophies — Lista Completa: <span>truetrophies.com/game/Dying-Light/trophies</span></div>
+      <div class="link-row">&gt; PowerPyx — Guia de Colecionáveis: <span>powerpyx.com/guides/dying_light.html</span></div>
+    </div>
+  </div>
+
+  <!-- ══ ROUTE ══ -->
+  <div class="panel" id="panel-route">
+    <div class="story-time">
+      <div class="story-time-title">⏱ Tempo para terminar a história</div>
+      <div class="story-time-grid">
+        <div class="story-time-tile"><div class="story-time-val">~18 h</div><div class="story-time-lbl">Campanha base, só a história</div></div>
+        <div class="story-time-tile"><div class="story-time-val">36–40 h</div><div class="story-time-lbl">História + missões secundárias</div></div>
+        <div class="story-time-tile"><div class="story-time-val">~10 h</div><div class="story-time-lbl">The Following, só a história</div></div>
+        <div class="story-time-tile"><div class="story-time-val">60–64 h</div><div class="story-time-lbl">Jogo base 100%</div></div>
+      </div>
+      <div class="story-time-text">
+        São 15 missões principais no jogo base e 11 na DLC The Following. A missão mais longa é "Pact with Rais", que pode passar de 1 hora. A PlayStationTrophies estima cerca de 10 h só para a história principal, e quem corre direto só pelas missões principais relata menos de 10 h na Steam; outro jogador levou cerca de 45 h no Nightmare com 95% das secundárias. O tempo depende da dificuldade e de quanto você sobe de nível antes.
+      </div>
+      <div class="story-time-src">Fontes: WePC ("How Long is Dying Light?": ~18 h, ~40 h, ~60 h; DLC ~10 h + ~5 h) · HowLongToBeat via Insider Gaming (36 h história + secundárias; 64 h completo) · Steam Community (relatos de jogadores) · PlayStationTrophies.org (história ~10 h) · Prima Games (duração das missões). Os números divergem entre as fontes: use como faixa, não como valor exato.</div>
+    </div>
+    <div class="section-title">// Caminho da História</div>
+    <div style="font-size:12.5px;color:var(--textDim);margin-bottom:12px;line-height:1.7">
+      &gt; Missões na ordem em que você as faz, com o que acontece, o que preparar e quais troféus saem em cada uma. Toque numa missão para abrir. Há spoilers leves de enredo.
+    </div>
+    <div id="story-container"></div>
+    <div class="section-title" style="margin-top:34px">// Checklist de Troféus por Fase</div>
+    <div class="progress-box">
+      <div class="progress-top">
+        <span class="progress-label">// Progresso do Checklist</span>
+        <span class="progress-count" id="prog-count">0/69 TROFÉUS</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="prog-bar" style="transform:scaleX(0)"></div>
+      </div>
+    </div>
+    <div style="font-size:12px;color:var(--textDim);margin-bottom:16px;line-height:1.7">
+      &gt; As fases seguem a ordem natural da campanha + DLCs. Clique nos troféus para marcar como concluído. Itens com ⚠️ merecem atenção — veja a aba "Perdíveis" para detalhes completos.
+    </div>
+    <div id="sectors-container"></div>
+  </div>
+
+  <!-- ══ ATENÇÃO ══ -->
+  <div class="panel" id="panel-attention">
+    <div class="miss-alert">
+      <div class="alert-title">// Perdíveis, Bugs Conhecidos e Cooperativo</div>
+      <div style="font-size:12.5px;color:var(--text);line-height:1.85">
+        Dying Light é um jogo de 2015 com histórico extenso de patches — alguns troféus têm bugs de contagem DOCUMENTADOS há anos. Nenhum deles impede a platina, mas todos têm solução conhecida abaixo.
+      </div>
+      <div style="font-size:12.5px;color:var(--textDim);line-height:1.7;margin-top:10px">
+        Como ler: os cards estão em ordem cronológica, do que você pode perder primeiro (início do jogo) até o fim. Segundo as fontes consultadas, só 1 troféu é marcado como perdível; os demais são janelas curtas, bugs ou dependem de parceiro. Onde as fontes divergem ou eu não consegui confirmar, o card avisa.
+      </div>
+    </div>
+    <div id="missables-container"></div>
+    <div class="checklist-box">
+      <div class="section-title">// Checklist de Prevenção — Confira Antes de Prosseguir</div>
+      <div id="checklist-container"></div>
+    </div>
+  </div>
+
+  <!-- ══ TIPS ══ -->
+  <div class="panel" id="panel-tips">
+    <div class="story-time">
+      <div class="story-time-title">🎯 Panorama da platina</div>
+      <div class="story-time-text">
+        O platina de Dying Light é mais longo do que difícil: a PlayStationTrophies dá dificuldade 4/10 e 36 a 50 horas, com 1 jogatina e nenhum troféu perdível no jogo base. O que consome tempo são os contadores (escalada, quedas de telhados, 500 mortes com o buggy) e os troféus online.
+      </div>
+      <div class="story-time-text" style="margin-top:10px">
+        A regra que atravessa todo o jogo: à noite, todos os pontos de habilidade valem em dobro, e dormir em qualquer Safe Zone troca o horário na hora. Quase todo grind bom é feito à noite, perto de uma Safe Zone, com os contadores cumulativos (morrer não os zera).
+      </div>
+      <div class="story-time-src">Fontes: PlayStationTrophies.org (roadmap) · Dying Light Wiki (dicas de carregamento) · PowerPyx.</div>
+    </div>
+    <div class="section-title">// Regras de Ouro</div>
+    <div class="build-grid" id="build-grid"></div>
+    <div class="section-title">// Ordem de Progressão Recomendada</div>
+    <div class="grind-box" style="margin-bottom:14px">
+      <div id="prog-order"></div>
+    </div>
+    <div class="section-title">// Mecânicas Que Valem Troféu</div>
+    <div id="mech-container"></div>
+    <div class="section-title" style="margin-top:30px">// Grind por Troféu — Toque Para Abrir</div>
+    <div id="grind-container"></div>
+    <div class="section-title" style="margin-top:30px">// Equipamento Que Acelera Tudo</div>
+    <div id="gear-container"></div>
+    <div class="section-title" style="margin-top:30px">// The Following: Buggy, Motorista e Nível</div>
+    <div id="dlc-container"></div>
+    <div class="section-title" style="margin-top:30px">// Onde as Fontes Divergem</div>
+    <div id="doubt-container"></div>
+  </div>
+
+  <!-- ══ TROPHY LIST ══ -->
+  <div class="panel" id="panel-trophylist">
+    <div class="filter-row" id="filter-row"></div>
+    <div class="showing" id="showing-count"></div>
+    <div id="tlist-container"></div>
+  </div>
+
+  <!-- ══ MAPA ══ -->
+  <div class="panel" id="panel-mapa">
+    <div class="section-title">// Mapa Interativo</div>
+    <div id="mp-frame">
+     <div id="mp-top">
+      <div id="mp-msel">
+       <button id="mp-mselBtn" type="button"><span id="mp-mselIcon">🗺️</span> <span id="mp-mselName">Mapa</span> ▾</button>
+       <div id="mp-mselList"><div class="arw up" id="mp-arwUp">▲</div><div id="mp-mselItems"></div><div class="arw dn" id="mp-arwDn">▼</div></div>
+      </div>
+      <div id="mp-mapTitle"></div>
+      <button id="mp-fsBtn" type="button">⛶ Tela Cheia</button>
+     </div>
+     <div id="mp-body">
+      <aside id="mp-side">
+       <button id="mp-hnd" type="button"><span id="mp-hndTxt">▲ FILTROS E FERRAMENTAS</span><span id="mp-hndBadge">0/0</span></button>
+       <input id="mp-search" type="search" placeholder="🔎 Buscar pin pelo nome" autocomplete="off">
+       <div><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>Progresso</span><span id="mp-progCount">0 / 0</span></div><div class="bar"><i id="mp-progFill"></i></div></div>
+       <div class="row">
+        <button id="mp-hideBtn" type="button">👁 Ocultar Todos</button>
+        <button id="mp-pendBtn" type="button">⏳ Só Pendentes</button>
+        <button id="mp-addBtn" type="button">📌 Novo Pin</button>
+        <button id="mp-calBtn" type="button">🎯 Modo Calibração</button>
+        <button id="mp-expBtn" type="button">⬇ Exportar Pins</button>
+       </div>
+       <div id="mp-cats"></div>
+      </aside>
+      <div id="mp-mapWrap">
+       <div id="mp-map"></div>
+       <div id="mp-notice"></div>
+       <div id="mp-fb"><span id="mp-fbTxt"></span></div>
+       <div id="mp-readout"><span id="mp-rdTxt"></span><button id="mp-rdCopy" type="button">copiar</button></div>
+       <div id="mp-zoom"><button id="mp-zIn" type="button" aria-label="Aproximar">＋</button><b id="mp-zLvl">100%</b><button id="mp-zOut" type="button" aria-label="Afastar">－</button><button id="mp-zRst" type="button" aria-label="Enquadrar">⟲</button></div>
+      </div>
+     </div>
+    </div>
+    <div class="mp-credit">Mapa renderizado com <a href="https://www.maptiler.com/engine/" target="_blank" rel="noopener">MapTiler Engine</a> (uso não comercial).</div>
+
+    <div class="ov" id="mp-pop"><div class="card" id="mp-popc">
+     <h3 id="mp-pTitle"></h3><small id="mp-pCat" style="color:var(--mu)"></small>
+     <div id="mp-pHolo"><img id="mp-pImg" alt=""><div id="mp-pFb"></div></div>
+     <div id="mp-pDesc"></div>
+     <label id="mp-pCheckWrap" style="display:flex;gap:8px;align-items:center"><input id="mp-pCheck" type="checkbox" style="width:22px;min-height:22px"> Já encontrei</label>
+     <div class="row"><button id="mp-pJump" type="button">Saiba mais</button><button id="mp-pEdit" type="button">✏️ Editar</button><button id="mp-pDel" type="button">🗑 Remover</button><button id="mp-pClose" type="button">Fechar</button></div>
+    </div></div>
+
+    <div class="ov" id="mp-pinModal"><div class="card">
+     <h3 id="mp-pmTitle">📌 NOVO PIN PESSOAL</h3>
+     <input id="mp-pmName" placeholder="Título do pin">
+     <select id="mp-pmCat"></select>
+     <input id="mp-pmLoc" placeholder="Localização (opcional)">
+     <textarea id="mp-pmDesc" rows="3" placeholder="Anotação (opcional)"></textarea>
+     <div class="row"><button id="mp-pmSave" type="button" class="on">Salvar Pin</button><button id="mp-pmCancel" type="button">Cancelar</button></div>
+    </div></div>
+
+    <div class="ov" id="mp-expModal"><div class="card">
+     <h3>⬇ Pins pessoais (JSON)</h3>
+     <textarea id="mp-expTa" rows="10" readonly></textarea>
+     <div class="row"><button id="mp-expCopy" type="button">Copiar</button><button id="mp-expClose" type="button">Fechar</button></div>
+    </div></div>
+
+
+  </div>
+
+  <div class="footer">
+    [ DYING LIGHT · GUIA DE PLATINA PT-BR · 69 TROFÉUS · 5/10 · 1 JOGATINA (BASE + THE FOLLOWING) ]<br>
+    [ EXOPHASE.COM/GAME/DYING-LIGHT-PS4/TROPHIES/PT-BR/ · PSNPROFILES.COM/TROPHIES/3303-DYING-LIGHT ]<br>
+    &gt; SINAL PERDIDO — PROCURE ABRIGO ANTES DO ANOITECER
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+// DADOS
+// ══════════════════════════════════════════════════════════
+const C = {
+  amber:"#ff9500", amberDim:"#402700", amberLt:"#ffc766",
+  uv:"#9b5de5", uvDim:"#2c1450", uvLt:"#cfb4f5",
+  toxic:"#c6e21e", blood:"#e3293b", bloodDim:"#3d0d13",
+  steel:"#8f8a6c", text:"#ece6d6", textDim:"#948e70", textMuted:"#433f2c",
+  bgCard:"#16140d", border:"#2c2818",
+};
+
+const typeS = {
+  gold:   { bg:"#ffcf4022", border:"#ffcf40", label:"OURO",   text:"#ffdd80" },
+  silver: { bg:"#a8b0bd22", border:"#a8b0bd", label:"PRATA",  text:"#c7cdd6" },
+  bronze: { bg:"#c98a4b22", border:"#c98a4b", label:"BRONZE", text:"#dba876" },
+};
+
+// Cada troféu: id, nome PT-BR, eng, tipo, raridade%, how (PT-BR), note (aviso opcional),
+// missable (perdível real), bug (bug conhecido), coop (precisa de parceiro online)
+const sectors = [
+  {
+    id:"favelas", name:"FASE 1 — FAVELAS (INÍCIO)", color:C.amber, icon:"🏚️",
+    trophies:[
+      { id:"isitnecessary", name:"Isso é Realmente Necessário?", eng:"Is It Really Necessary?", type:"bronze", rarity:100.00, icon:"🧟", img:"g3g615.png", desc:"Mate seu Primeiro Infectado", how:"Mate seu primeiro Infectado. Ocorre nos primeiros minutos do tutorial — impossível de perder.", note:null, missable:false, bug:false, coop:false },
+      { id:"littlecraftsman", name:"Pequeno Artesão", eng:"Little Craftsman", type:"bronze", rarity:99.87, icon:"🛠️", img:"j54d54.png", desc:"Construa o seu primeiro item", how:"Fabrique seu primeiro item usando qualquer Projeto (Blueprint). Ocorre naturalmente durante o tutorial.", note:null, missable:false, bug:false, coop:false },
+      { id:"flightcrane", name:"Voo do Guindaste", eng:"Flight of the Crane", type:"bronze", rarity:98.16, icon:"🏗️", img:"g3g60e.png", desc:"Pule do Guindaste", how:"Missão de abertura: salte do Guindaste ao escapar dos primeiros infectados. Ocorre nos primeiros minutos de jogo.", note:null, missable:false, bug:false, coop:false },
+      { id:"myleft", name:"Minha esquerda ou sua esquerda?", eng:"My Left or Your Left?", type:"bronze", rarity:81.52, icon:"🤝", img:"d143j3.png", desc:"Encontre com Rais", how:"Missão principal: encontre-se com Rais. Progressão natural da história inicial nas Favelas.", note:null, missable:false, bug:false, coop:false },
+      { id:"snake", name:"Cobra no mato", eng:"Snake in the Grass", type:"bronze", rarity:63.50, icon:"🐍", img:"j54db3.png", desc:"Escape da Arena", how:"Missão principal: escape da Arena de Rais. Parte da progressão da história.", note:null, missable:false, bug:false, coop:false },
+      { id:"sightseeing", name:"Turistando", eng:"Sightseeing", type:"bronze", rarity:61.46, icon:"🌆", img:"10g856.png", desc:"Chegue até a Cidade Velha", how:"Missão principal: chegue à Cidade Velha. Marca a transição entre os dois mapas do jogo.", note:null, missable:false, bug:false, coop:false },
+    ]
+  },
+  {
+    id:"cidadevelha", name:"FASE 2 — CIDADE VELHA (HISTÓRIA FINAL)", color:C.amber, icon:"🏛️",
+    trophies:[
+      { id:"makingfaces", name:"Caretas", eng:"Making Faces", type:"bronze", rarity:58.15, icon:"📡", img:"30j831.png", desc:"Mostre ao mundo lá fora que você ainda está vivo", how:"Missão principal: mostre ao mundo lá fora que você ainda está vivo, sinalizando do topo de um prédio na Cidade Velha.", note:null, missable:false, bug:false, coop:false },
+      { id:"tiedloose", name:"Ponta solta cortada", eng:"Tied Loose End", type:"bronze", rarity:56.43, icon:"🔪", img:"74g87j.png", desc:"Dar um jeito no Tahir", how:"Missão principal: dê um jeito no Tahir. Progressão da história na Cidade Velha.", note:null, missable:false, bug:false, coop:false },
+      { id:"nowcomein", name:"Agora Você Pode Entrar", eng:"Now You Can Come In", type:"bronze", rarity:54.27, icon:"🚪", img:"414800.png", desc:"Encontre Camden", how:"Missão principal: encontre Camden. Progressão da história na Cidade Velha.", note:null, missable:false, bug:false, coop:false },
+      { id:"vertigo", name:"Vertigem", eng:"Vertigo", type:"bronze", rarity:54.86, icon:"📶", img:"65b8d7.png", desc:"Ative o Comunicador", how:"Missão principal: ative o Comunicador/Amplificador no topo da torre de rádio.", note:null, missable:false, bug:false, coop:false },
+      { id:"bittersweet", name:"Agridoce", eng:"Bittersweet", type:"gold", rarity:52.06, icon:"🎬", img:"b6ej86.png", desc:"Complete o Jogo", how:"Complete a história principal (missão final 'Extração'). Pode ser feito em co-op, mas cada jogador precisa ter concluído todas as missões principais individualmente para destravar.", note:null, missable:false, bug:false, coop:false },
+      { id:"wholestory", name:"A História Toda", eng:"The Whole Story", type:"gold", rarity:16.34, icon:"📖", img:"g3g6j5.png", desc:"Finalize todas as missões adicionais.", how:"Finalize todas as cerca de 62 missões secundárias (marcadas com ! branco no mapa). Nenhuma é perdível — todas seguem disponíveis em free-roam após o final da campanha.", note:"BUG conhecido: pode não destravar mesmo com 100% das sidequests. Veja a aba Perdíveis para o workaround.", missable:false, bug:true, coop:false },
+    ]
+  },
+  {
+    id:"mundoaberto", name:"MUNDO ABERTO — EXPLORAÇÃO DE HARRAN", color:C.uv, icon:"🗺️",
+    trophies:[
+      { id:"disasterrecovery", name:"Recuperação de Desastre", eng:"Disaster Recovery", type:"bronze", rarity:46.55, icon:"📦", img:"d143g8.png", desc:"Obter 15 pacotes das Entregas Aéreas", how:"Colete 15 Pacotes de Entrega Aérea (Relief Packages). Aparecem aleatoriamente após liberados pela progressão da história — preste atenção ao som de avião e ao ícone azul no mapa.", note:null, missable:false, bug:false, coop:false },
+      { id:"weallinthis", name:"Estamos Todos Juntos Nessa", eng:"We're All In This Together", type:"bronze", rarity:36.67, icon:"🆘", img:"j54d04.png", desc:"Salve 15 sobreviventes dos zumbis", how:"Salve 15 sobreviventes de ataques de zumbis. Encontros aleatórios pelo mundo aberto, indicados por gritos de socorro.", note:null, missable:false, bug:false, coop:false },
+      { id:"homohomini", name:"Homo Homini Lupus Est", eng:"Homo Homini Lupus Est", type:"bronze", rarity:13.42, icon:"⚔️", img:"10g83e.png", desc:"Salve 15 sobreviventes dos capangas do Rais", how:"Salve 15 sobreviventes dos capangas do Rais ou bandidos de preto. O encontro aleatório mais raro do jogo.", note:"ATENÇÃO: desaparece das Favelas após a missão principal 'A Fossa' — só volta a ocorrer em 3 pontos específicos nos telhados da Cidade Velha. Comece a farmar assim que possível.", missable:false, bug:true, coop:false },
+      { id:"bolterhunting", name:"Caça aos Fugitivos", eng:"Bolter Hunting", type:"silver", rarity:27.40, icon:"🏃", img:"30j85e.png", desc:"Cace 5 Fugitivos", how:"Capture 5 Fugitivos (Bolters) — inimigos humanos que fogem ao serem avistados. Persiga e nocauteie 5 deles.", note:null, missable:false, bug:false, coop:false },
+      { id:"runnerfighter", name:"Sou um Runner e um lutador", eng:"I'm a Runner and a Fighter", type:"silver", rarity:15.39, icon:"🥊", img:"74g878.png", desc:"Complete 15 Desafios de Agilidade ou Poder", how:"Complete 15 Desafios de Agilidade ou Força — não precisa ser todos, apenas 15 no total, misturando os dois tipos. Ficam marcados no mapa com ícone de perna/punho.", note:null, missable:false, bug:false, coop:false },
+      { id:"tradecompany", name:"Companhia de Trocas", eng:"Trade Company", type:"bronze", rarity:63.16, icon:"💰", img:"86e8jd.png", desc:"Venda items no valor de 10.000 dólares", how:"Venda itens no valor total de $10.000 para mercadores. Ocorre naturalmente vendendo duplicatas e armas ao longo do jogo.", note:null, missable:false, bug:false, coop:false },
+      { id:"trespassing", name:"Invasão", eng:"Trespassing", type:"silver", rarity:12.91, icon:"☣️", img:"e1673d.png", desc:"Complete todas as Zonas Mortas", how:"Complete as 8 Zonas de Quarentena (5 nas Favelas + 3 na Cidade Velha). São áreas fechadas cheias de zumbis, marcadas ao se aproximar.", note:"BUG conhecido: o progresso às vezes não é contabilizado ao trocar de sessão/mapa. Confira via Extras > Estatísticas Pessoais antes de assumir que falta algo.", missable:false, bug:true, coop:false },
+      { id:"nowsafe", name:"Tudo Seguro Agora", eng:"Now It's Safe", type:"silver", rarity:30.48, icon:"🏠", img:"4148e0.png", desc:"Capture todas as Zonas de Segurança", how:"Capture todas as cerca de 16 Safe Zones: limpe os zumbis do local e ligue a energia no quadro elétrico.", note:"Um dos troféus MAIS bugados do jogo. Faça backup do save antes da última Safe Zone. Veja a aba Perdíveis para o workaround completo.", missable:false, bug:true, coop:false },
+      { id:"pheidippides", name:"Fidípedes", eng:"Pheidippides", type:"silver", rarity:68.16, icon:"👟", img:"65b877.png", desc:"Movimente-se (correndo ou não) por 42.195 metros", how:"Movimente-se (correndo ou não) por 42.195 metros cumulativos — a distância de uma maratona. Acumula sozinho ao longo da jogatina.", note:null, missable:false, bug:false, coop:false },
+      { id:"everest", name:"Monte Everest", eng:"Mount Everest", type:"silver", rarity:39.48, icon:"⛰️", img:"b6ejg6.png", desc:"Escale ao menos 8848 metros em objetos diversos.", how:"Escale ao menos 8.848 metros cumulativos em objetos diversos (não conta escalada usando o Gancho/Grapple Hook). Acumula com o parkour normal.", note:null, missable:false, bug:false, coop:false },
+      { id:"everybodydance", name:"Todos Dançando Agora", eng:"Everybody Dance Now", type:"bronze", rarity:39.72, icon:"⚡", img:"d14308.png", desc:"Faça com que 5 monstros sejam eletrocutados simultaneamente", how:"Eletrocute 5 monstros simultaneamente numa Armadilha de Cerca Elétrica. Use Firecrackers para atrair um grupo antes de ativar a cerca.", note:null, missable:false, bug:false, coop:false },
+      { id:"canttouch", name:"Nem me Toque", eng:"Can't Touch This", type:"bronze", rarity:62.91, icon:"🛡️", img:"j54d64.png", desc:"Mate 20 inimigos sem sofrer dano", how:"Mate 20 inimigos consecutivos sem sofrer dano. Mais fácil de dia, de cima de uma cerca/telhado inacessível a zumbis comuns, usando Molotovs ou armas de fogo.", note:null, missable:false, bug:false, coop:false },
+      { id:"harraaaaan", name:"Isso é Harraaaaan!", eng:"This is Harraaaaan!", type:"bronze", rarity:19.21, icon:"🦵", img:"10g87e.png", desc:"Mate 100 inimigos empurrando-os de telhados ou montes.", how:"Chute 100 inimigos de telhados ou penhascos até a morte. Acumulativo ao longo de toda a jogatina.", note:"BUG leve: o contador de chutes pode falhar em registrar alguns kills. Monitore o progresso em Extras > Estatísticas.", missable:false, bug:true, coop:false },
+      { id:"mouthswide", name:"Bocas Bem Abertas", eng:"Mouths Wide Open", type:"silver", rarity:68.08, icon:"👹", img:"30j87e.png", desc:"Mate um Volátil", how:"Mate um Volátil (Volatile). Só aparece à noite — durma numa Safe Zone para trocar o período do dia. Use armadilhas elétricas ou UV para facilitar.", note:null, missable:false, bug:false, coop:false },
+      { id:"hushhush", name:"Silêncio", eng:"Hush Hush Now", type:"bronze", rarity:58.24, icon:"🗣️", img:"74g808.png", desc:"Silencie um Histérico", how:"Silencie (mate) um Histérico (Screamer). Este inimigo grita e atrai hordas — elimine-o rapidamente ao encontrá-lo.", note:null, missable:false, bug:false, coop:false },
+      { id:"bbq", name:"Churrasco", eng:"BBQ", type:"bronze", rarity:38.35, icon:"🔥", img:"53687d.png", desc:"Prenda um zumbi em chamas nos espinhos", how:"Atire um Molotov num zumbi para incendiá-lo e empurre/chute-o contra Espinhos (Spikes), encontrados espalhados pelo mapa.", note:null, missable:false, bug:false, coop:false },
+      { id:"gameofcatch", name:"Queimada", eng:"A Game of Catch", type:"bronze", rarity:34.53, icon:"🔪", img:"0db83e.png", desc:"Mate 50 inimigos com armas de arremesso", how:"Mate 50 inimigos com armas de arremesso (facas, machadinhas, estrelas ninja). Acumulativo.", note:null, missable:false, bug:false, coop:false },
+      { id:"shootingclub", name:"Clube de Tiro de Harran", eng:"Harran Shooting Club", type:"bronze", rarity:64.13, icon:"🔫", img:"86e85d.png", desc:"Mate 50 inimigos com armas de tiro", how:"Mate 50 inimigos com armas de fogo. Munição é escassa no início — guarde balas especificamente para essa meta.", note:null, missable:false, bug:false, coop:false },
+      { id:"electrified", name:"Eletrificado!", eng:"Electrified!", type:"bronze", rarity:18.26, icon:"⚡", img:"e1671d.png", desc:"Capture 25 inimigos na Armadilha da Cerca Elétrica", how:"Capture (eletrocute até a morte) 25 inimigos na Armadilha da Cerca Elétrica. Farmável à noite perto da Torre inicial nas Favelas.", note:null, missable:false, bug:false, coop:false },
+      { id:"blindedlights", name:"Cego pelas Luzes", eng:"Blinded by the Lights", type:"bronze", rarity:29.71, icon:"🔦", img:"414810.png", desc:"Atordoe 25 Voláteis com Labaredas UV ou uma Lanterna UV", how:"Atordoe 25 Voláteis com Labaredas UV (Flares) ou a Lanterna UV. Só ocorre à noite — o ponto mais eficiente é perto da Torre nas Favelas.", note:null, missable:false, bug:false, coop:false },
+      { id:"highflyer", name:"Voador", eng:"High Flyer", type:"bronze", rarity:30.74, icon:"🦅", img:"65b857.png", desc:"Mate 25 inimigos Encurralando no chão ou com um Ataque aéreo", how:"Mate 25 inimigos com a habilidade Encurralar no Chão (Ground Pound) ou Ataque Aéreo (Drop Attack). Requer habilidades específicas de Força.", note:null, missable:false, bug:false, coop:false },
+      { id:"judomaster", name:"Mestre do Judô", eng:"Judo Master", type:"bronze", rarity:26.24, icon:"🤼", img:"b6ej66.png", desc:"Arremesse 50 inimigos com o Empurrão", how:"Arremesse 50 inimigos usando a habilidade de Empurrão/Agarrão (Grapple Throw). Acumulativo.", note:null, missable:false, bug:false, coop:false },
+      { id:"promnight", name:"Noite de Formatura", eng:"Prom Night", type:"silver", rarity:75.67, icon:"🌙", img:"g3g635.png", desc:"Sobreviva a uma perseguição de nível 2 ou maior", how:"Sobreviva a uma perseguição noturna de nível 2 ou maior sem morrer. Ocorre à noite quando Voláteis avistam você — corra e se esconda numa Safe Zone.", note:null, missable:false, bug:false, coop:false },
+      { id:"enlightened", name:"Iluminado!", eng:"Enlightened!", type:"bronze", rarity:13.49, icon:"💡", img:"d14318.png", desc:"Atordoe 25 inimigos na Armadilha de Luz", how:"Atordoe 25 inimigos na Armadilha de Luz (Light Trap), semelhante à cerca elétrica mas usando refletores/luz UV fixa.", note:null, missable:false, bug:false, coop:false },
+      { id:"mastercrafter", name:"Mestre Artesão", eng:"Master Crafter", type:"bronze", rarity:43.69, icon:"⚙️", img:"10g80e.png", desc:"Utilize Projetos ao menos 100 vezes", how:"Utilize Projetos (Blueprints) para fabricar itens pelo menos 100 vezes. Fabricar Medkits e Molotovs em massa acelera bastante essa meta.", note:null, missable:false, bug:false, coop:false },
+      { id:"opensesame", name:"Abre-te Sésamo", eng:"Open Sesame", type:"bronze", rarity:73.07, icon:"🔓", img:"30j80e.png", desc:"Arrombe 10 fechaduras com sucesso", how:"Arrombe 10 fechaduras com sucesso no minigame de lockpick. Cadeados aparecem em baús e portas trancadas pelo mapa.", note:null, missable:false, bug:false, coop:false },
+      { id:"everybodyknows", name:"Todo Mundo Conhece o Kyle", eng:"Everybody Knows Kyle", type:"bronze", rarity:60.12, icon:"⭐", img:"74g848.png", desc:"Alcance o Nível de Sobrevivência 12", how:"Alcance o Nível de Sobrevivência (Survivor Rank) 12, ganho ao completar missões, desafios e explorar o mapa.", note:null, missable:false, bug:false, coop:false },
+      { id:"legendharran", name:"A Lenda de Harran", eng:"The Legend of Harran", type:"silver", rarity:41.96, icon:"👑", img:"53683d.png", desc:"Alcance o Nível de Sobrevivência 18", how:"Alcance o Nível de Sobrevivência 18 — o máximo. Requer bastante XP de sobrevivência: sidequests, desafios e exploração completa.", note:null, missable:false, bug:false, coop:false },
+      { id:"agile", name:"Ágil", eng:"Agile", type:"bronze", rarity:62.20, icon:"🤸", img:"0db8de.png", desc:"Alcance a Agilidade de nível 10", how:"Alcance o Nível de Agilidade 10 — o máximo. Ganho correndo, saltando e fazendo parkour.", note:null, missable:false, bug:false, coop:false },
+      { id:"strong", name:"Forte", eng:"Strong", type:"bronze", rarity:66.28, icon:"💪", img:"86e86d.png", desc:"Alcance Força nível 10", how:"Alcance o Nível de Força 10 — o máximo. Ganho em combate corpo a corpo.", note:null, missable:false, bug:false, coop:false },
+      { id:"allwriting", name:"Tudo está Escrito", eng:"It's All In the Writing", type:"silver", rarity:9.66, icon:"📜", img:"e167gd.png", desc:"Encontre todos os textos colecionáveis", how:"Encontre os 67 colecionáveis de texto: 34 Notas + 17 Diários de Batalha + 16 Recados de Voz. Nenhum é perdível — todos acessíveis via fast travel após a história.", note:"BUG conhecido: pode não destravar no último item coletado. Veja a aba Perdíveis para o workaround.", missable:false, bug:true, coop:false },
+      { id:"italianplumber", name:"Encanador Italiano", eng:"Italian Plumber", type:"bronze", rarity:15.21, icon:"🔧", img:"b6ej46.png", desc:"Mate um inimigo com uma chave, utilizando as habilidades Pular Sobre Inimigo e Ataque aéreo", how:"Mate um inimigo com uma Chave Inglesa (Wrench), usando Pular Sobre Inimigo (Vault, Agilidade nível 4) seguido de Ataque Aéreo (Drop Attack, Força nível 10).", note:null, missable:false, bug:false, coop:false },
+      { id:"gabrielsword", name:"Espada de Gabriel", eng:"Gabriel's Sword", type:"bronze", rarity:31.77, icon:"🗡️", img:"g3g655.png", desc:"Coloque um efeito incendiário numa espada ou num khopesh", how:"Adicione um efeito incendiário a uma espada ou khopesh, usando o Projeto 'Bad Ass' encontrado num telhado da Cidade Velha.", note:null, missable:false, bug:false, coop:false },
+      { id:"longwaydown", name:"Uma Longa Descida", eng:"A Long Way Down", type:"bronze", rarity:30.25, icon:"🌉", img:"d143b8.png", desc:"Pule na água a partir da Ponte da Infâmia (Favelas) durante a noite", how:"Pule na água a partir da Ponte da Infâmia, nas Favelas, durante a NOITE. Durma numa Safe Zone para trocar o período do dia se necessário.", note:null, missable:false, bug:false, coop:false },
+    ]
+  },
+  {
+    id:"coop", name:"COOPERATIVO — REQUER PARCEIROS ONLINE", color:C.uv, icon:"🤝",
+    trophies:[
+      { id:"gotyourback", name:"Eu te Cubro", eng:"I've Got Your Back", type:"bronze", rarity:60.25, icon:"👥", img:"4148b0.png", desc:"Complete 1 missão em um jogo cooperativo", how:"Complete 1 missão em uma sessão cooperativa, com qualquer parceiro online.", note:"Requer sessão co-op ativa. Combine com Poliamor para otimizar tempo com o mesmo parceiro.", missable:false, bug:false, coop:true },
+      { id:"lucky7", name:"Número da Sorte", eng:"Lucky 7", type:"bronze", rarity:18.88, icon:"🎲", img:"53685d.png", desc:"Ganhe 7 competições cooperativas", how:"Vença 7 competições cooperativas — corridas informais que aparecem automaticamente entre jogadores na mesma sessão.", note:"Requer parceiro(s) online. Fácil de organizar revezando vitórias entre os participantes.", missable:false, bug:false, coop:true },
+      { id:"harranathletics", name:"Atletismo de Harran", eng:"Harran Athletics", type:"bronze", rarity:23.12, icon:"🏁", img:"0db80e.png", desc:"Participe de 10 competições cooperativas", how:"Participe de 10 competições cooperativas, independente de vencer ou perder.", note:"Requer parceiro(s) online — some naturalmente enquanto farma Número da Sorte.", missable:false, bug:false, coop:true },
+      { id:"polyamory", name:"Poliamor", eng:"Polyamory", type:"bronze", rarity:13.79, icon:"💞", img:"65b837.png", desc:"Complete 5 missões em um só jogo cooperativo com os mesmos três parceiros.", how:"Complete 5 missões na MESMA sessão cooperativa, com os mesmos 3 parceiros do início ao fim, sem ninguém sair do grupo.", note:"Requer 3 parceiros fixos na mesma sessão. Combine com missões secundárias curtas para acelerar.", missable:false, bug:false, coop:true },
+    ]
+  },
+  {
+    id:"parkourfever", name:"DLC GRATUITA — PARKOUR FEVER", color:C.toxic, icon:"🏃",
+    trophies:[
+      { id:"boycouldrun", name:"O Menino Que Sabia Correr", eng:"The Boy Who Could Run", type:"bronze", rarity:1.99, icon:"🏃", img:"j53313.png", desc:"Conclua todos os Desafios da Febre de Parkour.", how:"Complete todos os Desafios da Febre de Parkour, marcados com ícone de pegada e 3 estrelas, espalhados pelas Favelas e Cidade Velha.", note:null, missable:false, bug:false, coop:false },
+      { id:"gdparkour", name:"Instrutor de GD Parkour", eng:"GD Parkour Instructor", type:"bronze", rarity:1.84, icon:"🌙", img:"104416.png", desc:"Conclua todos os Desafios da Febre de Parkour à noite.", how:"Complete todos os Desafios da Febre de Parkour durante a NOITE. Pode ser feito junto com o troféu anterior, dormindo antes de repetir cada desafio.", note:null, missable:false, bug:false, coop:false },
+      { id:"pearlsmud", name:"Pérolas na Lama", eng:"Pearls in the Mud", type:"bronze", rarity:25.83, icon:"📦", img:"30bb41.png", desc:"Abra 5 baús da GRE nas Zonas de Quarentena.", how:"Abra 5 baús da GRE (GRE Chests) dentro das Zonas de Quarentena. Requer adentrar as Zonas de Quarentena do jogo base.", note:null, missable:false, bug:false, coop:false },
+    ]
+  },
+  {
+    id:"bozak", name:"DLC — THE BOZAK HORDE", color:C.blood, icon:"🏹",
+    trophies:[
+      { id:"getbozak", name:"Pegue o Bozak.", eng:"Get the Bozak", type:"gold", rarity:4.99, icon:"🏆", img:"7411gj.png", desc:"Conclua o desafio de Bozak.", how:"Complete os 20 desafios da Arena do Bozak, acessada pelo menu principal. Você tem apenas 3 vidas — falhar reinicia a run inteira.", note:null, missable:false, bug:false, coop:false },
+      { id:"togethertillend", name:"Juntos Até o Fim", eng:"Together Till the End", type:"silver", rarity:2.95, icon:"💀", img:"53dd65.png", desc:"Seja o último sobrevivente.", how:"Ao final dos 20 desafios do Bozak EM COOPERATIVO, o jogo força um duelo entre os sobreviventes — elimine seu(s) parceiro(s) para ser o último de pé.", note:"COOPERATIVO OBRIGATÓRIO e BUG muito documentado: mesmo sendo o último sobrevivente, o troféu pode não destravar na primeira tentativa. Relatos indicam sucesso após múltiplas tentativas ou trocando quem hospeda a sessão.", missable:false, bug:true, coop:true },
+      { id:"electricwhisper", name:"Sussurro Elétrico", eng:"Electric Whisper", type:"silver", rarity:2.31, icon:"⚡", img:"0d55b3.png", desc:"Aprenda a criar flechas elétricas.", how:"Aprenda a fabricar Flechas Elétricas. Requer o arco da DLC e matar zumbis de macacão laranja (capangas do Rais) para obter as peças e desbloquear a receita.", note:null, missable:false, bug:false, coop:false },
+      { id:"kaboom", name:"Coisas Que Fazem Cabum", eng:"Things That Go Ka-Boom", type:"silver", rarity:2.29, icon:"💥", img:"8633e6.png", desc:"Aprenda a criar flechas explosivas.", how:"Aprenda a fabricar Flechas Explosivas, de forma similar às Elétricas — mate os mesmos zumbis de macacão para conseguir as peças.", note:null, missable:false, bug:false, coop:false },
+      { id:"robinhood", name:"Teoria de Robin Hood", eng:"Robin Hood Theory", type:"bronze", rarity:6.74, icon:"🎯", img:"e1bb6g.png", desc:"Acerte 10 flechadas na cabeça com um arco.", how:"Acerte 10 flechadas na cabeça (headshots) com um arco, em qualquer inimigo humano dentro ou fora da Arena do Bozak.", note:null, missable:false, bug:false, coop:false },
+    ]
+  },
+  {
+    id:"following", name:"DLC — THE FOLLOWING (ZONA RURAL)", color:C.toxic, icon:"🌾",
+    trophies:[
+      { id:"afraidwet", name:"Medinho de se molhar?", eng:"Afraid to Get Wet?", type:"bronze", rarity:32.88, icon:"🏞️", img:"db46d6.png", desc:"Mergulhar na Zona Rural.", how:"Mergulhe na água ao chegar ao fim do penhasco na Zona Rural (Countryside), logo no início da DLC.", note:null, missable:false, bug:false, coop:false },
+      { id:"likedhim", name:"E você gostou dele, né?", eng:"And You Liked Him, Didn't You?", type:"bronze", rarity:16.54, icon:"👋", img:"je438g.png", desc:"Encontrar seu velho amigo de novo.", how:"Missão principal da DLC: encontre seu velho amigo (Jade) novamente.", note:null, missable:false, bug:false, coop:false },
+      { id:"waitingforyou", name:"Estava esperando você há tanto tempo.", eng:"I Was Waiting For You For So Long", type:"silver", rarity:20.47, icon:"👤", img:"1jg4eb.png", desc:"Tornar-se um Sem-rosto.", how:"Torne-se um Sem-Rosto (Faceless): alcance o rank máximo de Confiança 'Discípulo' com Os Filhos do Sol. Complete tarefas no quadro de missões de Jasir para subir de rank.", note:null, missable:false, bug:false, coop:false },
+      { id:"sweatypalms", name:"Mãos suadas?", eng:"Sweaty Palms?", type:"bronze", rarity:5.23, icon:"🚗", img:"36jbe3.png", desc:"Matar um Demolidor com um carro.", how:"Mate um Demolidor (Demolisher) atropelando-o com o Buggy. Acerte-o de frente em velocidade para garantir o kill.", note:null, missable:false, bug:false, coop:false },
+      { id:"wasnthard", name:"Até que não foi difícil, hein?", eng:"It Wasn't That Hard, Was It?", type:"bronze", rarity:10.60, icon:"🏎️", img:"75g1e7.png", desc:"Vencer a corrida de Hassan.", how:"Vença a corrida de Bilal ('Borracha Queimando'), disponível após a missão 'Ganhando Credibilidade'. Você precisa bater o tempo de referência de Bilal (cerca de 3:20) nos 23 checkpoints.", note:"⚠️ PERDÍVEL: se você perder a corrida (ou ficar em 2º lugar em co-op), pode não haver nova chance fácil — em alguns casos só é possível tentar de novo reiniciando a DLC. FAÇA BACKUP DO SAVE antes de correr e use a opção 'Reiniciar Desafio' no meio da corrida se perceber que vai perder o tempo.", missable:true, bug:false, coop:false },
+      { id:"pickedother", name:"Se Você Tivesse Escolhido o Outro?", eng:"What If You Picked The Other One?", type:"silver", rarity:15.95, icon:"🔀", img:"5g6d47.png", desc:"Fazer aquela ligação.", how:"Missão final da DLC 'No Fim do Túnel': ao encontrar 'A Mãe', faça a escolha entre o final bom ou o final ruim. O troféu destrava com QUALQUER uma das duas escolhas — não é possível fazer as duas na mesma jogatina.", note:null, missable:false, bug:false, coop:false },
+      { id:"feltpresence", name:"Senti sua presença", eng:"I Felt Your Presence", type:"bronze", rarity:23.45, icon:"🕯️", img:"0jb5gd.png", desc:"Assistir a reunião dos Seguidores.", how:"Assista à reunião d'Os Filhos do Sol, obtida ao progredir a Confiança até o rank 'Discípulo' (mesma progressão de 'Estava Esperando Você').", note:null, missable:false, bug:false, coop:false },
+      { id:"onlypoints", name:"Você sabe que são apenas pontos, né?", eng:"You Realize It's Only Points, Do You?", type:"bronze", rarity:13.34, icon:"🏆", img:"80e3g0.png", desc:"Atingir o Nível de Motorista 12.", how:"Alcance o Nível de Motorista (Driver Rank) 12, dirigindo o Buggy e realizando acrobacias e atropelamentos.", note:null, missable:false, bug:false, coop:false },
+      { id:"formidophobic", name:"Medo de espantalhos? Interessante…", eng:"Formidophobic? Interesting...", type:"bronze", rarity:5.03, icon:"🎃", img:"eg6b48.png", desc:"Destruir 50 espantalhos.", how:"Destrua 50 espantalhos espalhados pela Zona Rural, de preferência atropelando-os com o Buggy para agilizar.", note:null, missable:false, bug:false, coop:false },
+      { id:"mindlessfun", name:"Não aprovo diversões sem sentido", eng:"I Don't Approve of Mindless Fun", type:"bronze", rarity:13.74, icon:"🧟", img:"4b4g34.png", desc:"Matar 500 zumbis com seu veículo", how:"Mate 500 zumbis usando o Buggy. Acumulativo — dirija por cima de infectados sempre que possível durante a exploração.", note:null, missable:false, bug:false, coop:false },
+    ]
+  },
+];
+
+const MISS_STAGES = {
+  "inicio": "Desde o início do jogo — atenção máxima",
+  "meio": "Durante a campanha e o free-roam",
+  "pos": "Depois de terminar a história",
+  "coop": "Online / cooperativo",
+  "dlc": "DLCs — Febre de Parkour, Bozak Horde e The Following"
+};
+
+// Ordem cronológica: do que dá para perder primeiro (início do jogo) até o fim. Cada card: etapas numeradas, aviso de fontes divergentes (flag) e fontes consultadas.
+const allMissables = [
+  {
+    "stage": "inicio",
+    "when": "Desde as primeiras noites · Favelas",
+    "name": "Recuperação de Desastre (Pacotes de Ajuda)",
+    "risk": "JANELA CURTA",
+    "c": C.amber,
+    "icon": "📦",
+    "steps": [
+      "Desde as primeiras noites, corra até cada Entrega Aérea assim que ela aparecer no mapa. Quem chega rápido pega 2 pacotes; quem demora enfrenta os capangas do Rais e leva só 1. Se demorar demais, a entrega some.",
+      "Nas Favelas, as entregas deixam de cair conforme a história avança. Na Cidade Velha elas continuam reaparecendo, inclusive depois do final do jogo.",
+      "Junte 15 pacotes no total (o troféu é cumulativo). Se faltar, complete na Cidade Velha, à noite.",
+      "Aproveite para entregar os pacotes ao Intendente (quartermaster) — eles também dão XP de Sobrevivência."
+    ],
+    "flag": "Quando exatamente as entregas param nas Favelas varia conforme a fonte (\"com o avanço da história\"); por isso o ideal é pegar as primeiras que aparecerem.",
+    "src": "PlayStationTrophies.org (guia Dying Light PS4) · Steam Community (guia 100% de conquistas) · PowerPyx (guia Dying Light)"
+  },
+  {
+    "stage": "inicio",
+    "when": "Desde o início · a janela das Favelas fecha após \"A Fossa\" (The Pit)",
+    "name": "Homo Homini Lupus Est (+ Estamos Todos Juntos Nessa)",
+    "risk": "JANELA CURTA + BUG",
+    "c": C.uv,
+    "icon": "⚔️",
+    "steps": [
+      "Desde o começo, vá a todo ícone azul de evento aleatório no minimapa. Eles incluem sobreviventes atacados por zumbis (para \"Estamos Todos Juntos Nessa\") e reféns dos capangas do Rais (para este troféu).",
+      "Este é o evento mais raro do jogo. Nas Favelas ele para de aparecer depois da missão principal \"A Fossa\" (The Pit): faça quantos puder antes disso.",
+      "Depois de \"A Fossa\", os reféns só têm chance de aparecer em 3 pontos específicos sobre telhados da Cidade Velha. Fique em um lugar alto e circule entre eles.",
+      "Os dois troféus são cumulativos: não precisam ser feitos na mesma missão. São 15 salvamentos de cada tipo.",
+      "No PS4 e no Xbox há relato de contador bugado: se chegar a 15 e não destravar, continue salvando mais alguns."
+    ],
+    "flag": "A PlayStationTrophies trata Homo Homini como um dos mais demorados (horas) e o lista entre os troféus com glitch. A Wiki do jogo diz que há bug no PS4/Xbox.",
+    "src": "Dying Light Wiki (Fandom — página de Homo Homini Lupus Est) · PlayStationTrophies.org · PlayStation LifeStyle (troféus cumulativos)"
+  },
+  {
+    "stage": "inicio",
+    "when": "Ao longo da campanha · capture antes de terminar a história",
+    "name": "Tudo Seguro Agora (Safe Zones)",
+    "risk": "BUG ALTO",
+    "c": C.amber,
+    "icon": "🏠",
+    "steps": [
+      "Capture cada Safe Zone assim que a história permitir, antes de terminar a campanha. Sem viagem rápida entre elas, morrer faz você renascer na mais próxima que estiver ativa.",
+      "Para viajar entre Favelas e Cidade Velha, use o pôster na torre do Brecken (Favelas) ou na torre do Troy (Cidade Velha).",
+      "Acompanhe o contador em Extras > Estatísticas Pessoais.",
+      "Faça backup do save antes de capturar a última Safe Zone.",
+      "Se o contador travar: o guia anterior sugeria iniciar um New Game em slot novo (Configurações Avançadas, começando pela missão \"A Clínica\") e capturar 1-2 Safe Zones extras. Esse workaround não foi confirmado nas fontes que consultei."
+    ],
+    "flag": "Quantidade de Safe Zones: o guia anterior dizia ~16, mas a página de estatísticas da Steam mostra o contador desta conquista como 0/17. Confira o seu contador no jogo.",
+    "src": "PlayStationTrophies.org (Passo 1 do roadmap; lista de glitches) · Steam (estatísticas pessoais do jogo) · workaround: guia anterior (sem fonte confirmada)"
+  },
+  {
+    "stage": "meio",
+    "when": "Depois da história, com boas armas · 5 nas Favelas e 3 na Cidade Velha",
+    "name": "Invasão (Zonas de Quarentena)",
+    "risk": "BUG MÉDIO (relatado)",
+    "c": C.amber,
+    "icon": "☣️",
+    "steps": [
+      "São 8 Zonas de Quarentena: 5 nas Favelas e 3 na Cidade Velha. Elas só aparecem no mapa quando você chega perto.",
+      "Faça depois de terminar a história e com boas armas: as zonas têm hordas pesadas. Em cooperativo fica mais fácil.",
+      "Em cada zona, ou você pega as caixas de suprimento (em prédios e garagens) ou mata todos os inimigos.",
+      "Complete cada zona de uma vez, numa única sessão, de preferência offline, e confira o contador em Extras > Estatísticas Pessoais."
+    ],
+    "flag": "O bug de contagem de Invasão (trocar de sessão/mapa no meio da zona) vem do guia anterior; não consegui confirmá-lo nas fontes que li. A PlayStationTrophies diz que há 6 troféus com glitch, mas só consegui ler 5 nomes.",
+    "src": "PowerPyx (guia Dying Light, seção Trespassing) · PlayStationTrophies.org (Passo 2 do roadmap)"
+  },
+  {
+    "stage": "meio",
+    "when": "Qualquer momento, mas leva horas · exige backup",
+    "name": "Isso é Harraaaaan!",
+    "risk": "BUG MÉDIO",
+    "c": C.amber,
+    "icon": "🦶",
+    "steps": [
+      "Mate 100 inimigos empurrando-os de telhados ou montes (descrição do troféu). Tem que ser a queda que mata.",
+      "É um dos troféus mais demorados da lista: reserve horas e não tente cumprir de uma vez.",
+      "Faça backup do save de vez em quando enquanto acumula, porque a PlayStationTrophies o lista entre os troféus com glitch."
+    ],
+    "flag": "Não encontrei nas fontes um local ou método melhor do que \"mate inimigos empurrando-os de lugares altos\"; por isso não incluí um spot de farm.",
+    "src": "Exophase PT-BR (descrição) · PlayStationTrophies.org (lista de glitches; \"mais demorado\")"
+  },
+  {
+    "stage": "pos",
+    "when": "Depois do final da campanha · Cidade Velha",
+    "name": "Cuidado: porta da missão final (Cidade Velha)",
+    "risk": "PODE PERDER SAVE",
+    "c": C.blood,
+    "icon": "🚪",
+    "steps": [
+      "Depois de zerar, NÃO entre pela porta marcada no mapa da Cidade Velha para rejogar a missão final.",
+      "A PlayStationTrophies relata um glitch que pode travar o jogo e apagar TODO o progresso nessa situação.",
+      "Antes de qualquer tentativa de repetir a missão final (por exemplo, para destravar um troféu de história), faça backup do save em USB ou na nuvem do PS Plus."
+    ],
+    "flag": "O workaround antigo de \"A História Toda\" (recarregar a missão \"Extração\" pelas Configurações Avançadas) não é a mesma coisa que a porta do mapa, mas não sei se é seguro. Trate como arriscado e faça backup antes.",
+    "src": "PlayStationTrophies.org (aviso \"Não rejogue a missão final pela porta do mapa\")"
+  },
+  {
+    "stage": "pos",
+    "when": "Depois da história e das missões secundárias",
+    "name": "Tudo está Escrito (Colecionáveis de texto)",
+    "risk": "BUG MÉDIO",
+    "c": C.amber,
+    "icon": "📜",
+    "steps": [
+      "Termine a história e as missões secundárias antes de caçar os textos: alguns ficam em áreas liberadas por missões.",
+      "Nada é perdível: depois do final você volta a todas as áreas por viagem rápida. Os textos são 34 Notas, 17 Diários de Batalha e 16 Recados de voz (Bandeiras e Estátuas não contam).",
+      "Veja o progresso no inventário (Quadrado no PS4). Perto de um colecionável, a Percepção de Sobrevivente o marca com um ícone laranja.",
+      "Faça backup do save antes do último texto: a PlayStationTrophies lista este troféu entre os com glitch.",
+      "Se não destravar: o guia anterior sugeria iniciar nova sessão a partir de uma missão da Cidade Velha e coletar 1-2 colecionáveis extras. Não confirmei esse workaround nas fontes."
+    ],
+    "flag": "",
+    "src": "PowerPyx (guia Dying Light, seção It's All in the Writing) · PlayStationTrophies.org (lista de glitches)"
+  },
+  {
+    "stage": "pos",
+    "when": "Depois de todas as missões secundárias",
+    "name": "A História Toda (missões secundárias)",
+    "risk": "BUG MÉDIO",
+    "c": C.amber,
+    "icon": "📖",
+    "steps": [
+      "Conclua todas as missões secundárias. Faça isso antes de caçar os colecionáveis: muitas áreas dependem dessas missões.",
+      "Não trate o final da campanha como ponto sem volta: depois dele o jogo continua em free-roam.",
+      "Se o troféu não destravar mesmo com tudo concluído: o guia anterior sugeria recarregar a missão principal \"Extração\" pelas Configurações Avançadas e refazer a cena final. Esse workaround não foi confirmado nas fontes e pode ser arriscado (veja o card da porta da missão final).",
+      "Faça backup do save antes de qualquer tentativa de forçar o troféu."
+    ],
+    "flag": "Quantidade de missões: o guia anterior dizia ~62, mas a Steam mostra o contador desta conquista como 0/44 numa página de estatísticas. Não sei qual número é o certo.",
+    "src": "PlayStationTrophies.org (Passo 4; lista de glitches) · Steam (estatísticas pessoais) · workaround: guia anterior (sem fonte confirmada)"
+  },
+  {
+    "stage": "coop",
+    "when": "A qualquer momento, mas deixe por último",
+    "name": "Troféus cooperativos (4)",
+    "risk": "REQUER PARCEIRO",
+    "c": C.uv,
+    "icon": "🤝",
+    "steps": [
+      "Jogue offline até concluir todo o resto. Só depois vá para os troféus online (a PlayStationTrophies recomenda isso para reduzir o risco de travar troféus).",
+      "\"Eu te Cubro\": complete 1 missão em jogo cooperativo.",
+      "\"Poliamor\": 5 missões numa só sessão com os mesmos três parceiros (lobby de 4 sem ninguém sair). Deixe as 5 missões preparadas antes de convidar o grupo.",
+      "\"Número da Sorte\" (7 vitórias) e \"Atletismo de Harran\" (10 participações): mude a frequência das competições dinâmicas para \"Frequente\" para acelerar. Os dois são cumulativos.",
+      "Para achar parceiros, use as threads de co-op da PlayStationTrophies, fóruns do PSNProfiles/TrueTrophies ou Discords do jogo. A população online caiu bastante."
+    ],
+    "flag": "",
+    "src": "PlayStationTrophies.org (Passo 5) · PowerPyx (comentários de jogadores procurando parceiros)"
+  },
+  {
+    "stage": "dlc",
+    "when": "Free-roam · DLC gratuita Febre de Parkour",
+    "name": "Febre de Parkour — só em modo solo",
+    "risk": "CUIDADO",
+    "c": C.blood,
+    "icon": "🏃",
+    "steps": [
+      "Faça os 3 troféus da DLC em jogo solo. No cooperativo, só quem chega em 1º lugar no desafio ganha crédito, e só quem abre o baú GRE conta.",
+      "\"Pérolas na Lama\": abra 5 baús GRE nas Zonas de Quarentena. Ao reentrar numa zona já concluída, os baús reaparecem.",
+      "\"O Menino Que Sabia Correr\": conclua os 10 desafios (5 nas Favelas e 5 na Cidade Velha). Aprenda cada rota de dia.",
+      "\"Instrutor de GD Parkour\": refaça todos à noite. Durma numa Safe Zone para virar a noite quando precisar."
+    ],
+    "flag": "",
+    "src": "PlayStationTrophies.org (roadmap da DLC Parkour Fever)"
+  },
+  {
+    "stage": "dlc",
+    "when": "Arena do Bozak (Estádio) · DLC Bozak Horde",
+    "name": "Juntos Até o Fim (Bozak Horde)",
+    "risk": "BUG + CO-OP",
+    "c": C.uv,
+    "icon": "💀",
+    "steps": [
+      "Entre na Arena do Bozak (Estádio) sem nada na mochila: pegue armas e kits de cura no local. Eles sempre nascem nos mesmos pontos.",
+      "Complete os 20 desafios (funcionam como ondas). Em cooperativo, combinem antes quem vai vencer o duelo final, em que vocês precisam eliminar uns aos outros.",
+      "Quem sobrar ganha \"Juntos Até o Fim\". Todos ganham \"Pegue o Bozak.\" e o arco ao concluir a arena.",
+      "Quem não venceu o duelo precisa refazer a arena (o guia anterior estimava ~30 min por tentativa).",
+      "Nas voltas seguintes, aproveite para os extras: \"Sussurro Elétrico\" (10 abates virais com o arco numa só passada) e \"Coisas Que Fazem Cabum\" (terminar dentro do tempo-limite, que depende do número de parceiros).",
+      "De volta ao jogo principal, \"Teoria de Robin Hood\": 10 tiros na cabeça com o arco."
+    ],
+    "flag": "O guia anterior chamava este troféu de \"notoriamente bugado\"; a PlayStationTrophies lista 0 troféus com glitch na DLC Bozak Horde. Fontes divergentes.",
+    "src": "PlayStationTrophies.org (roadmap da DLC Bozak Horde) · Exophase PT-BR (descrições)"
+  },
+  {
+    "stage": "dlc",
+    "when": "Início da DLC The Following · posto de gasolina",
+    "name": "The Following — travamento no posto de gasolina",
+    "risk": "BUG TRAVA O JOGO",
+    "c": C.blood,
+    "icon": "⛽",
+    "steps": [
+      "Se você já recebeu a missão secundária \"The Mechanic\" (dada por Jasir no começo), NÃO saia do jogo depois de cumprir o primeiro objetivo de \"Stranger in a Strange Land\".",
+      "Complete \"The Mechanic\" antes de fechar o jogo: ela é obrigatória.",
+      "Para o buggy: procure parafusos (perto do capô) e combustível (na traseira) em carros abandonados, ou nos 8 postos de gasolina.",
+      "Se não conseguir mais reparar o buggy com parafusos, faça a missão \"Buggy Grail\" com o Bilal: o caminhoneiro passa a vender peças na ponte da estrada."
+    ],
+    "flag": "Nomes das missões estão em inglês porque não confirmei a tradução oficial. O aviso vem de um guia antigo da PlayStationTrophies, e o patch atual pode já ter corrigido.",
+    "src": "PlayStationTrophies.org (roadmap da DLC The Following)"
+  },
+  {
+    "stage": "dlc",
+    "when": "The Following · depois de liberar as corridas",
+    "name": "Até que não foi difícil, hein? (Corrida do Bilal)",
+    "risk": "PERDÍVEL (segundo as fontes)",
+    "c": C.blood,
+    "icon": "🏎️",
+    "steps": [
+      "A corrida faz parte da missão secundária \"Burning Rubber\" (\"Test your skills in Bilal's challenge\"). Vencer libera outras corridas pelo mapa.",
+      "A PlayStationTrophies e a TrophiesHunter marcam este como o único troféu perdível do jogo. Por isso, trate como perdível e não deixe passar a chance.",
+      "Faça backup do save antes de começar a corrida.",
+      "Antes de largar, deixe o buggy reparado e com combustível: ele quebra e fica sem gasolina com facilidade.",
+      "O guia anterior citava \"Reiniciar Desafio\" durante a corrida e um tempo-alvo de ~3:20 do Bilal; não consegui confirmar nenhum dos dois."
+    ],
+    "flag": "Fontes divergem: o roteiro da própria PlayStationTrophies manda vencer a corrida na etapa de limpeza, depois da história, o que sugere que dá para refazer. Além disso, o Exophase PT-BR descreve o troféu como \"Vencer a corrida de Hassan\", enquanto as fontes em inglês dizem \"Bilal's race\". Não sei se é nome diferente na tradução ou erro.",
+    "src": "PlayStationTrophies.org (roadmap The Following) · TrophiesHunter (marca como Missable) · Dying Light Wiki (Burning Rubber) · Exophase PT-BR"
+  }
+];
+
+const STORY_PHASES = {
+  "favelas": {
+    "t": "Favelas — missões 1 a 6",
+    "n": "Seis missões, do tutorial até o primeiro chefe. É nesta fase que ficam as janelas curtas do guia de Perdíveis: pegue as entregas aéreas e os eventos aleatórios enquanto avança."
+  },
+  "ponte": {
+    "t": "Transição — Favelas para a Cidade Velha",
+    "n": "Uma missão curta que leva você ao segundo mapa do jogo."
+  },
+  "cidade": {
+    "t": "Cidade Velha — missões 8 a 14",
+    "n": "Sete missões, com um trecho no mapa da Antena. O ritmo muda: as primeiras são curtas e as últimas trazem chefes e Demolishers."
+  },
+  "final": {
+    "t": "Final — missão 15",
+    "n": "Uma única missão, de volta às Favelas. Faça backup do save antes."
+  },
+  "dlc": {
+    "t": "The Following (DLC) — 11 missões principais",
+    "n": "Faça depois de terminar a campanha base: a DLC tem spoilers. Aqui a história é travada pelo rank de Confiança (trust): depois de Stranger in a Strange Land, as missões principais só avançam conforme você ajuda os moradores. Estimativa de tempo: cerca de 10 h só com a história (~15 h com secundárias), segundo a WePC."
+  }
+};
+
+// Caminho da história, em ordem. tr = ids de troféus (de sectors) que saem nesta missão; warn = aviso; src = fontes.
+const STORY = [
+  {
+    "phase": "favelas",
+    "n": 1,
+    "name": "Awakening",
+    "where": "Favelas",
+    "diff": "Fácil",
+    "xp": "750 XP",
+    "dur": "",
+    "body": [
+      "É o tutorial de abertura: você aprende a correr e pular pelos telhados, a fabricar itens e conhece os primeiros sobreviventes. O objetivo da missão é reunir gaze e álcool (Find Gauze and Alcohol).",
+      "Os primeiros troféus saem naturalmente aqui: o primeiro infectado morto, o primeiro item fabricado e o salto do guindaste, que o guia descreve como \"missão de abertura\"."
+    ],
+    "tr": [
+      "isitnecessary",
+      "littlecraftsman",
+      "flightcrane"
+    ],
+    "warn": "Nada aqui é perdível. Mas, ao sair do tutorial, comece a olhar o minimapa por entregas aéreas e eventos aleatórios (veja os 3 primeiros cards de Perdíveis).",
+    "src": "Dying Light Wiki · Prima Games · guia anterior (troféus)"
+  },
+  {
+    "phase": "favelas",
+    "n": 2,
+    "name": "First Assignment",
+    "where": "Favelas",
+    "diff": "Média",
+    "xp": "3.250 XP",
+    "dur": "",
+    "body": [
+      "Ainda tem tom de tutorial, mas agora com combate de verdade. Você prepara armadilhas para uma missão noturna e é apresentado ao Mr. Hammer, o inimigo da missão. Monte as armadilhas antes de a noite chegar."
+    ],
+    "tr": [],
+    "warn": "",
+    "src": "Dying Light Wiki · Prima Games"
+  },
+  {
+    "phase": "favelas",
+    "n": 3,
+    "name": "Airdrop",
+    "where": "Favelas",
+    "diff": "",
+    "xp": "5.000 XP",
+    "dur": "",
+    "body": [
+      "Crane é enviado para garantir um airdrop do GRE com Antizin. Nada sai como o planejado, e a missão termina numa perseguição noturna pela cidade.",
+      "Na noite, a Prima recomenda desligar a lanterna e acompanhar o minimapa: dá para ver Voláteis e Virais antes de entrar no alcance deles."
+    ],
+    "tr": [],
+    "warn": "Para o troféu \"Noite de Formatura\" é preciso sobreviver a uma perseguição de nível 2 ou maior (descrição do guia); esta perseguição serve de treino, mas não confirmei que ela conta.",
+    "src": "Dying Light Wiki · Prima Games"
+  },
+  {
+    "phase": "favelas",
+    "n": 4,
+    "name": "Pact with Rais",
+    "where": "Favelas",
+    "diff": "",
+    "xp": "22.500 XP",
+    "dur": "Longa: pode passar de 1 h",
+    "body": [
+      "É a primeira missão realmente longa: a Prima fala em uma hora ou mais. Ela apresenta os Bombers e os Toads e libera as armas de fogo.",
+      "Segundo a Wiki, a missão tem duas metades, e depois da segunda metade muitas missões secundárias das Favelas ficam disponíveis. O encontro com o Rais, que rende \"Minha esquerda ou sua esquerda?\", provavelmente acontece por aqui; o guia só diz \"história inicial das Favelas\"."
+    ],
+    "tr": [],
+    "warn": "Reserve tempo: é uma das missões que mais consomem uma sessão de jogo.",
+    "src": "Dying Light Wiki · Prima Games · guia anterior"
+  },
+  {
+    "phase": "favelas",
+    "n": 5,
+    "name": "Siblings",
+    "where": "Favelas",
+    "diff": "",
+    "xp": "40.000 XP",
+    "dur": "Maratona",
+    "body": [
+      "Outra missão longa, mas com ritmo mais rápido. Aqui você vê o Bolter pela primeira vez (o infectado menos ameaçador do jogo) e precisa salvar o Rahim.",
+      "A Wiki aponta que matar o Bolter desta missão libera várias missões secundárias do quadro da Torre."
+    ],
+    "tr": [],
+    "warn": "",
+    "src": "Dying Light Wiki · Prima Games"
+  },
+  {
+    "phase": "favelas",
+    "n": 6,
+    "name": "The Pit",
+    "where": "Favelas",
+    "diff": "",
+    "xp": "55.000 XP",
+    "dur": "",
+    "body": [
+      "Você precisa encontrar uma entrada para o Garrison, sobreviver à Arena e então enfrentar o primeiro chefe, um Demolisher. A Prima mostra um truque para derrubá-lo; vale procurar um antes de tentar na força bruta.",
+      "Escapar da Arena é o troféu \"Cobra no mato\"."
+    ],
+    "tr": [
+      "snake"
+    ],
+    "warn": "Última chance fácil nas Favelas: depois desta missão, os eventos aleatórios de reféns (Homo Homini Lupus Est) deixam de aparecer lá, e as entregas aéreas das Favelas vão diminuindo conforme a história avança. Antes de seguir, junte o que puder (veja Perdíveis).",
+    "src": "Dying Light Wiki (Quests; Homo Homini Lupus Est) · Prima Games · PlayStationTrophies.org"
+  },
+  {
+    "phase": "ponte",
+    "n": 7,
+    "name": "The Saviors",
+    "where": "Favelas → Cidade Velha",
+    "diff": "Média",
+    "xp": "15.000 XP",
+    "dur": "Curta",
+    "body": [
+      "Missão curta de ponte entre os dois mapas: Crane tenta chegar ao Setor 0, mas o Rais nunca está longe. Ao chegar à Cidade Velha, sai o troféu \"Turistando\"."
+    ],
+    "tr": [
+      "sightseeing"
+    ],
+    "warn": "Para voltar entre os mapas por viagem rápida, use o pôster da torre do Brecken (Favelas) ou da torre do Troy (Cidade Velha).",
+    "src": "Dying Light Wiki · Prima Games · PlayStationTrophies.org"
+  },
+  {
+    "phase": "cidade",
+    "n": 8,
+    "name": "Find the Embers",
+    "where": "Cidade Velha",
+    "diff": "Média",
+    "xp": "5.000 XP",
+    "dur": "Curta",
+    "body": [
+      "Também curta, serve para você conhecer a nova área. Quando Crane chega às torres, é apresentado a Troy.",
+      "Depois dela, a Wiki lista novas missões secundárias ligadas à Torre dos Embers (Office Outpost, Radio Station e The Bunker), um bom ponto para explorar um pouco."
+    ],
+    "tr": [],
+    "warn": "",
+    "src": "Dying Light Wiki · Prima Games"
+  },
+  {
+    "phase": "cidade",
+    "n": 9,
+    "name": "Higher Education",
+    "where": "Cidade Velha",
+    "diff": "",
+    "xp": "15.000 XP",
+    "dur": "Curta",
+    "body": [
+      "Marca o fim das missões curtas, mas está no topo da lista: você precisa achar e falar com a Jade. No caminho, a Prima ensina um truque de camuflagem com as tripas de zumbi.",
+      "A missão também libera secundárias na Cidade Velha, como Do You Believe?, Fan Zone e Rupert the Gunsmith, segundo a Wiki."
+    ],
+    "tr": [],
+    "warn": "",
+    "src": "Dying Light Wiki · Prima Games"
+  },
+  {
+    "phase": "cidade",
+    "n": 10,
+    "name": "Public Face",
+    "where": "Cidade Velha",
+    "diff": "",
+    "xp": "20.000 XP",
+    "dur": "",
+    "body": [
+      "Aqui entram as crianças infectadas e um rosto triste feito de explosivos, um dos momentos mais perturbadores até ali, segundo a Prima.",
+      "O troféu \"Caretas\" (sinalizar do topo de um prédio da Cidade Velha para mostrar ao mundo que você está vivo) provavelmente cai por aqui; o guia não diz qual missão."
+    ],
+    "tr": [],
+    "warn": "",
+    "src": "Dying Light Wiki · Prima Games · guia anterior"
+  },
+  {
+    "phase": "cidade",
+    "n": 11,
+    "name": "Rendezvous",
+    "where": "Cidade Velha",
+    "diff": "Fácil",
+    "xp": "5.000 XP",
+    "dur": "",
+    "body": [
+      "Missão fácil de encontro que leva direto à seguinte; a Prima trata Rendezvous e The Museum como um único trecho. Siga para a próxima já com armas de fogo e munição na mochila."
+    ],
+    "tr": [],
+    "warn": "",
+    "src": "Dying Light Wiki · Prima Games"
+  },
+  {
+    "phase": "cidade",
+    "n": 12,
+    "name": "The Museum",
+    "where": "Cidade Velha",
+    "diff": "",
+    "xp": "20.000 XP",
+    "dur": "",
+    "body": [
+      "O ritmo muda: os inimigos passam a ser principalmente humanos, então leve armas de fogo e munição. A missão termina no chefe Tahir; derrotá-lo dá o troféu \"Ponta solta cortada\"."
+    ],
+    "tr": [
+      "tiedloose"
+    ],
+    "warn": "",
+    "src": "Dying Light Wiki · Prima Games · guia anterior"
+  },
+  {
+    "phase": "cidade",
+    "n": 13,
+    "name": "Broadcast",
+    "where": "Cidade Velha / Antena",
+    "diff": "",
+    "xp": "20.000 XP",
+    "dur": "",
+    "body": [
+      "Você precisa contatar o mundo exterior e enfrenta vários Demolishers no caminho. A Prima mostra que dá para derrubá-los até com arma corpo a corpo. Parte da missão acontece no mapa da Antena.",
+      "Ativar o Comunicador no topo da torre de rádio dá o troféu \"Vertigem\"."
+    ],
+    "tr": [
+      "vertigo"
+    ],
+    "warn": "",
+    "src": "Dying Light Wiki · Prima Games · guia anterior"
+  },
+  {
+    "phase": "cidade",
+    "n": 14,
+    "name": "The Clinic",
+    "where": "Cidade Velha",
+    "diff": "",
+    "xp": "35.000 XP",
+    "dur": "Rápida se souber o caminho",
+    "body": [
+      "A ida até o laboratório da Dra. Camden pode ser bem rápida para quem já sabe o trajeto; a Prima diz que dá para entrar e sair em pouco tempo. Encontrá-la dá o troféu \"Agora Você Pode Entrar\"."
+    ],
+    "tr": [
+      "nowcomein"
+    ],
+    "warn": "",
+    "src": "Dying Light Wiki · Prima Games · guia anterior"
+  },
+  {
+    "phase": "final",
+    "n": 15,
+    "name": "Extraction",
+    "where": "Cidade Velha / Favelas",
+    "diff": "Alta",
+    "xp": "",
+    "dur": "",
+    "body": [
+      "A missão final: Crane volta ao complexo do Rais nas Favelas (por viagem rápida a partir da Torre dos Embers ou pelos esgotos), sobe a torre dele, foge de uma horda, atravessa os esgotos e chega ao confronto final.",
+      "Ao terminar, rolam os créditos e o jogo volta ao menu. O troféu \"Agridoce\" sai na hora."
+    ],
+    "tr": [
+      "bittersweet"
+    ],
+    "warn": "Faça backup do save antes. Fontes divergem sobre o co-op: a Wiki diz que a área final só pode ser feita em modo solo, enquanto o guia anterior dizia que dá para fazer em grupo. E depois do final NÃO rejogue a missão final pela porta do mapa da Cidade Velha (aviso da PlayStationTrophies; veja Perdíveis).",
+    "src": "Dying Light Wiki (Extraction) · Prima Games · PlayStationTrophies.org · guia anterior"
+  },
+  {
+    "phase": "dlc",
+    "n": 16,
+    "name": "The Way Out",
+    "where": "Fazenda do Jasir",
+    "diff": "Muito fácil",
+    "xp": "",
+    "dur": "",
+    "body": [
+      "Abertura da DLC: você sai do posto principal e atravessa campos até a fazenda do Jasir. Ao chegar ao fim do penhasco na Zona Rural, mergulhar na água dá \"Medinho de se molhar?\"."
+    ],
+    "tr": [
+      "afraidwet"
+    ],
+    "warn": "",
+    "src": "Dying Light Wiki · TrueAchievements · guia anterior"
+  },
+  {
+    "phase": "dlc",
+    "n": 17,
+    "name": "Kaan and Able",
+    "where": "Zona Rural",
+    "diff": "Média",
+    "xp": "",
+    "dur": "",
+    "body": [
+      "A recompensa da missão é o Buggy, que passa a ser a base de quase toda a DLC. A partir daqui, dirigir, atropelar e fazer manobras conta para troféus como \"Você sabe que são apenas pontos, né?\" (Nível de Motorista 12) e \"Não aprovo diversões sem sentido\" (500 zumbis com o Buggy)."
+    ],
+    "tr": [],
+    "warn": "",
+    "src": "Dying Light Wiki · guia anterior"
+  },
+  {
+    "phase": "dlc",
+    "n": 18,
+    "name": "Gaining Credence",
+    "where": "Zona Rural",
+    "diff": "Alta",
+    "xp": "7.500 XP + 250 de confiança",
+    "dur": "",
+    "body": [
+      "Você dirige até a estação de bombeamento, derrota os bandidos, liberta o refém e ajuda o Ali a recuperar a água. No fim, segue o encanamento até a válvula principal contra um cronômetro de cerca de 3 minutos e abre a válvula. Depois fale com o Jasir: a missão termina e começa \"The Mechanic\"."
+    ],
+    "tr": [],
+    "warn": "Se você já recebeu \"The Mechanic\", não saia do jogo antes de completá-la (veja o card de travamento no posto de gasolina em Perdíveis).",
+    "src": "TrueAchievements (walkthrough The Following) · Dying Light Wiki · PlayStationTrophies.org"
+  },
+  {
+    "phase": "dlc",
+    "n": 19,
+    "name": "Stranger in a Strange Land",
+    "where": "Zona Rural",
+    "diff": "Média",
+    "xp": "25 de confiança + pintura de buggy + Compound Crossbow",
+    "dur": "Gargalo de tempo",
+    "body": [
+      "É a etapa mais demorada da DLC: para falar com os Faceless, você precisa subir seu rank de Confiança, e isso se faz ajudando os moradores. A Wiki e a comunidade da Steam apontam os caminhos mais rápidos: missões secundárias, achar e identificar pessoas desaparecidas e eventos aleatórios (defender altares e sobreviventes, matar bandidos).",
+      "A forma mais eficiente é dirigir o buggy atrás dos ícones azuis no minimapa. Pergunte também ao Bilal sobre o reparo do buggy. A Wiki recomenda fazer cedo a missão \"Power to the People\", que restaura a energia das Safe Zones."
+    ],
+    "tr": [],
+    "warn": "Os troféus \"Estava esperando você há tanto tempo.\" e \"Senti sua presença\" dependem do rank máximo de Confiança (Discípulo) com os Filhos do Sol, segundo o guia anterior.",
+    "src": "Dying Light Wiki · Steam Community (discussão sobre missões da DLC) · guia anterior"
+  },
+  {
+    "phase": "dlc",
+    "n": 20,
+    "name": "The Gathering",
+    "where": "Zona Rural",
+    "diff": "Média",
+    "xp": "50 de confiança + Military Keycard",
+    "dur": "",
+    "body": [
+      "Missão principal de dificuldade média que continua a progressão depois de Stranger in a Strange Land (ordem da Wiki). A recompensa é um Military Keycard."
+    ],
+    "tr": [],
+    "warn": "",
+    "src": "Dying Light Wiki"
+  },
+  {
+    "phase": "dlc",
+    "n": 21,
+    "name": "Anomalies",
+    "where": "Zona Rural",
+    "diff": "Média",
+    "xp": "12.500 XP + 100 de confiança",
+    "dur": "",
+    "body": [
+      "Missão principal de dificuldade média. As fontes que li só trazem a dificuldade e as recompensas, sem detalhar os objetivos."
+    ],
+    "tr": [],
+    "warn": "",
+    "src": "Dying Light Wiki"
+  },
+  {
+    "phase": "dlc",
+    "n": 22,
+    "name": "Vanitas",
+    "where": "Zona Rural",
+    "diff": "Média",
+    "xp": "5.000 XP + 150 de confiança",
+    "dur": "",
+    "body": [
+      "Missão principal de dificuldade média. As fontes que li só trazem a dificuldade e as recompensas, sem detalhar os objetivos."
+    ],
+    "tr": [],
+    "warn": "",
+    "src": "Dying Light Wiki"
+  },
+  {
+    "phase": "dlc",
+    "n": 23,
+    "name": "An Unfinished Story",
+    "where": "Zona Rural",
+    "diff": "Difícil",
+    "xp": "12.500 XP + 350 de confiança",
+    "dur": "",
+    "body": [
+      "Missão principal de dificuldade difícil: chegue com bom nível e boas armas. O guia anterior cita um troféu de missão principal da DLC (\"E você gostou dele, né?\", reencontrar um velho amigo), mas não diz em qual missão ele sai."
+    ],
+    "tr": [],
+    "warn": "",
+    "src": "Dying Light Wiki · guia anterior"
+  },
+  {
+    "phase": "dlc",
+    "n": 24,
+    "name": "The Fate of the Fool",
+    "where": "Zona Rural",
+    "diff": "Fácil",
+    "xp": "2.500 XP + 50 de confiança",
+    "dur": "",
+    "body": [
+      "Missão principal fácil, segundo a Wiki, entre An Unfinished Story e a missão final."
+    ],
+    "tr": [],
+    "warn": "",
+    "src": "Dying Light Wiki"
+  },
+  {
+    "phase": "dlc",
+    "n": 25,
+    "name": "At the End of the Tunnel",
+    "where": "Zona Rural",
+    "diff": "Difícil",
+    "xp": "15.000 XP + 500 de confiança",
+    "dur": "",
+    "body": [
+      "É a última missão principal que o guia cita. Segundo o guia anterior, ao encontrar A Mãe você escolhe entre o final bom e o ruim; o troféu \"Se Você Tivesse Escolhido o Outro?\" sai com qualquer uma das duas escolhas, mas não dá para ver as duas na mesma jogatina."
+    ],
+    "tr": [
+      "pickedother"
+    ],
+    "warn": "Fontes divergem: a descrição oficial do Exophase fala em \"Fazer aquela ligação\", enquanto o guia anterior descreve uma escolha com A Mãe. Não confirmei qual está certa; faça backup do save antes da escolha.",
+    "src": "Dying Light Wiki · Exophase PT-BR · guia anterior"
+  },
+  {
+    "phase": "dlc",
+    "n": 26,
+    "name": "The Following",
+    "where": "Zona Rural",
+    "diff": "",
+    "xp": "",
+    "dur": "",
+    "body": [
+      "A Wiki lista \"The Following\" como a última entrada das missões principais, sem informar dificuldade nem recompensa. Trate como epílogo do final; não encontrei detalhes nas fontes."
+    ],
+    "tr": [],
+    "warn": "",
+    "src": "Dying Light Wiki"
+  }
+];
+let openStory = new Set();
+
+const buildTips = [
+ {
+  "icon": "🌙",
+  "t": "À noite, os pontos valem em dobro",
+  "d": "Dica oficial do jogo: todos os pontos de habilidade ganhos à noite são dobrados. Dormir em qualquer Safe Zone troca o horário na hora, então quase todo grind bom é feito à noite, perto de uma Safe Zone."
+ },
+ {
+  "icon": "🏠",
+  "t": "Capture as Safe Zones cedo",
+  "d": "Não há viagem rápida entre elas: se você morre, renasce na mais próxima que estiver ativa. Capturar todas antes do final economiza tempo e já rende \"Tudo Seguro Agora\"."
+ },
+ {
+  "icon": "🎯",
+  "t": "Compre cedo as habilidades dos troféus",
+  "d": "Vault (Agilidade 4), Drop Attack (Força 10), Grapple, Elemental Throwing Stars, Electric Fences e Backlash. Quanto antes você as tiver, menos precisa subir de nível só para isso."
+ },
+ {
+  "icon": "🔧",
+  "t": "Guarde uma chave inglesa (Wrench)",
+  "d": "\"Encanador Italiano\" exige matar um inimigo com uma Wrench usando Vault e Drop Attack. Elas aparecem de forma aleatória, quase sempre no começo do jogo: se achar uma cedo, não se desfaça dela."
+ },
+ {
+  "icon": "🗡️",
+  "t": "Pegue a Korek Machete logo",
+  "d": "A planta fica num telhado ao norte das Favelas e a arma custa pouco para fabricar. Ela facilita todo o combate corpo a corpo e ainda ajuda a acumular usos de plantas para \"Mestre Artesão\"."
+ },
+ {
+  "icon": "💾",
+  "t": "Backup e jogo offline antes do online",
+  "d": "A PlayStationTrophies recomenda salvar com frequência e jogar offline até o fim antes de tentar os troféus online, para reduzir o risco de travar troféus com bug."
+ }
+];
+
+const progOrder = [
+ {
+  "n": "01",
+  "s": "História + eventos + Safe Zones",
+  "d": "Faça a campanha principal (cerca de 10 h, segundo a PlayStationTrophies) completando os eventos aleatórios que aparecerem e capturando cada Safe Zone. Saem naturalmente: Isso é Realmente Necessário?, Pequeno Artesão, Voo do Guindaste, Minha esquerda ou sua esquerda?, Cobra no mato, Caretas, Silêncio, Ponta solta cortada, Agora Você Pode Entrar, Todo Mundo Conhece o Kyle e Tudo Seguro Agora. Eventos de reféns só aparecem na Cidade Velha e são bem mais raros que os de sobreviventes atacados por zumbis: não os ignore."
+ },
+ {
+  "n": "02",
+  "s": "Zonas de Quarentena, Desafios e Pacotes",
+  "d": "Nesta ordem: as 8 Zonas de Quarentena (mais fáceis), depois os 15 Desafios de Agilidade ou Poder (mais longos), depois os 15 Pacotes de Ajuda. Pegue pacotes pelo caminho: eles só param de cair nas Favelas com o avanço da história, e na Cidade Velha continuam reaparecendo depois do final."
+ },
+ {
+  "n": "03",
+  "s": "Rodada de troféus diversos — de dia",
+  "d": "Todos os troféus que não dependem da noite: Todos Dançando Agora, Nem me Toque, Isso é Harraaaaan!, Queimada, Clube de Tiro, Voador, Mestre do Judô, Mestre Artesão, Abre-te Sésamo, Encanador Italiano e Espada de Gabriel. Os mais demorados são Isso é Harraaaaan! e Homo Homini Lupus Est (horas cada)."
+ },
+ {
+  "n": "04",
+  "s": "Rodada noturna",
+  "d": "Durma numa Safe Zone para virar a noite. Eletrificado!, Iluminado!, Cego pelas Luzes, Noite de Formatura, Bocas Bem Abertas e Uma Longa Descida saem num mesmo ponto das Favelas, numa única noite. Aprenda antes Electric Fences e Backlash. São contadores cumulativos, então morrer não atrapalha."
+ },
+ {
+  "n": "05",
+  "s": "Secundárias, colecionáveis e acúmulos",
+  "d": "Conclua todas as missões secundárias (\"A História Toda\"), depois os 67 textos (\"Tudo está Escrito\"). Neste trecho você passa do nível 18 de Sobrevivência (\"A Lenda de Harran\") e fecha o Monte Everest, que é um grind longo e quase sempre um dos últimos troféus. Os dois primeiros têm bug: faça backup antes."
+ },
+ {
+  "n": "06",
+  "s": "Cooperativo e online",
+  "d": "Faça por último, em sessão organizada: 4 jogadores no lobby, sem ninguém sair, com 5 missões preparadas para \"Poliamor\". Para \"Número da Sorte\" e \"Atletismo de Harran\", deixe a frequência das competições dinâmicas em \"Frequente\"."
+ },
+ {
+  "n": "07",
+  "s": "DLCs gratuitas: Febre de Parkour e Bozak Horde",
+  "d": "Febre de Parkour só em modo solo (no co-op só o 1º colocado e quem abre o baú conta). Bozak Horde são 20 desafios em formato de ondas; o duelo final em co-op precisa de combinação prévia de quem vence."
+ },
+ {
+  "n": "08",
+  "s": "The Following",
+  "d": "Termine a campanha antes. A PlayStationTrophies estima 6 a 10 h para os troféus da DLC. Faça a história e depois a limpeza: vencer a corrida do Bilal (perdível), matar um Demolidor com o buggy, destruir os espantalhos restantes e chegar a 500 mortes com o buggy."
+ }
+];
+
+const MECH_CARDS = [
+ {
+  "icon": "🌙",
+  "t": "Dia, noite e dobro de XP",
+  "chips": [
+   "Noite",
+   "XP em dobro"
+  ],
+  "p": [
+   "As dicas de carregamento do próprio jogo dizem que todos os pontos de habilidade ganhos à noite são dobrados, que você ganha Agilidade extra por escapar de uma perseguição noturna e Sobrevivência extra por passar a noite fora das Safe Zones. Esse bônus de Sobrevivência cresce com abates, escaladas e com o tempo sem ser detectado.",
+   "A noite dura poucos minutos (cerca de 7, segundo a GodisaGeek), e o preço é enfrentar Voláteis, que são rápidos e causam muito dano. Por isso o ideal é ficar perto de uma Safe Zone ativa."
+  ],
+  "ol": [
+   "Durma numa Safe Zone para virar a noite quando quiser.",
+   "Fique perto de uma Safe Zone e saiba onde ela está o tempo todo.",
+   "Use a lanterna UV para parar temporariamente os infectados que te perseguem e o Survivor Sense com o minimapa para não ser visto.",
+   "Sobreviva até o fim da noite para receber o bônus de Sobrevivência.",
+   "Lembre: morrer faz você perder pontos de Sobrevivência (não níveis, e não pontos de Agilidade ou Força)."
+  ],
+  "flag": "",
+  "src": "Dying Light Wiki (dicas de carregamento) · Prima Games · GodisaGeek · Steam Community (perda de pontos ao morrer)"
+ },
+ {
+  "icon": "📈",
+  "t": "Como cada nível sobe",
+  "chips": [
+   "Sobrevivência",
+   "Agilidade",
+   "Força"
+  ],
+  "p": [
+   "Agilidade sobe ao correr, escalar e matar usando o ambiente ou habilidades da árvore de Agilidade. Força sobe ao lutar de frente e usar habilidades de Força. Sobrevivência sobe com missões, secundárias, eventos aleatórios, Zonas de Quarentena, pacotes entregues ao Intendente e sobrevivendo à noite.",
+   "A cada nível de Sobrevivência as lojas passam a vender armas mais fortes, e jogadores relatam que os inimigos escalam junto com ele."
+  ],
+  "ol": [
+   "Para Agilidade: encadeie parkour e escale objetos baixos; à noite o ganho é dobrado.",
+   "Para Força: abata inimigos de frente, de preferência perto de uma Safe Zone.",
+   "Para Sobrevivência: priorize missões e eventos, e guarde os pacotes de ajuda para entregar ao Intendente.",
+   "Se quiser acelerar, relatos de jogadores citam poças de choque e de combustível (para Agilidade e Força) e deslizar em canos de esgoto à noite (para Agilidade)."
+  ],
+  "flag": "Os métodos de poças e canos vêm de discussões e guias de jogadores na Steam; não os testei, e a eficiência varia com a dificuldade.",
+  "src": "Dying Light Wiki (dicas de carregamento) · Steam Community (relatos de jogadores)"
+ },
+ {
+  "icon": "🎚️",
+  "t": "Metas de nível dos troféus",
+  "chips": [
+   "Agilidade 10",
+   "Força 10",
+   "Sobrevivência 12 e 18"
+  ],
+  "p": [
+   "Quatro troféus dependem só de nível: Ágil (Agilidade 10), Forte (Força 10), Todo Mundo Conhece o Kyle (Sobrevivência 12) e A Lenda de Harran (Sobrevivência 18). A PlayStationTrophies diz que é quase impossível terminar o jogo sem chegar ao 10 nas três árvores, e que você passa do nível 18 ao completar as missões secundárias, porque elas dão XP de Sobrevivência."
+  ],
+  "ol": [
+   "Não faça grind só para os níveis 10: eles vêm com a campanha.",
+   "O nível 18 de Sobrevivência vem junto com as secundárias.",
+   "Vault exige Agilidade 4 e Drop Attack exige Força 10: compre assim que puder."
+  ],
+  "flag": "",
+  "src": "PlayStationTrophies.org · PowerPyx · TrueAchievements (requisitos de Vault e Drop Attack)"
+ },
+ {
+  "icon": "🧠",
+  "t": "Habilidades que os troféus exigem",
+  "chips": [
+   "Compre cedo"
+  ],
+  "p": [
+   "A lista da PlayStationTrophies para a rodada de troféus diversos inclui estas habilidades: Elemental Throwing Stars, Electric Fences, Grapple, Vault e Drop Attack (e Backlash para os troféus noturnos). Comprá-las cedo evita subir de nível só para destravá-las."
+  ],
+  "ol": [
+   "Vault (Agilidade 4) + Drop Attack (Força 10): Encanador Italiano e Voador.",
+   "Grapple: Mestre do Judô.",
+   "Electric Fences: Eletrificado! e Todos Dançando Agora.",
+   "Elemental Throwing Stars: aparece na lista da PlayStationTrophies; ela não diz para qual troféu.",
+   "Backlash: citada para os troféus noturnos."
+  ],
+  "flag": "Só Vault e Drop Attack têm o nível exigido confirmado (TrueAchievements e PowerPyx); para as outras a fonte não informa o nível.",
+  "src": "PlayStationTrophies.org · PowerPyx · TrueAchievements"
+ },
+ {
+  "icon": "🏠",
+  "t": "Safe Zones, respawn e viagem rápida",
+  "chips": [
+   "Capture antes do final"
+  ],
+  "p": [
+   "O jogo não tem viagem rápida entre Safe Zones. Se você morre, renasce na mais próxima. Quando elas estão capturadas (verdes) você pode dormir nelas; as vermelhas precisam ser limpas antes."
+  ],
+  "ol": [
+   "Capture todas as Safe Zones antes do final: poupa tempo e dá \"Tudo Seguro Agora\".",
+   "Para viajar entre Favelas e Cidade Velha, use o pôster da torre do Brecken (Favelas) ou do Troy (Cidade Velha).",
+   "Para a Antena, use a porta ao norte das Favelas ou o acesso do esgoto ao norte da Cidade Velha.",
+   "Depois do final, a viagem rápida entre os mapas fica liberada e os colecionáveis deixam de ser perdíveis."
+  ],
+  "flag": "",
+  "src": "PlayStationTrophies.org · PowerPyx"
+ },
+ {
+  "icon": "🪤",
+  "t": "Armadilhas do mapa",
+  "chips": [
+   "Cerca elétrica",
+   "Luz",
+   "Espetos",
+   "Poças"
+  ],
+  "p": [
+   "Quatro armadilhas valem troféu: cerca elétrica, armadilha de luz, espetos e poças de choque. Elas recarregam depois de cerca de meio minuto e podem ser usadas de novo. Para atrair infectados até elas, use Firecrackers."
+  ],
+  "ol": [
+   "Cerca elétrica: Eletrificado!, Bocas Bem Abertas e (com poças) Todos Dançando Agora.",
+   "Armadilha de luz: Iluminado! (ative e volte para a Safe Zone, repita).",
+   "Espetos: Churrasco (Firecrackers nos espetos, Molotov nos zumbis, chute imediato).",
+   "Poças de choque: jogue Firecrackers na poça para atrair os infectados."
+  ],
+  "flag": "",
+  "src": "PowerPyx · TrueAchievements · PlayStation LifeStyle"
+ }
+];
+const GEAR_CARDS = [
+ {
+  "icon": "🗡️",
+  "t": "Korek Machete",
+  "chips": [
+   "Telhado ao norte das Favelas"
+  ],
+  "p": [
+   "A planta fica num telhado ao norte das Favelas. A arma causa 500 de dano, aguenta 35 golpes e tem 218 de handling. A PowerPyx recomenda pegá-la o quanto antes."
+  ],
+  "ol": [
+   "Custa só 10 de álcool e 20 de peças de metal para fabricar, e você pode fazer quantas quiser.",
+   "Tem 4 slots de upgrade: dá para passar de 600 de dano.",
+   "Fabricar várias ajuda também em \"Mestre Artesão\"."
+  ],
+  "flag": "Um relato na Steam diz que a Korek não está disponível no Nightmare.",
+  "src": "PowerPyx · Steam Community"
+ },
+ {
+  "icon": "⚔️",
+  "t": "Espada EXPCalibur",
+  "chips": [
+   "Canto inferior direito das Favelas"
+  ],
+  "p": [
+   "Espada de duas mãos poderosa, que só aguenta 7 golpes antes de quebrar. Fica sobre uma pedra na água, no canto inferior direito das Favelas."
+  ],
+  "ol": [
+   "Segure Quadrado (PS4) por alguns minutos para pegar a espada.",
+   "Isso acende um pequeno fogo na pedra.",
+   "Espere o fogo apagar para pegar a planta da EXPCalibur."
+  ],
+  "flag": "",
+  "src": "PowerPyx"
+ },
+ {
+  "icon": "🔫",
+  "t": "Pistola alemã 9mm",
+  "chips": [
+   "Casinha no canto inferior direito"
+  ],
+  "p": [
+   "Há duas formas de ter uma 9mm: pegar na casinha do canto inferior direito das Favelas (ela sempre aparece) ou arrombar viaturas policiais nas rodovias. Inimigos humanos só carregam rifles e armas brancas."
+  ],
+  "ol": [
+   "A pistola é necessária para a missão secundária Gunslinger, que abre uma loja de penhores com 2 textos colecionáveis.",
+   "Serve também para \"Clube de Tiro de Harran\"."
+  ],
+  "flag": "",
+  "src": "PowerPyx"
+ },
+ {
+  "icon": "🏹",
+  "t": "Armas da Bozak Horde",
+  "chips": [
+   "DLC gratuita"
+  ],
+  "p": [
+   "Concluir os 20 desafios da arena dá o arco e os Bozak Documents. Entregando os documentos ao Intendente, você recebe armas especiais para o jogo principal."
+  ],
+  "ol": [
+   "Volte ao jogo principal e pegue seus itens no baú.",
+   "Fabrique o arco e flechas comuns.",
+   "Atire na cabeça de homens do Rais: 10 tiros dão \"Teoria de Robin Hood\"."
+  ],
+  "flag": "",
+  "src": "PlayStationTrophies.org (roadmap Bozak Horde)"
+ },
+ {
+  "icon": "🪓",
+  "t": "Arma do Tarkan (The Following)",
+  "chips": [
+   "Estação de bombeamento"
+  ],
+  "p": [
+   "Um guia da Steam diz que a arma fica na estação de bombeamento a oeste-noroeste da fazenda do Jasir, ao lado de um lago, e que só aparece depois de \"Gaining Credence: falar com o líder dos bandidos\". Teria cerca de 976 de dano base, algo comparável a um Sobrevivência 25 de raridade branca."
+  ],
+  "ol": [
+   "Faça a missão \"Gaining Credence\" até falar com o líder dos bandidos.",
+   "Vá à estação de bombeamento ao lado do lago."
+  ],
+  "flag": "Informação de um guia de jogador na Steam, sem confirmação oficial; o valor pode variar por versão.",
+  "src": "Steam Community (guia de jogador)"
+ }
+];
+const DLC_CARDS = [
+ {
+  "icon": "⛽",
+  "t": "Buggy: combustível e parafusos",
+  "chips": [
+   "Sobrevivência do buggy"
+  ],
+  "p": [
+   "O buggy quebra e fica sem gasolina com facilidade, mas quase todo carro abandonado tem combustível, parafusos ou os dois."
+  ],
+  "ol": [
+   "Procure parafusos perto do capô e combustível na traseira dos carros.",
+   "Há combustível também nos 8 postos de gasolina da Zona Rural.",
+   "Se não conseguir mais reparar com parafusos, faça a missão \"Buggy Grail\" com o Bilal: o caminhoneiro passa a vender peças na ponte da estrada.",
+   "Peças avançadas pedem borracha ou tubos de aço, mais raros.",
+   "Desmonte as melhorias quebradas para obter parafusos, em vez de vendê-las."
+  ],
+  "flag": "",
+  "src": "PlayStationTrophies.org (roadmap The Following) · Steam Community"
+ },
+ {
+  "icon": "🚗",
+  "t": "Nível de Motorista",
+  "chips": [
+   "XP de Motorista",
+   "Nível 12"
+  ],
+  "p": [
+   "Segundo o designer da Techland, você ganha pontos de Motorista dirigindo, atropelando inimigos, destruindo partes do cenário e saltando de rampas. A forma mais rápida é atropelar infectados em alta velocidade."
+  ],
+  "ol": [
+   "Faça os desafios de direção fáceis e médios cedo: dão XP extra.",
+   "Curvas com o freio de mão e velocidade alta rendem XP com menos desgaste que atropelar.",
+   "Com a gaiola de proteção instalada, os campos ao redor da fazenda do Jasir viram um bom ponto de farm.",
+   "Procure peças com o Bilal: ele costuma ter melhorias gratuitas.",
+   "Relatos dizem que mais parceiros de co-op dão mais XP."
+  ],
+  "flag": "A informação sobre XP em co-op vem de um relato de jogador na Steam.",
+  "src": "Gamingtrend (entrevista com a Techland) · GodisaGeek · Steam Community"
+ },
+ {
+  "icon": "🎚️",
+  "t": "Nível recomendado para começar",
+  "chips": [
+   "Nível 18",
+   "Legend"
+  ],
+  "p": [
+   "Segundo a Wikipédia, dá para começar The Following em qualquer momento depois do prólogo do jogo base, e a Techland recomendou um personagem de nível 18 ou mais. A GodisaGeek avisa que a curva de dificuldade é íngreme.",
+   "Os níveis Legend só abrem depois que você maximiza uma das três árvores originais."
+  ],
+  "ol": [
+   "Termine a campanha base antes (a DLC tem spoilers).",
+   "Chegue com Sobrevivência 18 se puder.",
+   "Equipe o buggy cedo: ele é a base do progresso na DLC."
+  ],
+  "flag": "O guia anterior dizia que o nível 12 era o recomendado pelo jogo; a Wikipédia fala em 18.",
+  "src": "Wikipédia (Dying Light: The Following) · GodisaGeek"
+ },
+ {
+  "icon": "🧹",
+  "t": "Limpeza pós-história",
+  "chips": [
+   "6 a 10 h"
+  ],
+  "p": [
+   "A PlayStationTrophies estima de 6 a 10 horas para os troféus da DLC e sugere uma fase de limpeza depois da história, com acesso livre a toda a Zona Rural."
+  ],
+  "ol": [
+   "Vença a corrida do Bilal (perdível, veja a aba Perdíveis).",
+   "Mate um Demolidor com o buggy.",
+   "Destrua os espantalhos restantes.",
+   "Complete as 500 mortes com o buggy."
+  ],
+  "flag": "",
+  "src": "PlayStationTrophies.org (roadmap The Following)"
+ }
+];
+const DOUBTS = [
+ "Dificuldade e tempo: a PlayStationTrophies diz 4/10 e 36 a 50 h para a platina; este guia mostra 5/10 e 35 a 50 h.",
+ "Tempo da campanha: a PlayStationTrophies cita cerca de 10 h só para a história; a WePC, cerca de 18 h.",
+ "Nível recomendado para The Following: o guia anterior dizia 12; a Wikipédia diz que a Techland recomendou 18.",
+ "Monte Everest: a ideia de que o Grapple Hook não conta vem de um jogador que supôs isso, não está confirmada.",
+ "Mestre do Judô: a descrição do Exophase PT-BR fala em \"Empurrão\", enquanto as fontes em inglês dizem Grapple.",
+ "Korek Machete: a PowerPyx recomenda; um relato na Steam diz que ela não existe no Nightmare.",
+ "Exploits de dinheiro e duplicação (PowerPyx): foram corrigidos; não conte com eles."
+];
+
+const grindData = [
+ {
+  "g": "Acúmulo passivo e escalada",
+  "n": "Fidípedes",
+  "goal": "42.195 m",
+  "chips": [
+   "Passivo"
+  ],
+  "p": [
+   "Qualquer deslocamento a pé conta, correndo ou não (descrição oficial). Acumula sozinho enquanto você joga; acompanhe em Extras > Estatísticas."
+  ],
+  "ol": [],
+  "flag": "",
+  "src": "Exophase PT-BR (descrição) · guia anterior"
+ },
+ {
+  "g": "Acúmulo passivo e escalada",
+  "n": "Monte Everest",
+  "goal": "8.848 m",
+  "chips": [
+   "Acúmulo",
+   "Quase sempre o último"
+  ],
+  "p": [
+   "A PlayStationTrophies classifica como um grande grind e provavelmente um dos últimos troféus da platina. Só conta quando a escalada rende pontos de Agilidade: se você não vê os pontos na barra, aquela subida não está valendo."
+  ],
+  "ol": [
+   "Escolha um objeto baixo que dê para subir e descer sem parar. Um jogador usou uma van sobre a ponte; outro, um trem descarrilado diante da Zona de Quarentena do Bright Mountain Tunnel.",
+   "Pule e segure para trás no analógico para cair do teto o mais rápido possível, e suba de novo.",
+   "Ritmo de referência: o mesmo jogador relatou 7% em 6 min 30 s no trem, o que dá cerca de 1h30 para 100% (conta minha, uma extrapolação)."
+  ],
+  "flag": "O guia anterior dizia que subir com o Grapple Hook não conta; a fonte que li é um jogador que supôs isso, não uma confirmação.",
+  "src": "PlayStationTrophies.org · TrueAchievements (relato de jogador) · guia anterior"
+ },
+ {
+  "g": "Acúmulo passivo e escalada",
+  "n": "Queimada",
+  "goal": "50 abates",
+  "chips": [
+   "Armas de arremesso"
+  ],
+  "p": [
+   "Qualquer arma classificada como de arremesso vale; as indicadas são facas e estrelas ninja. A PS LifeStyle avisa que alguns itens não contam, mas o trecho que li não diz quais."
+  ],
+  "ol": [
+   "Reúna muitas facas e estrelas de arremesso.",
+   "Recolha-as depois de cada arremesso para reaproveitar.",
+   "A PlayStationTrophies lista a habilidade Elemental Throwing Stars entre as necessárias nesta rodada (sem dizer para qual troféu)."
+  ],
+  "flag": "",
+  "src": "SuperCheats · TrueAchievements · PlayStationTrophies.org · PlayStation LifeStyle"
+ },
+ {
+  "g": "Acúmulo passivo e escalada",
+  "n": "Clube de Tiro de Harran",
+  "goal": "50 abates",
+  "chips": [
+   "Armas de fogo"
+  ],
+  "p": [
+   "Exige esforço dedicado: há poucas armas de fogo no mundo, e os inimigos humanos só carregam rifles e armas brancas, nunca pistolas."
+  ],
+  "ol": [
+   "Pegue a pistola 9mm na casinha no canto inferior direito das Favelas (ela sempre aparece, mesmo no início).",
+   "Ou arrombe viaturas policiais nas rodovias levando lockpicks.",
+   "Priorize tiros na cabeça para gastar menos munição.",
+   "A pistola também é necessária para a missão secundária Gunslinger, que abre uma loja de penhores com 2 textos colecionáveis."
+  ],
+  "flag": "",
+  "src": "PowerPyx · SuperCheats · guia anterior"
+ },
+ {
+  "g": "Armadilhas e noite (um ponto nas Favelas)",
+  "n": "Bocas Bem Abertas",
+  "goal": "1 Volátil",
+  "chips": [
+   "Noite",
+   "Cerca elétrica"
+  ],
+  "p": [
+   "Voláteis só saem à noite, têm cerca de 3.000 de vida e aparecem com muita frequência perto da torre inicial das Favelas."
+  ],
+  "ol": [
+   "Durma na cama para virar a noite.",
+   "Atraia um Volátil até as cercas elétricas ao redor da torre e ative a armadilha quando ele estiver em cima.",
+   "Se ele não morrer, há uma segunda armadilha do outro lado do prédio; elas recarregam em cerca de meio minuto.",
+   "Enquanto ele está atordoado, termine com granadas ou armas de fogo."
+  ],
+  "flag": "",
+  "src": "PowerPyx"
+ },
+ {
+  "g": "Armadilhas e noite (um ponto nas Favelas)",
+  "n": "Eletrificado!",
+  "goal": "25 capturas",
+  "chips": [
+   "Cumulativo",
+   "Habilidade: Electric Fences"
+  ],
+  "p": [
+   "A PlayStationTrophies indica um ponto específico das Favelas onde dá para fazer Eletrificado!, Iluminado!, Cego pelas Luzes, Noite de Formatura e Bocas Bem Abertas numa única noite. Eletrificado! é o único que não exige noite, e pode ser feito depois da história."
+  ],
+  "ol": [
+   "Aprenda Electric Fences antes.",
+   "Atraia grupos com Firecrackers até a cerca.",
+   "Ative a armadilha com vários infectados em cima e espere ela recarregar (cerca de meio minuto).",
+   "Acompanhe a contagem em Extras > Estatísticas."
+  ],
+  "flag": "O ponto exato aparece só na parte do guia da PlayStationTrophies a que não tive acesso.",
+  "src": "PlayStationTrophies.org · PowerPyx · SuperCheats"
+ },
+ {
+  "g": "Armadilhas e noite (um ponto nas Favelas)",
+  "n": "Todos Dançando Agora",
+  "goal": "5 de uma vez",
+  "chips": [
+   "Armadilha elétrica"
+  ],
+  "p": [
+   "Há uma armadilha elétrica logo no começo do jogo, numa rua ao norte da Safe Zone inicial, perfeita para este troféu."
+  ],
+  "ol": [
+   "Jogue Firecrackers para atrair os infectados até a armadilha.",
+   "Com 5 ou mais dentro, ative o interruptor.",
+   "Alternativa: jogue Firecrackers numa poça de choque até ter pelo menos 5 infectados nela."
+  ],
+  "flag": "",
+  "src": "PowerPyx · PlayStation LifeStyle"
+ },
+ {
+  "g": "Armadilhas e noite (um ponto nas Favelas)",
+  "n": "Iluminado!",
+  "goal": "25 capturas",
+  "chips": [
+   "Noite",
+   "Armadilha de luz"
+  ],
+  "p": [
+   "Exige encontrar uma armadilha de luz e usá-la várias vezes."
+  ],
+  "ol": [
+   "Saia da Safe Zone e procure uma armadilha de luz.",
+   "Ative-a e volte para a Safe Zone.",
+   "Repita até completar a contagem."
+  ],
+  "flag": "",
+  "src": "TrueAchievements · PlayStationTrophies.org"
+ },
+ {
+  "g": "Armadilhas e noite (um ponto nas Favelas)",
+  "n": "Cego pelas Luzes",
+  "goal": "25 Voláteis",
+  "chips": [
+   "Noite",
+   "UV"
+  ],
+  "p": [
+   "Cegue 25 Voláteis com labaredas UV ou com a lanterna UV. A luz UV segura temporariamente os infectados que te perseguem, e os Voláteis nascem com frequência perto da torre inicial."
+  ],
+  "ol": [
+   "Vire a noite numa Safe Zone perto da torre.",
+   "Deixe um Volátil te avistar e aponte a lanterna UV (ou jogue a labareda).",
+   "Volte para a Safe Zone entre as tentativas."
+  ],
+  "flag": "",
+  "src": "SuperCheats · Dying Light Wiki (dicas de carregamento) · PowerPyx"
+ },
+ {
+  "g": "Armadilhas e noite (um ponto nas Favelas)",
+  "n": "Noite de Formatura",
+  "goal": "perseguição nível 2+",
+  "chips": [
+   "Noite"
+  ],
+  "p": [
+   "Para este, é preciso sobreviver a uma perseguição noturna de nível 2 ou maior. A PlayStationTrophies diz que dá para fazer a maioria dos troféus noturnos numa única sessão correndo durante uma perseguição, e que os contadores noturnos são cumulativos, então morrer não os zera."
+  ],
+  "ol": [
+   "Faça junto com os outros troféus noturnos, no mesmo ponto das Favelas.",
+   "Quando a perseguição chegar ao nível 2 ou mais, corra até uma Safe Zone e sobreviva até ela acabar."
+  ],
+  "flag": "",
+  "src": "PlayStationTrophies.org"
+ },
+ {
+  "g": "Armadilhas e noite (um ponto nas Favelas)",
+  "n": "Uma Longa Descida",
+  "goal": "1 salto",
+  "chips": [
+   "Noite"
+  ],
+  "p": [
+   "A Infamy Bridge fica no leste das Favelas."
+  ],
+  "ol": [
+   "Vire a noite numa Safe Zone.",
+   "Vá ao fim da ponte e salte na água."
+  ],
+  "flag": "",
+  "src": "PowerPyx"
+ },
+ {
+  "g": "Combate de dia",
+  "n": "Nem me Toque",
+  "goal": "20 seguidos sem dano",
+  "chips": [
+   "Dia"
+  ],
+  "p": [
+   "O jeito mais fácil: de dia, suba numa cerca ou prédio (os inimigos não conseguem seguir) e jogue Molotovs ou granadas num grupo; também funciona com armas de fogo e tiros na cabeça."
+  ],
+  "ol": [
+   "Ache uma rua cheia de infectados com uma cerca ao lado.",
+   "Suba e jogue Molotovs até completar.",
+   "No início do jogo há menos infectados: use Firecrackers para atrair mais ou volte mais tarde.",
+   "O ponto também funciona depois da história."
+  ],
+  "flag": "",
+  "src": "PowerPyx"
+ },
+ {
+  "g": "Combate de dia",
+  "n": "Churrasco",
+  "goal": "1 zumbi em chamas nos espetos",
+  "chips": [
+   "Espetos",
+   "Molotov"
+  ],
+  "p": [
+   "Espetos aparecem por todo o mapa."
+  ],
+  "ol": [
+   "Jogue Firecrackers perto dos espetos e espere os zumbis chegarem.",
+   "Jogue um Molotov neles.",
+   "Chute (ou use um chute em queda) um zumbi em chamas nos espetos antes que ele morra queimado."
+  ],
+  "flag": "",
+  "src": "PowerPyx · PlayStation LifeStyle"
+ },
+ {
+  "g": "Combate de dia",
+  "n": "Isso é Harraaaaan!",
+  "goal": "100 chutes",
+  "chips": [
+   "Bug",
+   "Demorado"
+  ],
+  "p": [
+   "Qualquer inimigo que caia de um lugar alto depois de ser chutado ou atingido conta se morrer. É um dos troféus mais demorados (horas)."
+  ],
+  "ol": [
+   "Fique em telhados e penhascos com bastante espaço de queda.",
+   "Chute os inimigos para fora da borda.",
+   "Faça backup do save de vez em quando."
+  ],
+  "flag": "A PlayStationTrophies o lista entre os troféus com glitch. Não encontrei nas fontes um ponto de farm melhor.",
+  "src": "PlayStation LifeStyle · PlayStationTrophies.org · Exophase PT-BR"
+ },
+ {
+  "g": "Combate de dia",
+  "n": "Voador",
+  "goal": "25 abates",
+  "chips": [
+   "Habilidade: Drop Attack"
+  ],
+  "p": [
+   "Exige as habilidades de Força compradas antes. O Drop Attack executa o inimigo na hora, sem importar o dano da arma."
+  ],
+  "ol": [
+   "Compre Drop Attack (Força 10).",
+   "Pule sobre os inimigos de uma altura e use o ataque no ar."
+  ],
+  "flag": "",
+  "src": "PowerPyx · TrueAchievements"
+ },
+ {
+  "g": "Combate de dia",
+  "n": "Encanador Italiano",
+  "goal": "1 abate com Wrench",
+  "chips": [
+   "Vault + Drop Attack"
+  ],
+  "p": [
+   "O dano da Wrench não importa: o Drop Attack executa o inimigo."
+  ],
+  "ol": [
+   "Compre Vault (Agilidade 4) e Drop Attack (Força 10).",
+   "Equipe uma Wrench, corra em direção a um inimigo, pule por cima dele (Vault) e ataque no ar.",
+   "Wrenches aparecem aleatoriamente, em geral no início do jogo e em baús trancados. Se não achar, peça a um amigo: em co-op dá para passar armas largando-as do inventário."
+  ],
+  "flag": "",
+  "src": "PowerPyx"
+ },
+ {
+  "g": "Combate de dia",
+  "n": "Mestre do Judô",
+  "goal": "50 arremessos",
+  "chips": [
+   "Habilidade: Grapple"
+  ],
+  "p": [
+   "O requisito em inglês é \"Throw 50 enemies with Grapple\": é preciso ter a habilidade Grapple."
+  ],
+  "ol": [
+   "Compre Grapple.",
+   "Agarre e arremesse inimigos até completar."
+  ],
+  "flag": "A descrição do Exophase PT-BR fala em \"Empurrão\", mas as fontes em inglês dizem Grapple. Não sei se é nome diferente na tradução. Também não achei fonte para a dica do guia anterior de que \"funciona melhor contra humanos isolados\".",
+  "src": "SuperCheats · PlayStationTrophies.org · Exophase PT-BR"
+ },
+ {
+  "g": "Combate de dia",
+  "n": "Espada de Gabriel",
+  "goal": "1 efeito de fogo",
+  "chips": [
+   "Espada ou khopesh"
+  ],
+  "p": [
+   "Exige uma espada ou khopesh e a planta \"Bad Ass\", num telhado da Cidade Velha."
+  ],
+  "ol": [
+   "Espadas aparecem no mercador da torre das Favelas mais para o fim ou depois da história; com Sobrevivência 12 ou mais as chances melhoram.",
+   "Se ele não tiver espada ou khopesh, durma para trocar o estoque.",
+   "Vá ao telhado da Cidade Velha, pegue a planta \"Bad Ass\" e use-a na espada quando tiver os materiais."
+  ],
+  "flag": "",
+  "src": "PowerPyx"
+ },
+ {
+  "g": "Combate de dia",
+  "n": "Mestre Artesão",
+  "goal": "100 usos de plantas",
+  "chips": [
+   "Cumulativo"
+  ],
+  "p": [
+   "A Korek Machete pode ser fabricada quantas vezes você quiser, gastando só 10 de álcool e 20 de peças de metal (materiais comuns, também à venda). Isso torna a contagem fácil de fechar."
+  ],
+  "ol": [
+   "Pegue a planta da Korek Machete (telhado ao norte das Favelas).",
+   "Fabrique em lote usando álcool e peças de metal comprados.",
+   "Fabricar Medkits e Molotovs também conta."
+  ],
+  "flag": "Assumi que cada fabricação conta como um uso de planta; não achei confirmação explícita.",
+  "src": "PowerPyx · guia anterior"
+ },
+ {
+  "g": "Combate de dia",
+  "n": "Abre-te Sésamo",
+  "goal": "10 arrombamentos",
+  "chips": [
+   "Lockpick"
+  ],
+  "p": [
+   "Baús e veículos trancados aparecem com frequência. Todo mercador vende lockpicks, e viaturas policiais nas rodovias exigem lockpicks."
+  ],
+  "ol": [
+   "Compre lockpicks em qualquer mercador.",
+   "Arrombe baús trancados e viaturas pelo mapa."
+  ],
+  "flag": "",
+  "src": "PowerPyx · guia anterior"
+ },
+ {
+  "g": "Combate de dia",
+  "n": "Companhia de Trocas",
+  "goal": "US$ 10.000",
+  "chips": [
+   "Cumulativo"
+  ],
+  "p": [
+   "Vender equipamento aos mercadores acaba destravando o troféu sozinho, sem farm dedicado."
+  ],
+  "ol": [
+   "Venda armas duplicadas e itens que você não usa ao longo do jogo."
+  ],
+  "flag": "Os exploits de duplicação citados pela PowerPyx já foram corrigidos; não conte com eles.",
+  "src": "PlayStation LifeStyle · PowerPyx"
+ },
+ {
+  "g": "The Following",
+  "n": "Não aprovo diversões sem sentido",
+  "goal": "500 mortes com o buggy",
+  "chips": [
+   "Buggy"
+  ],
+  "p": [
+   "Atropelar é a forma mais rápida de ganhar XP de Motorista, mas danifica o buggy depressa. Curvas com o freio de mão e velocidade alta rendem XP com menos desgaste."
+  ],
+  "ol": [
+   "Instale a gaiola de proteção e use-a nos campos ao redor da fazenda do Jasir.",
+   "Atropele infectados sempre que for de um ponto a outro (a PlayStationTrophies sugere isso durante a história).",
+   "Carregue peças e combustível: quebra e falta de gasolina são comuns."
+  ],
+  "flag": "",
+  "src": "PlayStationTrophies.org · GodisaGeek · Steam Community"
+ },
+ {
+  "g": "The Following",
+  "n": "Medo de espantalhos? Interessante…",
+  "goal": "50 espantalhos",
+  "chips": [
+   "DLC"
+  ],
+  "p": [
+   "A PlayStationTrophies sugere destruir os espantalhos restantes na etapa de limpeza, depois da história."
+  ],
+  "ol": [
+   "Destrua os que aparecerem pelo caminho.",
+   "Faça a limpeza com o buggy; o guia anterior diz que atropelar é mais rápido do que ir a pé."
+  ],
+  "flag": "A dica de usar o buggy vem do guia anterior; não achei fonte independente.",
+  "src": "PlayStationTrophies.org · SuperCheats · guia anterior"
+ }
+];
+
+const checklistItems = [
+  "Estou farmando Homo Homini Lupus Est ANTES de fazer a missão principal 'A Fossa'?",
+  "Fiz backup do save antes de tentar a corrida do Bilal na DLC The Following?",
+  "Completei cada Zona de Quarentena numa única sessão, sem trocar de mapa no meio?",
+  "Fiz backup do save antes de capturar a última Safe Zone?",
+  "Conferi meu progresso de Safe Zones/Zonas de Quarentena/Colecionáveis em Extras > Estatísticas Pessoais?",
+  "Tenho pelo menos um parceiro disponível para os 4 troféus cooperativos + Juntos Até o Fim (Bozak)?",
+  "Terminei a história principal e todas as sidequests antes de caçar os 67 colecionáveis?",
+  "Estou no nível de Sobrevivência 12+ antes de começar a DLC The Following?",
+];
+
+// ══════════════════════════════════════════════════════════
+// ESTADO
+// ══════════════════════════════════════════════════════════
+const STORAGE_KEY = "guia-dyinglight-checklist-v1";
+const STORAGE_KEY_CL = "guia-dyinglight-checklist-atencao-v1";
+const allTrophies = sectors.flatMap(s => s.trophies);
+
+function loadChecked() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); }
+  catch (e) { return {}; }
+}
+function saveChecked(state) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+}
+function loadChecklist() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY_CL) || "{}"); }
+  catch (e) { return {}; }
+}
+function saveChecklist(state) {
+  try { localStorage.setItem(STORAGE_KEY_CL, JSON.stringify(state)); } catch (e) {}
+}
+
+let checked = loadChecked();
+let checklistDone = loadChecklist();
+let openSectors = new Set([0]);
+let openMiss = new Set();
+let openTlist = new Set();
+let sectorFilter = "all";
+let typeFilter = "all";
+
+// ══════════════════════════════════════════════════════════
+// HEADER BADGES + STATS (single innerHTML injection)
+// ══════════════════════════════════════════════════════════
+const badgesData = [
+  { l:"5/10 DIFICULDADE", c:C.amber },
+  { l:"1 JOGATINA (BASE + FOLLOWING)", c:C.toxic },
+  { l:"35–50H OTIMIZADO", c:C.steel },
+  { l:"69 TROFÉUS", c:C.amber },
+  { l:"~6,3% PLATINARAM (RARO)", c:C.blood },
+  { l:"4 TROFÉUS COOPERATIVOS", c:C.uv },
+];
+document.getElementById('hdr-badges').innerHTML = badgesData.map(b =>
+  `<span class="hdr-badge" style="color:${b.c};border-color:${b.c}55;background:${b.c}12">${b.l}</span>`
+).join('');
+
+const statsData = [
+  { l:"Total Troféus", v:"69", icon:"🏅", c:C.amber },
+  { l:"Platina", v:"Sim ✓", icon:"🏆", c:C.amberLt },
+  { l:"Ouro", v:"3", icon:"🥇", c:"#ffcf40" },
+  { l:"Prata", v:"15", icon:"🥈", c:"#a8b0bd" },
+  { l:"Bronze", v:"50", icon:"🥉", c:"#c98a4b" },
+  { l:"Tempo Casual", v:"50–70h", icon:"⏱️", c:C.textDim },
+  { l:"Tempo Otimizado", v:"35–50h", icon:"⚡", c:C.toxic },
+  { l:"Dificuldade", v:"5/10", icon:"☣️", c:C.amber },
+  { l:"Jogatinas", v:"1", icon:"🎮", c:C.toxic },
+  { l:"Colecionáveis", v:"67 textos", icon:"📜", c:C.uv },
+  { l:"Zonas Quarentena", v:"8", icon:"🚧", c:C.blood },
+  { l:"Platina Raridade*", v:"~6,3%", icon:"⭐", c:C.blood },
+];
+document.getElementById('stat-grid').innerHTML = statsData.map(s =>
+  `<div class="stat-box" style="border-left-color:${s.c}"><div class="stat-icon">${s.icon}</div><div class="stat-val" style="color:${s.c}">${s.v}</div><div class="stat-lbl">${s.l}</div></div>`
+).join('');
+
+document.getElementById('diff-segs').innerHTML = Array.from({length:10}, (_, i) => {
+  const color = i < 5 ? (i < 2 ? C.toxic : C.amber) : C.border;
+  return `<div class="diff-seg" style="background:${color}"></div>`;
+}).join('');
+
+document.getElementById('alert-body-overview').innerHTML = `
+  ⚠️ <strong style="color:var(--amberLt)">Corrida do Bilal (The Following)</strong>: o único troféu perdível do jogo — backup de save obrigatório.<br>
+  🐛 <strong style="color:var(--amberLt)">Tudo Seguro Agora</strong>: troféu de Safe Zones extremamente bugado — veja workaround na aba Perdíveis.<br>
+  🐛 <strong style="color:var(--amberLt)">Invasão, Tudo está Escrito, A História Toda, Isso é Harraaaaan!</strong>: bugs de contagem documentados, todos com solução.<br>
+  🤝 <strong style="color:var(--uvLt)">4 troféus cooperativos + Juntos Até o Fim (Bozak)</strong>: exigem parceiro online real, sem exploit solo conhecido.<br>
+  ⏱️ <strong style="color:var(--toxic)">Homo Homini Lupus Est</strong>: encontro raro que desaparece das Favelas após a missão 'A Fossa' — comece cedo.
+`;
+
+// ══════════════════════════════════════════════════════════
+// PROGRESS BAR
+// ══════════════════════════════════════════════════════════
+function updateProgress() {
+  const done = Object.values(checked).filter(Boolean).length;
+  const total = allTrophies.length;
+  document.getElementById('prog-count').textContent = `${done}/${total} TROFÉUS · ${total ? Math.round(done/total*100) : 0}%`;
+  document.getElementById('prog-bar').style.transform = `scaleX(${total ? done/total : 0})`;
+  document.getElementById('prog-bar').classList.toggle('plat', total > 0 && done === total);
+}
+
+// ══════════════════════════════════════════════════════════
+// RENDER: SETORES (Roteiro) — build once, inject once, delegate events
+// ══════════════════════════════════════════════════════════
+const EXO_IMG = 'https://m.exophase.com/psn/awards/s/';
+const EXO_Q = '?d92ea9d4ef78d5d3357eca20bb3cc222';
+function trophyImg(t, cls) {
+  if (!t.img) return t.icon;
+  return `<img class="trophy-img ${cls || ''}" src="${EXO_IMG}${t.img}${EXO_Q}" alt="" loading="lazy" data-fb="${t.icon}" onerror="this.replaceWith(this.dataset.fb)">`;
+}
+
+function trophyRowHTML(sec, t) {
+  const ts = typeS[t.type] || typeS.bronze;
+  const key = `${sec.id}::${t.id}`;
+  const isDone = !!checked[key];
+  let tags = `<span class="type-badge" style="background:${ts.bg};border-color:${ts.border};color:${ts.text}">${ts.label}</span>`;
+  if (t.missable) tags += `<span class="miss-tag">⚠ PERDÍVEL</span>`;
+  if (t.bug) tags += `<span class="bug-tag">🐛 BUG</span>`;
+  if (t.coop) tags += `<span class="coop-tag">🤝 CO-OP</span>`;
+  return `
+    <div class="trophy-row${isDone ? ' is-done' : ''}${t.missable ? ' is-miss' : ''}" data-key="${key}" data-color="${sec.color}" style="--sc:${sec.color}">
+      <div class="trophy-chk ${isDone?'done':''}">${isDone?'✓':''}</div>
+      <div class="trophy-main">
+        <div class="trophy-top">
+          <span class="trophy-name-sm">${trophyImg(t)} ${t.name}</span>
+          <span class="trophy-rarity">${t.rarity.toFixed(2)}%</span>
+        </div>
+        <div class="trophy-tags">${tags}</div>
+        ${t.desc ? `<div class="trophy-desc">${t.desc}</div>` : ''}
+        <details class="trophy-more">
+          <summary>Como conseguir</summary>
+          <div class="trophy-eng">${t.eng}</div>
+          <div class="trophy-how">${t.how}</div>
+          ${t.note ? `<div class="trophy-note">↳ ${t.note}</div>` : ''}
+        </details>
+      </div>
+    </div>`;
+}
+
+function renderSectors() {
+  const html = sectors.map((sec, si) => {
+    const isOpen = openSectors.has(si);
+    const missCount = sec.trophies.filter(t => t.missable || t.bug || t.coop).length;
+    const secDone = sec.trophies.filter(t => checked[`${sec.id}::${t.id}`]).length;
+    const secPct = sec.trophies.length ? Math.round(secDone / sec.trophies.length * 100) : 0;
+    const rows = sec.trophies.map(t => trophyRowHTML(sec, t)).join('');
+    return `
+      <div class="sector-item">
+        <button class="sector-btn" data-sector-toggle="${si}" style="border-left:3px solid ${sec.color};--sp:${secPct}%">
+          <div class="sector-btn-left">
+            <span class="sector-icon">${sec.icon}</span>
+            <div>
+              <div class="sector-name" style="color:${sec.color}">${sec.name}</div>
+              <div class="sector-meta">${secDone}/${sec.trophies.length} concluídos · ${missCount} com aviso</div>
+            </div>
+          </div>
+          <span class="sector-arrow ${isOpen?'open':''}" style="color:${sec.color}">▼</span>
+        </button>
+        <div class="sector-body ${isOpen?'open':''}" style="border-color:${sec.color}33;background:${sec.color}05">
+          ${rows}
+        </div>
+      </div>`;
+  }).join('');
+  document.getElementById('sectors-container').innerHTML = html;
+}
+
+// Event delegation: ONE listener for the whole sectors container
+document.getElementById('sectors-container').addEventListener('click', (e) => {
+  const secBtn = e.target.closest('[data-sector-toggle]');
+  if (secBtn) {
+    const si = Number(secBtn.dataset.sectorToggle);
+    if (openSectors.has(si)) openSectors.delete(si); else openSectors.add(si);
+    renderSectors();
+    return;
+  }
+  const row = e.target.closest('.trophy-row');
+  if (row && e.target.closest('.trophy-more')) return;
+  if (row) {
+    const key = row.dataset.key;
+    checked[key] = !checked[key];
+    saveChecked(checked);
+    renderSectors();
+    updateProgress();
+  }
+});
+
+// ══════════════════════════════════════════════════════════
+// RENDER: ATENÇÃO (missables/bugs) + CHECKLIST
+// ══════════════════════════════════════════════════════════
+function renderMissables() {
+  let lastStage = null;
+  const html = allMissables.map((m, i) => {
+    const isOpen = openMiss.has(i);
+    const head = m.stage !== lastStage ? `<div class="miss-stage miss-stage-${m.stage}">${MISS_STAGES[m.stage]}</div>` : '';
+    lastStage = m.stage;
+    const steps = m.steps.map(st => `<li>${st}</li>`).join('');
+    return `${head}
+      <div class="miss-item${m.stage === 'inicio' ? ' miss-early' : ''}">
+        <button class="miss-btn" data-miss-toggle="${i}" style="border-left:3px solid ${m.c}">
+          <span style="font-size:19px;flex-shrink:0">${m.icon}</span>
+          <span class="miss-name" style="color:${m.c}">${m.name}</span>
+          <span class="risk-badge" style="color:${m.c};border-color:${m.c}44;background:${m.c}1c">${m.risk}</span>
+          <span class="miss-arrow ${isOpen?'open':''}">▼</span>
+        </button>
+        <div class="miss-body ${isOpen?'open':''}" style="background:${m.c}0a;border-color:${m.c}33">
+          <div class="miss-when">${m.when}</div>
+          <ol class="miss-steps">${steps}</ol>
+          ${m.flag ? `<div class="miss-flag">⚠ ${m.flag}</div>` : ''}
+          <div class="miss-src">Fontes: ${m.src}</div>
+        </div>
+      </div>`;
+  }).join('');
+  document.getElementById('missables-container').innerHTML = html;
+}
+document.getElementById('missables-container').addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-miss-toggle]');
+  if (!btn) return;
+  const i = Number(btn.dataset.missToggle);
+  if (openMiss.has(i)) openMiss.delete(i); else openMiss.add(i);
+  renderMissables();
+});
+
+function renderChecklist() {
+  const html = checklistItems.map((c, i) => {
+    const done = !!checklistDone[i];
+    return `<div class="check-item ${done?'done':''}" data-check-idx="${i}">
+      <span class="check-sym">${done?'✓':'□'}</span><span class="check-txt">${c}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('checklist-container').innerHTML = html;
+}
+document.getElementById('checklist-container').addEventListener('click', (e) => {
+  const item = e.target.closest('[data-check-idx]');
+  if (!item) return;
+  const i = Number(item.dataset.checkIdx);
+  checklistDone[i] = !checklistDone[i];
+  saveChecklist(checklistDone);
+  renderChecklist();
+});
+
+// ══════════════════════════════════════════════════════════
+// RENDER: DICAS
+// ══════════════════════════════════════════════════════════
+function kbCard(c) {
+  const chips = (c.chips || []).map(x => `<span class="story-chip">${x}</span>`).join('');
+  const paras = (c.p || []).map(x => `<p>${x}</p>`).join('');
+  const steps = (c.ol || []).length ? `<ol class="miss-steps">${c.ol.map(x => `<li>${x}</li>`).join('')}</ol>` : '';
+  return `
+    <div class="kb-item">
+      <button class="kb-btn" data-kb-toggle>
+        <span class="kb-icon">${c.icon || '📌'}</span>
+        <span class="kb-name">${c.t || c.n}</span>
+        ${c.goal ? `<span class="kb-goal">${c.goal}</span>` : ''}
+        <span class="story-chips">${chips}</span>
+        <span class="story-arrow">▼</span>
+      </button>
+      <div class="kb-body">
+        ${paras}${steps}
+        ${c.flag ? `<div class="miss-flag">⚠ ${c.flag}</div>` : ''}
+        <div class="miss-src">Fontes: ${c.src}</div>
+      </div>
+    </div>`;
+}
+
+document.getElementById('build-grid').innerHTML = buildTips.map(t =>
+  `<div class="build-card"><span class="build-icon">${t.icon}</span><div><div class="build-title">${t.t}</div><div class="build-desc">${t.d}</div></div></div>`
+).join('');
+
+document.getElementById('prog-order').innerHTML = progOrder.map(r =>
+  `<div class="prog-row"><span class="prog-num">[${r.n}]</span><span class="prog-sector">${r.s}</span><span class="prog-detail">${r.d}</span></div>`
+).join('');
+
+document.getElementById('mech-container').innerHTML = MECH_CARDS.map(kbCard).join('');
+document.getElementById('gear-container').innerHTML = GEAR_CARDS.map(kbCard).join('');
+document.getElementById('dlc-container').innerHTML = DLC_CARDS.map(kbCard).join('');
+document.getElementById('doubt-container').innerHTML = DOUBTS.map(d => `<div class="doubt-row">${d}</div>`).join('');
+
+let lastGrindGroup = null;
+document.getElementById('grind-container').innerHTML = grindData.map(g => {
+  const head = g.g !== lastGrindGroup ? `<div class="story-stage">${g.g}</div>` : '';
+  lastGrindGroup = g.g;
+  return head + kbCard({ ...g, icon: '🎯' });
+}).join('');
+
+document.getElementById('panel-tips').addEventListener('click', e => {
+  const btn = e.target.closest('[data-kb-toggle]');
+  if (!btn) return;
+  btn.nextElementSibling.classList.toggle('open');
+  btn.querySelector('.story-arrow').classList.toggle('open');
+});
+
+// ══════════════════════════════════════════════════════════
+// RENDER: LISTA COMPLETA (com filtros)
+// ══════════════════════════════════════════════════════════
+function flatFilteredTrophies() {
+  let list = allTrophies.map((t, idx) => ({ ...t, _sector: sectors.find(s => s.trophies.includes(t)) }));
+  if (sectorFilter !== "all") list = list.filter(t => t._sector.id === sectorFilter);
+  if (typeFilter !== "all") list = list.filter(t => t.type === typeFilter);
+  return list;
+}
+
+function renderFilterRow() {
+  const typeCounts = { gold:0, silver:0, bronze:0 };
+  allTrophies.forEach(t => typeCounts[t.type]++);
+  let html = `<button class="filter-btn ${sectorFilter==='all'&&typeFilter==='all'?'active':''}" data-filter-reset>TODOS (${allTrophies.length})</button>`;
+  html += sectors.map(s =>
+    `<button class="filter-btn ${sectorFilter===s.id?'active':''}" data-filter-sector="${s.id}"
+      style="${sectorFilter===s.id?`border-color:${s.color};color:${s.color};background:${s.color}22`:''}">${s.icon} (${s.trophies.length})</button>`
+  ).join('');
+  html += `<button class="filter-btn ${typeFilter==='gold'?'active':''}" data-filter-type="gold">🥇 OURO (${typeCounts.gold})</button>`;
+  html += `<button class="filter-btn ${typeFilter==='silver'?'active':''}" data-filter-type="silver">🥈 PRATA (${typeCounts.silver})</button>`;
+  html += `<button class="filter-btn ${typeFilter==='bronze'?'active':''}" data-filter-type="bronze">🥉 BRONZE (${typeCounts.bronze})</button>`;
+  document.getElementById('filter-row').innerHTML = html;
+}
+
+function renderTrophyList() {
+  renderFilterRow();
+  const filtered = flatFilteredTrophies();
+  document.getElementById('showing-count').textContent = `> Mostrando ${filtered.length} de ${allTrophies.length} troféus`;
+
+  const html = filtered.map(t => {
+    const ts = typeS[t.type] || typeS.bronze;
+    const isOpen = openTlist.has(t.id);
+    let tags = '';
+    if (t.missable) tags += `<span class="miss-tag">⚠ PERDÍVEL</span>`;
+    if (t.bug) tags += `<span class="bug-tag">🐛 BUG</span>`;
+    if (t.coop) tags += `<span class="coop-tag">🤝 CO-OP</span>`;
+    return `
+      <div class="tlist-item">
+        <button class="tlist-btn" data-tlist-toggle="${t.id}" style="border-left:3px solid ${ts.border}">
+          <span class="tlist-icon">${trophyImg(t, 'tl')}</span>
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:2px;align-items:center">
+              <span class="type-badge" style="background:${ts.bg};border-color:${ts.border};color:${ts.text}">${ts.label}</span>
+              ${tags}
+              <span class="tlist-name" style="color:${ts.text}">${t.name}</span>
+            </div>
+            <div class="tlist-eng">${t.eng} · ${t.rarity.toFixed(2)}% dos jogadores</div>
+          </div>
+          <span class="tlist-arrow ${isOpen?'open':''}">▼</span>
+        </button>
+        <div class="tlist-body ${isOpen?'open':''}" style="background:${ts.border}08;border-color:${ts.border}22">
+          ${t.desc ? `<div class="tlist-desc">${t.desc}</div>` : ''}
+          &gt; ${t.how}
+          ${t.note ? `<div class="tlist-note">↳ ${t.note}</div>` : ''}
+        </div>
+      </div>`;
+  }).join('');
+  document.getElementById('tlist-container').innerHTML = html;
+}
+
+document.getElementById('filter-row').addEventListener('click', (e) => {
+  const reset = e.target.closest('[data-filter-reset]');
+  const secBtn = e.target.closest('[data-filter-sector]');
+  const typeBtn = e.target.closest('[data-filter-type]');
+  if (reset) { sectorFilter = 'all'; typeFilter = 'all'; }
+  else if (secBtn) { sectorFilter = sectorFilter === secBtn.dataset.filterSector ? 'all' : secBtn.dataset.filterSector; }
+  else if (typeBtn) { typeFilter = typeFilter === typeBtn.dataset.filterType ? 'all' : typeBtn.dataset.filterType; }
+  else return;
+  renderTrophyList();
+});
+
+document.getElementById('tlist-container').addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-tlist-toggle]');
+  if (!btn) return;
+  const id = btn.dataset.tlistToggle;
+  if (openTlist.has(id)) openTlist.delete(id); else openTlist.add(id);
+  renderTrophyList();
+});
+
+// ══════════════════════════════════════════════════════════
+// TAB SWITCHING (event delegation on the tab bar)
+// ══════════════════════════════════════════════════════════
+document.querySelector('.tabs').addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-tab]');
+  if (!btn) return;
+  const id = btn.dataset.tab;
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+});
+
+// ══════════════════════════════════════════════════════════
+function renderStory() {
+  const trophyById = id => sectors.flatMap(sc => sc.trophies).find(t => t.id === id);
+  let lastPhase = null;
+  document.getElementById('story-container').innerHTML = STORY.map((c, i) => {
+    const isOpen = openStory.has(i);
+    const ph = STORY_PHASES[c.phase];
+    const head = c.phase !== lastPhase ? `<div class="story-stage">${ph.t}</div><div class="story-note">${ph.n}</div>` : '';
+    lastPhase = c.phase;
+    const chips = [c.where, c.diff && 'Dificuldade: ' + c.diff, c.xp, c.dur].filter(Boolean).map(x => `<span class="story-chip">${x}</span>`).join('');
+    const tr = c.tr.map(trophyById).filter(Boolean).map(t => `<span class="story-trophy">${trophyImg(t)} ${t.name}</span>`).join('');
+    return `${head}
+      <div class="story-item">
+        <button class="story-btn" data-story-toggle="${i}">
+          <span class="story-num">${c.phase === 'dlc' ? c.n - 15 : c.n}</span>
+          <span class="story-name">${c.name}</span>
+          <span class="story-chips">${chips}</span>
+          <span class="story-arrow ${isOpen ? 'open' : ''}">▼</span>
+        </button>
+        <div class="story-body ${isOpen ? 'open' : ''}">
+          ${c.body.map(pp => `<p>${pp}</p>`).join('')}
+          ${tr ? `<div class="story-tr"><span class="story-tr-label">Troféus desta etapa</span>${tr}</div>` : ''}
+          ${c.warn ? `<div class="story-warn">⚠ ${c.warn}</div>` : ''}
+          <div class="story-src">Fontes: ${c.src}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+document.getElementById('story-container').addEventListener('click', e => {
+  const btn = e.target.closest('[data-story-toggle]');
+  if (!btn) return;
+  const i = parseInt(btn.dataset.storyToggle, 10);
+  openStory.has(i) ? openStory.delete(i) : openStory.add(i);
+  renderStory();
+});
+
+// INIT
+// ══════════════════════════════════════════════════════════
+renderSectors();
+renderMissables();
+renderStory();
+renderChecklist();
+renderTrophyList();
+updateProgress();
+</script>
+<script>
+// ══════════════════════════════════════════════════════════
+// PÁGINA MAPA — sistema mapa-base (isolado em IIFE; ids com prefixo mp-)
+// ══════════════════════════════════════════════════════════
+(function () {
+'use strict';
+// ══════════════════════════════════════════════════════════════════
+// CONFIGURAÇÃO — o que você mais vai editar fica aqui em cima.
+// ══════════════════════════════════════════════════════════════════
+const NS = 'guia-dyinglight-mapa_'; // prefixo do localStorage (progresso e pins pessoais)
+
+// Grupos de filtros (títulos na lateral).
+const GRP = { desafios:'Desafios', colecionaveis:'Colecionáveis', perigos:'Perigos', locais:'Locais', saque:'Saque', armadilhas:'Armadilhas', pessoais:'Pessoais' };
+
+// Categorias (filtros) de Dying Light, em PT-BR. l = nome em PT-BR, en = original em inglês (aparece ao passar o mouse),
+// g = grupo, i = ícone (emoji ou HTML), c = cor do pin. Lista conforme os filtros dos mapas do Wand (ex-MapGenie).
+const CATS = {
+  "protect":{l:"Proteger",en:"Protect",g:"desafios",i:"🛡️",c:"#7a4a0b"},
+  "parkour":{l:"Febre de Parkour",en:"Parkour Fever",g:"desafios",i:"🏃",c:"#8a5a14"},
+  "challenge":{l:"Desafio",en:"Challenge",g:"desafios",i:"🎯",c:"#6b3d0a"},
+  "bozak":{l:"Desafio Bozak",en:"Bozak Challenge",g:"desafios",i:"🧟",c:"#7a3b12"},
+  "race":{l:"Corrida",en:"Race",g:"desafios",i:"🏁",c:"#8a4f0f"},
+  "carnage":{l:"Carnificina",en:"Carnage",g:"desafios",i:"🩸",c:"#8a2a12"},
+  "slammer":{l:"Slammer",en:"Slammer",g:"desafios",i:"🔨",c:"#7a5a1a"},
+  "horizon":{l:"Horizonte",en:"Horizon",g:"desafios",i:"🌅",c:"#6b4a0f"},
+  "blueprint":{l:"Projeto",en:"Blueprint",g:"colecionaveis",i:"📐",c:"#52420e"},
+  "zombie-statue":{l:"Estátua de Zumbi",en:"Zombie Statue",g:"colecionaveis",i:"🗿",c:"#4b4a1a"},
+  "note":{l:"Nota",en:"Note",g:"colecionaveis",i:"📝",c:"#5c410b"},
+  "battle-journal":{l:"Diário de Batalha",en:"Battle Journal",g:"colecionaveis",i:"📔",c:"#4a3d12"},
+  "flag":{l:"Bandeira",en:"Flag",g:"colecionaveis",i:"🚩",c:"#5a4a10"},
+  "voice-mail":{l:"Mensagem de Voz",en:"Voice Mail",g:"colecionaveis",i:"🎙️",c:"#3f4a1a"},
+  "outfit":{l:"Traje",en:"Outfit",g:"colecionaveis",i:"👕",c:"#4a3a14"},
+  "trophy":{l:"Troféu",en:"Trophy",g:"colecionaveis",i:"🏆",c:"#6b5410"},
+  "charm":{l:"Amuleto",en:"Charm",g:"colecionaveis",i:"🧿",c:"#5a3d14"},
+  "bobblehead":{l:"Bobblehead",en:"Bobblehead",g:"colecionaveis",i:"🧸",c:"#4f4a14"},
+  "mask":{l:"Máscara",en:"Mask",g:"colecionaveis",i:"🎭",c:"#3d3d1a"},
+  "paint-job":{l:"Pintura do Buggy",en:"Paint Job",g:"colecionaveis",i:"🎨",c:"#5a4a1a"},
+  "missing-person":{l:"Pessoa Desaparecida",en:"Missing Person",g:"colecionaveis",i:"🧍",c:"#4a3a1a"},
+  "strange-rock":{l:"Pedra Estranha",en:"Strange Rock",g:"colecionaveis",i:"🪨",c:"#43401a"},
+  "freak":{l:"Freak",en:"Freak",g:"perigos",i:"👹",c:"#7a1f28"},
+  "volatile-nest":{l:"Ninho de Voláteis",en:"Volatile Nest",g:"perigos",i:"🦇",c:"#8a1a2a"},
+  "entrance":{l:"Entrada",en:"Entrance",g:"locais",i:"🚪",c:"#3a3a4a"},
+  "easter-egg":{l:"Easter Egg",en:"Easter Egg",g:"locais",i:"🥚",c:"#40136d"},
+  "quartermaster":{l:"Intendente",en:"Quartermaster",g:"locais",i:"🎖️",c:"#8a5a2b"},
+  "safe-zone":{l:"Safe Zone",en:"Safe Zone",g:"locais",i:"🏠",c:"#0e5d3a"},
+  "player-stash":{l:"Esconderijo do Jogador",en:"Player's Stash",g:"locais",i:"🎒",c:"#1f4d5c"},
+  "bounty-board":{l:"Quadro de Recompensas",en:"Bounty Board",g:"locais",i:"📋",c:"#5c3a1f"},
+  "trading":{l:"Comércio",en:"Trading",g:"locais",i:"🛒",c:"#0e3a5d"},
+  "herb":{l:"Erva",en:"Herb",g:"locais",i:"🌿",c:"#1f6b2a"},
+  "shroom":{l:"Cogumelo Fluorescente",en:"Fluorescent Shroom",g:"locais",i:"🍄",c:"#2a6b5a"},
+  "quarantine-zone":{l:"Zona de Quarentena",en:"Quarantine Zone",g:"locais",i:"☣️",c:"#5c110b"},
+  "algae":{l:"Alga Subaquática",en:"Underwater Algae",g:"locais",i:"🌊",c:"#0b554e"},
+  "lichen":{l:"Líquen Tóxico",en:"Toxic Lichen",g:"locais",i:"🦠",c:"#3d6b1a"},
+  "recall-vehicle":{l:"Chamada de Veículo",en:"Recall Vehicle",g:"locais",i:"🚙",c:"#2a3a5c"},
+  "military-outpost":{l:"Posto Militar",en:"Military Outpost",g:"locais",i:"🪖",c:"#3a4a2a"},
+  "loot-cache":{l:"Cache de Saque",en:"Loot Cache",g:"locais",i:"📦",c:"#6b4a1a"},
+  "altar":{l:"Altar",en:"Altar",g:"locais",i:"🕯️",c:"#4a1a5c"},
+  "gasoline-station":{l:"Posto de Gasolina",en:"Gasoline Station",g:"locais",i:"⛽",c:"#6b2a0e"},
+  "tools":{l:"Ferramentas",en:"Tools",g:"locais",i:"🔧",c:"#4a4a4a"},
+  "loot-crate":{l:"Caixa de Saque",en:"Loot Crate",g:"saque",i:"🧰",c:"#6b5410"},
+  "ambulance":{l:"Ambulância",en:"Ambulance",g:"saque",i:"🚑",c:"#7a1f28"},
+  "police-van":{l:"Viatura Policial",en:"Police Van",g:"saque",i:"🚓",c:"#1f3a6b"},
+  "light-trap":{l:"Armadilha de Luz",en:"Light Trap",g:"armadilhas",i:"💡",c:"#40136d"},
+  "car-trap":{l:"Armadilha de Carro",en:"Car Trap",g:"armadilhas",i:"🚗",c:"#300c60"},
+  "fence-trap":{l:"Armadilha de Cerca",en:"Fence Trap",g:"armadilhas",i:"⚡",c:"#4a1a7a"},
+};
+const PESS = {l:'Pins Pessoais', i:'📌', c:'#555b6e', g:'pessoais'}; // categoria genérica dos pins pessoais
+
+// Mapa único ("Mapa inteiro"). cats = todos os filtros (agrupados); n = soma dos totais dos 4 mapas do Wand (The Slums + Old Town + Antenna + The Countryside).
+// Imagem do mapa: use UM de três modos (nesta ordem de prioridade):
+//  1) tiles: {url,bounds,minzoom,maxzoom,tileSize} → tileset do MapTiler Engine (bounds = [oeste,sul,leste,norte])
+//  2) img: 'caminho.webp' → imagem única (só baixada neste modo, para ler as dimensões)
+//  3) demo → imagem de grade gerada na hora (placeholder, enquanto você não tem as imagens)
+const MAPS = [
+  { id:"mapa-inteiro", name:"Mapa inteiro", icon:"🗺️", desc:"Todas as regiões numa única imagem", img:"Images/MAPAS/MAPA_INTEIRO.webp", demo:{w:1600,h:900,label:"MAPA INTEIRO"},
+    cats:["protect","parkour","challenge","bozak","race","carnage","slammer","horizon","blueprint","zombie-statue","note","battle-journal","flag","voice-mail","outfit","trophy","charm","bobblehead","mask","paint-job","missing-person","strange-rock","freak","volatile-nest","entrance","easter-egg","quartermaster","safe-zone","player-stash","bounty-board","trading","herb","shroom","quarantine-zone","algae","lichen","recall-vehicle","military-outpost","loot-cache","altar","gasoline-station","tools","loot-crate","ambulance","police-van","light-trap","car-trap","fence-trap"],
+    n:{"protect":5,"parkour":11,"challenge":5,"bozak":9,"race":16,"carnage":9,"slammer":6,"horizon":5,"blueprint":112,"zombie-statue":100,"note":67,"battle-journal":17,"flag":80,"voice-mail":16,"outfit":14,"trophy":50,"charm":5,"bobblehead":6,"mask":20,"paint-job":53,"missing-person":9,"strange-rock":15,"freak":5,"volatile-nest":9,"entrance":4,"easter-egg":5,"quartermaster":2,"safe-zone":54,"player-stash":23,"bounty-board":39,"trading":32,"herb":9,"shroom":10,"quarantine-zone":10,"algae":5,"lichen":7,"recall-vehicle":10,"military-outpost":18,"loot-cache":8,"altar":25,"gasoline-station":5,"tools":6,"loot-crate":439,"ambulance":73,"police-van":93,"light-trap":28,"car-trap":91,"fence-trap":43}
+    , tiles:{ url:'Images/MAPAS/MAPA_INTEIRO/{z}/{x}/{y}.webp', bounds:[0,-0.6600466,0.6600612,0], minzoom:9, maxzoom:14, tileSize:256 }  // metadata.json do MapTiler Engine (webp, mercator); ajuste só o url se a pasta for outra
+  },
+];
+
+// Pasta das imagens dos pins: no pin escreva só achado:'nome-do-arquivo' (a extensão .webp entra sozinha).
+const ACHADOS_DIR = 'Images/ACHADOS/';
+
+// PINS oficiais. Campos: id (único), cat (chave de CATS), mapId, pt {x,y} em % da imagem (0–100),
+// name, desc, img (caminho completo) OU achado (nome do arquivo), jump (opcional, ver jump()).
+// Pegue x/y com o "🎯 Modo Calibração". Um pin = um objeto. Ainda vazio: só os filtros foram adicionados.
+const POIS = [
+  // Modelo (tire o // e preencha). Um pin = um objeto; id único no padrão mapa-<categoria>-NN.
+  // mapId: 'mapa-inteiro'.  cat: qualquer chave de CATS.
+  // { id:'mapa-safe-zone-01', cat:'safe-zone', mapId:'mapa-inteiro', pt:{x:0, y:0}, name:'Nome da Safe Zone', desc:'' },
+];
+
+// ══════════════════════════════════════════════════════════════════
+// MOTOR
+// ══════════════════════════════════════════════════════════════════
+const $ = id => document.getElementById('mp-' + id);
+const jl = (k,d) => { try { return JSON.parse(localStorage.getItem(NS+k)) || d; } catch(e) { return d; } };
+const js_ = (k,v) => { try { localStorage.setItem(NS+k, JSON.stringify(v)); } catch(e) {} };
+let prog = jl('progresso',{}), pers = jl('pinsPessoais',[]);
+const achadoUrl = n => n ? ACHADOS_DIR + (/\.webp$/i.test(n) ? n : n + '.webp') : '';
+const POI = POIS.map(p => (p.achado && !p.img) ? Object.assign({}, p, {img:achadoUrl(p.achado)}) : p);
+const S = { id:'mapa-inteiro', hidden:new Set(), pend:false, allHidden:false, add:false, calib:false, fs:false, editId:null, tmp:null, cur:null };
+let map = null, B = {west:0,south:-1,east:1,north:0}, z0 = 0, ents = [], tok = 0, calMk = null, fsY = 0, deb;
+const H0 = 0.1740373; // altura padrão (graus) para mapas de imagem única
+const imgBounds = a => [0, -H0, H0*a, 0];
+const catInfo = k => k === 'pessoal' ? PESS : CATS[k];
+
+// % da imagem <-> lng/lat (Y da imagem cresce pra baixo, lat pra cima)
+const pctToLL = pt => [B.west + pt.x/100*(B.east-B.west), B.north - pt.y/100*(B.north-B.south)];
+const llToPct = ll => ({
+  x: Math.max(0,Math.min(100,(ll.lng-B.west)/(B.east-B.west)*100)).toFixed(1),
+  y: Math.max(0,Math.min(100,(B.north-ll.lat)/(B.north-B.south)*100)).toFixed(1),
+});
+
+function poisFor(mapId) {
+  const pp = pers.filter(p => p.mapId === mapId).map(p => ({id:p.id,cat:p.cat||'pessoal',mapId:p.mapId,pt:{x:p.x,y:p.y},name:p.name,note:p.note,location:p.location,personal:true}));
+  return POI.filter(p => p.mapId === mapId).concat(pp);
+}
+const iconOf = p => (catInfo(p.cat) || {i:'📍'}).i;
+const colorOf = p => (catInfo(p.cat) || {c:'#008c2a'}).c;
+
+// ── Imagem de demonstração (grade) ──
+function demoImg(w,h,label) {
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  const x = c.getContext('2d'); x.fillStyle = '#1b2030'; x.fillRect(0,0,w,h);
+  x.strokeStyle = '#2f3852'; x.lineWidth = 2; const s = w/20;
+  for (let i = 0; i <= w; i += s) { x.beginPath(); x.moveTo(i,0); x.lineTo(i,h); x.stroke(); }
+  for (let j = 0; j <= h; j += s) { x.beginPath(); x.moveTo(0,j); x.lineTo(w,j); x.stroke(); }
+  x.fillStyle = '#4a557a'; x.font = 'bold ' + h/6 + 'px sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(label, w/2, h/2);
+  x.strokeStyle = '#f8d060'; x.lineWidth = 6; x.strokeRect(3,3,w-6,h-6);
+  return c.toDataURL('image/png');
+}
+
+// ── Carregar / montar mapa ──
+function loadMap(id) {
+  S.id = id; const cfg = MAPS.find(m => m.id === id); S.cur = cfg; const t = ++tok;
+  $('mapTitle').textContent = cfg.name; $('fb').style.display = 'none';
+  $('mselIcon').textContent = cfg.icon; $('mselName').textContent = cfg.name;
+  renderMapList(); closePop();
+  if (cfg.tiles) {
+    const tl = cfg.tiles, z = tl.minzoom || 0, n = Math.pow(2, z);
+    const lon = (tl.bounds[0] + tl.bounds[2]) / 2, r = (tl.bounds[1] + tl.bounds[3]) / 2 * Math.PI / 180;
+    const tx = Math.floor((lon + 180) / 360 * n), ty = Math.floor((1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2 * n);
+    const probe = tl.url.replace('{z}', z).replace('{x}', tx).replace('{y}', ty);
+    const pim = new Image();
+    pim.onload = () => { if (t === tok) mount(cfg, tl.bounds, null); };
+    pim.onerror = () => {
+      if (t !== tok) return;
+      $('fb').style.display = 'flex'; $('fbTxt').textContent = 'Tiles não encontrados (' + probe + ')';
+      const sem = Object.assign({}, cfg, { tiles: null });
+      if (cfg.demo) mount(sem, imgBounds(cfg.demo.w/cfg.demo.h), demoImg(cfg.demo.w, cfg.demo.h, cfg.demo.label)); else mount(sem, imgBounds(1), null);
+    };
+    pim.src = probe; return;
+  }
+  if (cfg.img) {
+    const im = new Image();
+    im.onload = () => { if (t === tok) mount(cfg, imgBounds(im.naturalWidth/im.naturalHeight), cfg.img); };
+    im.onerror = () => { if (t !== tok) return; $('fb').style.display = 'flex'; $('fbTxt').textContent = cfg.img + ' não encontrada ainda'; if (cfg.demo) mount(cfg, imgBounds(cfg.demo.w/cfg.demo.h), demoImg(cfg.demo.w, cfg.demo.h, cfg.demo.label)); else mount(cfg, imgBounds(1), null); };
+    im.src = cfg.img; return;
+  }
+  if (cfg.demo) return mount(cfg, imgBounds(cfg.demo.w/cfg.demo.h), demoImg(cfg.demo.w, cfg.demo.h, cfg.demo.label));
+  mount(cfg, imgBounds(1), null);
+}
+function mount(cfg, b, url) {
+  if (map.getLayer('lay')) map.removeLayer('lay');
+  if (map.getSource('src')) map.removeSource('src');
+  B = {west:b[0], south:b[1], east:b[2], north:b[3]};
+  if (cfg.tiles) { const t = cfg.tiles; map.addSource('src', {type:'raster', tiles:[t.url], tileSize:t.tileSize||256, bounds:b, minzoom:t.minzoom, maxzoom:t.maxzoom}); }
+  else if (url) map.addSource('src', {type:'image', url, coordinates:[[b[0],b[3]],[b[2],b[3]],[b[2],b[1]],[b[0],b[1]]]});
+  if (map.getSource('src')) map.addLayer({id:'lay', type:'raster', source:'src', paint:{'raster-fade-duration':0}});
+  fit(); renderPins(); renderCats();
+}
+// Enquadra a imagem e trava zoom/pan a partir do enquadramento REAL da tela (funciona em retrato e paisagem).
+function fit() {
+  map.setMaxBounds(null); map.setMinZoom(0); map.setMaxZoom(24);
+  map.fitBounds([[B.west,B.south],[B.east,B.north]], {padding:16, animate:false});
+  z0 = map.getZoom(); map.setMinZoom(z0-2); map.setMaxZoom(z0+5);
+  const f = map.getBounds(), w = f.getEast()-f.getWest(), h = f.getNorth()-f.getSouth();
+  map.setMaxBounds([[f.getWest()-w*.8, f.getSouth()-h*.8],[f.getEast()+w*.8, f.getNorth()+h*.8]]);
+  zl();
+}
+function zl() { if (map) $('zLvl').textContent = Math.round(Math.pow(2, map.getZoom()-z0)*100) + '%'; }
+
+// ── Seletor de mapa ──
+function renderMapList() {
+  const box = $('mselItems'); box.innerHTML = '';
+  MAPS.forEach(m => {
+    const d = document.createElement('div'); d.className = 'mi' + (m.id === S.id ? ' act' : '');
+    d.innerHTML = '<span style="font-size:20px"></span><div><b></b><small></small></div>';
+    d.children[0].textContent = m.icon; d.querySelector('b').textContent = m.name; d.querySelector('small').textContent = m.desc || '';
+    d.onclick = () => { $('msel').classList.remove('open'); if (m.id !== S.id) loadMap(m.id); };
+    box.appendChild(d);
+  });
+  arrows();
+}
+function arrows() { const l = $('mselList'); $('arwUp').classList.toggle('v', l.scrollTop > 2); $('arwDn').classList.toggle('v', l.scrollTop < l.scrollHeight-l.clientHeight-2); }
+$('mselList').addEventListener('scroll', arrows);
+$('mselBtn').onclick = e => { e.stopPropagation(); $('msel').classList.toggle('open'); arrows(); };
+document.addEventListener('click', e => { if (!$('msel').contains(e.target)) $('msel').classList.remove('open'); });
+
+// ── Pins ──
+function pinHTML(p) {
+  const done = !p.personal && prog[p.id];
+  return '<div class="pin' + (done?' done':'') + (p.personal?' pers':'') + '" style="--c:' + colorOf(p) + '"><span>' + iconOf(p) + '</span></div>';
+}
+function renderPins() {
+  if (!map) return;
+  ents.forEach(e => e.marker.remove()); ents = [];
+  poisFor(S.id).forEach(p => {
+    const el = document.createElement('div'); el.className = 'pw'; el.title = p.name; el.innerHTML = pinHTML(p);
+    el.addEventListener('click', e => { e.stopPropagation(); openPop(p, el); });
+    ents.push({poi:p, el, marker:new maplibregl.Marker({element:el, anchor:'bottom'}).setLngLat(pctToLL(p.pt)).addTo(map)});
+  });
+  applyFilters(); upProg();
+}
+function applyFilters() {
+  const q = ($('search').value || '').toLowerCase().trim();
+  ents.forEach(({poi, el}) => {
+    const ok = !S.allHidden && !S.hidden.has(poi.personal ? 'pessoal' : poi.cat) && (!S.pend || !prog[poi.id]) && (!q || (poi.name||'').toLowerCase().includes(q));
+    el.style.display = ok ? '' : 'none';
+  });
+}
+function upProg() {
+  const o = POI.filter(p => p.mapId === S.id), d = o.filter(p => prog[p.id]).length, pc = o.length ? Math.round(d/o.length*100) : 0;
+  $('progFill').style.width = pc + '%'; $('progCount').textContent = d + ' / ' + o.length; $('hndBadge').textContent = d + '/' + o.length;
+}
+const curMap = () => MAPS.find(m => m.id === S.id) || MAPS[0];
+function count(k) {
+  if (k === 'pessoal') return pers.filter(p => p.mapId === S.id).length;
+  const n = (curMap().n || {})[k];
+  return n != null ? n : POI.filter(p => p.mapId === S.id && p.cat === k).length;
+}
+function buildPmCat() {
+  $('pmCat').innerHTML = curMap().cats.map(k => '<option value="' + k + '">' + CATS[k].l + '</option>').join('') + '<option value="pessoal">📌 Pin Genérico</option>';
+}
+function renderCats() {
+  buildPmCat();
+  const box = $('cats'); box.innerHTML = ''; let lastG = null;
+  [...curMap().cats, 'pessoal'].forEach(k => {
+    const i = catInfo(k), n = count(k), b = document.createElement('button');
+    if (!i) return;
+    if (i.g && i.g !== lastG) { const h = document.createElement('div'); h.className = 'grp'; h.textContent = GRP[i.g] || i.g; box.appendChild(h); lastG = i.g; }
+    b.type = 'button'; b.className = 'cat' + (S.hidden.has(k) ? ' off' : ''); b.style.setProperty('--c', i.c);
+    b.title = i.l + (i.en && i.en !== i.l ? ' (' + i.en + ')' : '') + ' — ' + n;
+    b.innerHTML = '<span>' + i.i + '</span><em>' + n + '</em><small></small>'; b.querySelector('small').textContent = i.l;
+    b.onclick = () => { S.hidden.has(k) ? S.hidden.delete(k) : S.hidden.add(k); b.classList.toggle('off', S.hidden.has(k)); applyFilters(); };
+    box.appendChild(b);
+  });
+}
+
+// ── Botões da lateral ──
+$('search').addEventListener('input', () => { clearTimeout(deb); deb = setTimeout(applyFilters, 150); });
+$('hideBtn').onclick = () => { S.allHidden = !S.allHidden; $('hideBtn').classList.toggle('on', S.allHidden); $('hideBtn').textContent = S.allHidden ? '👁 Mostrar Todos' : '👁 Ocultar Todos'; applyFilters(); };
+$('pendBtn').onclick = () => { S.pend = !S.pend; $('pendBtn').classList.toggle('on', S.pend); applyFilters(); };
+function notice(t) { $('notice').style.display = t ? 'block' : 'none'; $('notice').textContent = t || ''; }
+$('addBtn').onclick = () => {
+  S.add = !S.add; $('addBtn').classList.toggle('on', S.add);
+  if (S.add && S.calib) $('calBtn').click();
+  notice(S.add ? '📌 Toque/clique no mapa para posicionar o novo pin.' : '');
+};
+$('calBtn').onclick = () => {
+  S.calib = !S.calib; $('calBtn').classList.toggle('on', S.calib);
+  $('calBtn').textContent = S.calib ? '🎯 Calibrando... (toque no mapa)' : '🎯 Modo Calibração';
+  $('readout').style.display = 'none'; if (calMk) { calMk.remove(); calMk = null; }
+  if (S.calib && S.add) $('addBtn').click();
+  if (S.calib) notice('🎯 Toque no ponto do mapa para ler x/y em %.'); else if (!S.add) notice('');
+};
+$('hnd').onclick = () => { const o = $('side').classList.toggle('open'); $('hndTxt').textContent = (o ? '▼' : '▲') + ' FILTROS E FERRAMENTAS'; };
+
+// ── Clique no mapa: calibração / novo pin (Shift+clique no PC) ──
+function onMapClick(e) {
+  $('side').classList.remove('open'); $('hndTxt').textContent = '▲ FILTROS E FERRAMENTAS';
+  if (S.calib) {
+    const pt = llToPct(e.lngLat); if (calMk) calMk.remove();
+    const d = document.createElement('div'); d.style.cssText = 'width:12px;height:12px;border-radius:50%;background:#f8d060;border:2px solid #7a5c10;box-shadow:0 0 0 2px #0006';
+    calMk = new maplibregl.Marker({element:d, anchor:'center'}).setLngLat(e.lngLat).addTo(map);
+    $('rdTxt').textContent = '{ x: ' + pt.x + ', y: ' + pt.y + ' }'; $('readout').style.display = 'flex'; return;
+  }
+  if (S.add || (e.originalEvent && e.originalEvent.shiftKey)) openPinModal(llToPct(e.lngLat));
+}
+function copyText(t) {
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).catch(() => {});
+  else { const a = document.createElement('textarea'); a.value = t; document.body.appendChild(a); a.select(); try { document.execCommand('copy'); } catch(e) {} a.remove(); }
+}
+$('rdCopy').onclick = () => copyText($('rdTxt').textContent);
+
+// ── Popup do pin (flutuante no desktop, folha inferior no celular) ──
+let curPoi = null;
+const isMob = () => matchMedia('(max-width:768px)').matches;
+function place(anchor) {
+  const c = $('popc'), ov = $('pop');
+  if (isMob() || !anchor) { ov.classList.remove('float'); c.style.cssText = ''; return; }
+  ov.classList.add('float');
+  const r = anchor.getBoundingClientRect(), m = 12, w = c.offsetWidth, h = c.offsetHeight;
+  let l = r.left + r.width/2 - w/2, t = r.top - h - m; if (t < m) t = r.bottom + m;
+  l = Math.max(m, Math.min(l, innerWidth-w-m)); t = Math.max(m, Math.min(t, innerHeight-h-m));
+  c.style.cssText = 'position:fixed;margin:0;left:' + l + 'px;top:' + t + 'px';
+}
+function openPop(p, anchor) {
+  curPoi = p; const ci = catInfo(p.cat);
+  $('pTitle').innerHTML = iconOf(p) + ' <span></span>'; $('pTitle').querySelector('span').textContent = p.name;
+  $('pCat').textContent = p.personal ? 'PIN PESSOAL' + (ci ? ' · ' + ci.l.toUpperCase() : '') : (ci ? ci.l.toUpperCase() : String(p.cat).toUpperCase());
+  $('pDesc').textContent = p.personal ? [p.location && '📍 ' + p.location, p.note].filter(Boolean).join(' — ') : (p.desc || '');
+  const img = $('pImg'), fb = $('pFb');
+  if (p.personal) $('pHolo').style.display = 'none';
+  else {
+    $('pHolo').style.display = 'block'; fb.style.display = 'none'; img.style.display = 'block';
+    const showFb = () => { img.style.display = 'none'; fb.style.display = 'block'; fb.innerHTML = iconOf(p); };
+    img.onerror = showFb; img.src = p.img || ''; if (!p.img) showFb();
+  }
+  $('pCheckWrap').style.display = p.personal ? 'none' : 'flex'; $('pCheck').checked = !!prog[p.id];
+  $('pCheck').onchange = () => { prog[p.id] = $('pCheck').checked; js_('progresso', prog); const e = ents.find(x => x.poi.id === p.id); if (e) e.el.innerHTML = pinHTML(p); upProg(); applyFilters(); };
+  $('pJump').style.display = (!p.personal && p.jump) ? 'block' : 'none'; $('pJump').onclick = () => { closePop(); jump(p); };
+  $('pEdit').style.display = $('pDel').style.display = p.personal ? 'block' : 'none';
+  $('pEdit').onclick = () => { closePop(); openEdit(p.id); };
+  $('pDel').onclick = () => { if (!confirm('Remover este pin pessoal?')) return; pers = pers.filter(x => x.id !== p.id); js_('pinsPessoais', pers); closePop(); renderPins(); renderCats(); };
+  $('pop').classList.add('on'); place(anchor);
+}
+function closePop() { $('pop').classList.remove('on'); }
+$('pClose').onclick = closePop;
+$('pop').addEventListener('click', e => { if (e.target === $('pop')) closePop(); });
+
+// "Saiba mais": jump:{anchor:'id'} rola até o elemento; jump:{url:'...'} navega; jump:{fn:(poi)=>{...}} roda sua função.
+function jump(p) {
+  const j = p.jump; if (!j) return; if (S.fs) setFs(false);
+  if (j.anchor) { const e = $(j.anchor); if (e) { e.scrollIntoView({behavior:'smooth', block:'center'}); e.classList.remove('flash'); void e.offsetWidth; e.classList.add('flash'); } }
+  else if (j.url) location.href = j.url; else if (typeof j.fn === 'function') j.fn(p);
+}
+
+// ── Pins pessoais: criar / editar / exportar ──
+function pinModalMode(edit) { $('pmTitle').textContent = edit ? '✏️ EDITAR PIN PESSOAL' : '📌 NOVO PIN PESSOAL'; $('pmSave').textContent = edit ? 'Salvar Alterações' : 'Salvar Pin'; if (!edit) S.editId = null; }
+function openPinModal(pt) {
+  S.tmp = pt; pinModalMode(false); $('pmName').value = ''; $('pmCat').value = 'pessoal'; $('pmLoc').value = ''; $('pmDesc').value = '';
+  $('pinModal').classList.add('on');
+}
+function openEdit(id) {
+  const p = pers.find(x => x.id === id); if (!p) return;
+  S.tmp = null; pinModalMode(true); S.editId = id;
+  $('pmCat').value = [...$('pmCat').options].some(o => o.value === (p.cat||'pessoal')) ? (p.cat||'pessoal') : 'pessoal';
+  $('pmName').value = p.name || ''; $('pmLoc').value = p.location || ''; $('pmDesc').value = p.note || '';
+  $('pinModal').classList.add('on');
+}
+function closePinModal() { $('pinModal').classList.remove('on'); S.tmp = null; pinModalMode(false); }
+$('pmCancel').onclick = closePinModal;
+$('pinModal').addEventListener('click', e => { if (e.target === $('pinModal')) closePinModal(); });
+$('pmSave').onclick = () => {
+  const name = $('pmName').value.trim(); if (!name) { alert('Digite um título pro pin.'); return; }
+  const f = { name, cat:$('pmCat').value, location:$('pmLoc').value.trim(), note:$('pmDesc').value.trim() };
+  if (S.editId) { const p = pers.find(x => x.id === S.editId); if (p) { Object.assign(p, f); js_('pinsPessoais', pers); } }
+  else { if (!S.tmp) return; pers.push(Object.assign({id:'pessoal-' + Date.now(), mapId:S.id, x:parseFloat(S.tmp.x), y:parseFloat(S.tmp.y)}, f)); js_('pinsPessoais', pers); }
+  closePinModal(); renderPins(); renderCats();
+};
+$('expBtn').onclick = () => { $('expTa').value = JSON.stringify(pers, null, 2); $('expModal').classList.add('on'); };
+$('expClose').onclick = () => $('expModal').classList.remove('on');
+$('expModal').addEventListener('click', e => { if (e.target === $('expModal')) $('expModal').classList.remove('on'); });
+$('expCopy').onclick = () => copyText($('expTa').value);
+
+// ── Zoom e tela cheia ──
+$('zIn').onclick = () => map && map.zoomIn({duration:200});
+$('zOut').onclick = () => map && map.zoomOut({duration:200});
+$('zRst').onclick = () => map && map.fitBounds([[B.west,B.south],[B.east,B.north]], {padding:16, animate:false});
+function setFs(on) {
+  S.fs = on; $('frame').classList.toggle('fs', on); $('fsBtn').textContent = on ? '✕ Sair da Tela Cheia' : '⛶ Tela Cheia';
+  if (on) { fsY = scrollY || 0; document.body.style.top = -fsY + 'px'; document.body.classList.add('mp-lock'); }
+  else { document.body.classList.remove('mp-lock'); document.body.style.top = ''; scrollTo(0, fsY); $('side').classList.remove('open'); $('hndTxt').textContent = '▲ FILTROS E FERRAMENTAS'; $('msel').classList.remove('open'); }
+  requestAnimationFrame(() => requestAnimationFrame(() => { if (map) { map.resize(); fit(); } }));
+}
+$('fsBtn').onclick = () => setFs(!S.fs);
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  if (S.fs) setFs(false);
+  ['pinModal','expModal','pop'].forEach(i => $(i).classList.remove('on'));
+});
+
+// ── Inicialização: só cria o mapa quando o container tem tamanho (serve também se a aba/painel começar oculto) ──
+let libLoading = false;
+function loadLib(cb) {
+  if (window.maplibregl) return cb(true);
+  if (libLoading) return;
+  libLoading = true;
+  const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css'; document.head.appendChild(l);
+  const sc = document.createElement('script'); sc.src = 'https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js';
+  sc.onload = () => { libLoading = false; cb(true); };
+  sc.onerror = () => { libLoading = false; cb(false); };
+  document.head.appendChild(sc);
+}
+function init() {
+  if (map) return;
+  loadLib(ok => { if (ok) start(); else { $('fb').style.display = 'flex'; $('fbTxt').textContent = 'MapLibre não carregou (verifique a conexão).'; } });
+}
+function start() {
+  if (map) return;
+  map = new maplibregl.Map({ container:'mp-map', style:{version:8, sources:{}, layers:[{id:'bg', type:'background', paint:{'background-color':'#000'}}]},
+    center:[0,0], zoom:0, attributionControl:false, dragRotate:false, pitchWithRotate:false, touchPitch:false });
+  map.touchZoomRotate.disableRotation();
+  map.on('zoomend', zl); map.on('click', onMapClick); map.on('load', () => loadMap(S.id));
+}
+new ResizeObserver(() => { if (!map) { if ($('mapWrap').clientWidth > 0) init(); } else map.resize(); }).observe($('mapWrap'));
+renderMapList(); renderCats(); upProg();
+window.MapaBase = { maps:MAPS, pois:POI, loadMap, fit, setFs, get map() { return map; } };
+})();
+</script>
+</body>
+</html>
